@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Home Page</title>
+	<meta charset="utf-8"/>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!-- <link rel="stylesheet" type="text/css" href="homepage.css"> -->
+<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/homepage.css') }}">
+	<link href='https://fonts.googleapis.com/css?family=Quando' rel='stylesheet'>
+	<link href='https://fonts.googleapis.com/css?family=Marmelad' rel='stylesheet'>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">  
+</head>
+<body>
+
+	<div id="header" class="navbar navbar-expand-lg fixed-top">
+		<div>
+		<div id="header_text">
+
+			<p>The Expl<img src="{{url_for('static', filename='earth.png')}}" height="40" width="40">rer</p>
+		</div>
+		<div id="header_desc">
+			<p>Type something about the website here. It is a description.</p>
+		</div>
+	</div>
+	</div>
+
+<!--<div class="content">
+		<p>hey</p>
+	</div>-->
+
+	<div id = "maincontent" class="container">
+		<div id = "mainrow" class = "row">
+			<div class = "col-lg-4 col-md-6 col-sm-12">
+				<figure class="effect-marley">
+				<!--<img src="map1.png" alt="img11"/>-->
+				<figcaption>
+				<h2>Login</h2>
+				<p>Welcome back explorer. Login to start exploring.</p>
+				<a href="http://localhost:5000/loginrender">View more</a>
+				</figcaption>     
+				</figure>
+			</div>
+			<div class = "col-lg-4 col-md-6 col-sm-12">
+				<figure class="effect-marley">
+				<!--<img src="map2.png" alt="img12"/>-->
+				<figcaption>
+				<h2>Register</h2>
+				<p>Create an account for a better experience.</p>
+				<a href="http://localhost:5000/signuprender">View more</a>
+				</figcaption>     
+				</figure>
+			</div>
+			<div  class = "col-lg-4 col-md-12 col-sm-12">
+				<figure class="effect-marley">
+				<!-- <img src="map3.png" alt="img12"/>-->
+				<figcaption>
+				<h2>Guest</h2>
+				<p>Continue exploring.</p>
+				<a href="http://localhost:5000/map">View more</a>
+				</figcaption>     
+				</figure>
+			</div>
+		</div>
+	</div>
+
+</div>
+	<div id="footer" class="navbar navbar-expand-lg fixed-bottom">
+		 		 <p>Copyright &copy; 2020 The Expl<img src="{{url_for('static', filename='earth.png')}}" height="15" width="15">rer. All Rights Reserved. </p>
+
+	</div>
+	 
+
+</body>
+</html>

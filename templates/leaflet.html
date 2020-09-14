@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Map</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@0.7.2/dist/leaflet.css" />
+      <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/final_map.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+  <link rel="shortcut-icon" type="image/x-icon" href="{{url_for('static', filename = 'favicon.ico')}}">
+  
+    <!--[if lte IE 8]><link rel="stylesheet" href="https://unpkg.com/leaflet@0.7.2/dist/leaflet.ie.css" /><![endif]-->
+
+    <!-- <link rel="stylesheet" href="../css/leaflet-sidebar.css" /> -->
+    <style type="text/css">
+  .leaflet-sidebar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  overflow: hidden;
+  z-index: 2000; }
+  .leaflet-sidebar.collapsed {
+    width: 40px; }
+  @media (min-width: 768px) {
+    .leaflet-sidebar {
+      top: 10px;
+      bottom: 10px;
+      transition: width 500ms; } }
+  @media (min-width: 768px) and (max-width: 991px) {
+    .leaflet-sidebar {
+      width: 305px;
+      max-width: 305px; } }
+  @media (min-width: 992px) and (max-width: 1199px) {
+    .leaflet-sidebar {
+      width: 390px;
+      max-width: 390px; } }
+  @media (min-width: 1200px) {
+    .leaflet-sidebar {
+      width: 460px;
+      max-width: 460px; } }
+
+.leaflet-sidebar-left {
+  left: 0; }
+  @media (min-width: 768px) {
+    .leaflet-sidebar-left {
+      left: 10px; } }
+
+.leaflet-sidebar-right {
+  right: 0; }
+  @media (min-width: 768px) {
+    .leaflet-sidebar-right {
+      right: 10px; } }
+
+.leaflet-sidebar-tabs {
+  top: 0;
+  bottom: 0;
+  height: 95%;
+  background-color: #fff; }
+  .leaflet-sidebar-left .leaflet-sidebar-tabs {
+    left: 0; }
+  .leaflet-sidebar-right .leaflet-sidebar-tabs {
+    right: 0; }
+  .leaflet-sidebar-tabs, .leaflet-sidebar-tabs > ul {
+    position: absolute;
+    width: 40px;
+    margin: 0;
+    padding: 0;
+    list-style-type: none; }
+    .leaflet-sidebar-tabs > li, .leaflet-sidebar-tabs > ul > li {
+      width: 100%;
+      height: 40px;
+      color: #333;
+      font-size: 12pt;
+      overflow: hidden;
+      transition: all 80ms; }
+      .leaflet-sidebar-tabs > li:hover, .leaflet-sidebar-tabs > ul > li:hover {
+        color: #000;
+        background-color: #eee; }
+      .leaflet-sidebar-tabs > li.active, .leaflet-sidebar-tabs > ul > li.active {
+        color: black;
+        background-color: #D5EAEC; }
+      .leaflet-sidebar-tabs > li.disabled, .leaflet-sidebar-tabs > ul > li.disabled {
+        color: rgba(51, 51, 51, 0.4); }
+        .leaflet-sidebar-tabs > li.disabled:hover, .leaflet-sidebar-tabs > ul > li.disabled:hover {
+          background: transparent; }
+        .leaflet-sidebar-tabs > li.disabled > a, .leaflet-sidebar-tabs > ul > li.disabled > a {
+          cursor: default; }
+      .leaflet-sidebar-tabs > li > a, .leaflet-sidebar-tabs > ul > li > a {
+        display: block;
+        width: 100%;
+        height: 100%;
+        line-height: 40px;
+        color: inherit;
+        text-decoration: none;
+        text-align: center;
+        cursor: pointer; }
+  .leaflet-sidebar-tabs > ul + ul {
+    bottom: 0; }
+
+.leaflet-sidebar-content {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.95);
+  overflow-x: hidden;
+  overflow-y: auto; }
+  .leaflet-sidebar-left .leaflet-sidebar-content {
+    left: 40px;
+    right: 0; 
+      height: 95%;
+}
+  .leaflet-sidebar-right .leaflet-sidebar-content {
+    left: 0;
+    right: 40px; }
+  .leaflet-sidebar.collapsed > .leaflet-sidebar-content {
+    overflow-y: hidden; }
+
+.collapsed > .leaflet-sidebar-content {
+  overflow-y: hidden; }
+
+.leaflet-sidebar-pane {
+  display: none;
+  left: 0;
+  right: 0;
+  box-sizing: border-box;
+  padding: 10px 20px; }
+  .leaflet-sidebar-pane.active {
+    display: block;s }
+  @media (min-width: 768px) and (max-width: 991px) {
+    .leaflet-sidebar-pane {
+      min-width: 265px; } }
+  @media (min-width: 992px) and (max-width: 1199px) {
+    .leaflet-sidebar-pane {
+      min-width: 350px; } }
+  @media (min-width: 1200px) {
+    .leaflet-sidebar-pane {
+      min-width: 420px; } }
+
+.leaflet-sidebar-header {
+  margin: -10px -20px 0;
+  height: 40px;
+  padding: 0 20px;
+  line-height: 40px;
+  font-size: 14.4pt;
+  color: black;
+  background-color: #D5EAEC; 
+  font-family: 'Sarabun', sans-serif;
+}
+  .leaflet-sidebar-right .leaflet-sidebar-header {
+    padding-left: 40px; }
+
+.leaflet-sidebar-close {
+  position: absolute;
+  top: 0;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  cursor: pointer; }
+  .leaflet-sidebar-left .leaflet-sidebar-close {
+    right: 0; }
+  .leaflet-sidebar-right .leaflet-sidebar-close {
+    left: 0; }
+
+.leaflet-sidebar {
+  }
+  @media (min-width: 768px) {
+    .leaflet-sidebar {
+      border-radius: 4px; }
+      .leaflet-sidebar.leaflet-touch {
+        border: 2px solid rgba(0, 0, 0, 0.2); } }
+
+.leaflet-sidebar-left.leaflet-touch {
+  box-shadow: none;
+  border-right: 2px solid rgba(0, 0, 0, 0.2); }
+
+@media (min-width: 768px) {
+  .leaflet-sidebar-left ~ .leaflet-control-container .leaflet-left {
+    transition: left 500ms; } }
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .leaflet-sidebar-left ~ .leaflet-control-container .leaflet-left {
+    left: 315px; } }
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .leaflet-sidebar-left ~ .leaflet-control-container .leaflet-left {
+    left: 400px; } }
+
+@media (min-width: 1200px) {
+  .leaflet-sidebar-left ~ .leaflet-control-container .leaflet-left {
+    left: 470px; } }
+
+.leaflet-sidebar-left.collapsed ~ .leaflet-control-container .leaflet-left {
+  left: 50px; }
+
+.leaflet-sidebar-right.leaflet-touch {
+  box-shadow: none;
+  border-left: 2px solid rgba(0, 0, 0, 0.2); }
+
+@media (min-width: 768px) {
+  .leaflet-sidebar-right ~ .leaflet-control-container .leaflet-right {
+    transition: right 500ms; } }
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .leaflet-sidebar-right ~ .leaflet-control-container .leaflet-right {
+    right: 315px; } }
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .leaflet-sidebar-right ~ .leaflet-control-container .leaflet-right {
+    right: 400px; } }
+
+@media (min-width: 1200px) {
+  .leaflet-sidebar-right ~ .leaflet-control-container .leaflet-right {
+    right: 470px; } }
+
+.leaflet-sidebar-right.collapsed ~ .leaflet-control-container .leaflet-right {
+  right: 50px; }
+
+    </style>
+
+
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        html, body, #map {
+            height: 95%;
+            font: 15px;
+            font-family: 'Sarabun', sans-serif;
+        }
+        .timelineup
+        {
+          font-family: 'Sarabun', sans-serif;
+          display: flex;
+          font: 15px;
+        }
+        .timelinedown
+        {
+          font-family: 'Sarabun', sans-serif;
+          font: 15px;
+        }
+
+        p, h1, h2, h3, h4, h5{
+            font-family: 'Sarabun', sans-serif;
+            color: black;
+            text-align: justify;
+        }
+        .event_name
+        {
+          font-weight: bold;
+          font-size: 25px;
+          text-align: center;
+          font-family: 'Sarabun', sans-serif;
+        }
+        .event_year
+        {
+          font-size: 15px;
+          text-align: right;
+          font-family: 'Sarabun', sans-serif;
+        }
+        .event_text
+        {
+          font-family: 'Sarabun', sans-serif;
+          font-size: 15px;
+
+        }
+        .genre_button /* button*/
+        {
+          border-radius: 20px;
+          border: 0.1px solid #000000;
+          background-color: #D5EAEC;
+          color: #000000;
+          font-size: 15px;
+          font-weight: bold;
+          padding: 10px 25px;
+          letter-spacing: 1px;
+          text-transform: uppercase;
+          transition: transform 80ms ease-in;
+          text-align: center;
+       }
+       .genre_button:active {
+        transform: scale(0.95);
+      }
+
+      .genre_button:focus {
+        outline: none;
+      }
+      .genre_button:hover
+      {
+        background-color: #dddddd;
+        border-color: black;
+        color: black;
+      }
+      .genres /*for input*/
+      {
+        font-family: 'Sarabun', sans-serif;
+        font-size: 10px;
+        color: black;
+        padding: 10px;
+        margin: 10px;
+        height: 20px;
+        width: 20px;
+      }
+      label
+      {
+        font-family: 'Sarabun', sans-serif;
+        font-size: 15px;
+        color: black;
+      }
+      p
+      {
+        font-family: 'Sarabun', sans-serif;
+        font-size: 15px;
+        color: black;
+      }
+      .logout-text
+      {
+        font-family: 'Sarabun', sans-serif;
+        font-size: 20px;
+        color: black;
+      }
+      span
+      {
+        font-family: 'Sarabun', sans-serif;
+        font-size: 15px;
+        color: black;
+        font-weight: normal;
+      }
+      .prof 
+      {
+        background-color: #FFFFFF;
+        border: 0.5px solid black;
+        padding: 10px 10px;
+        margin: 20px;
+        width: 250px;
+        height: 20px;
+        font-size: 15px;
+      }
+      .year /* year buttons */
+      {
+          border: 0.5px solid #dddddd;
+          background-color: #ffffff;
+          color: #000000;
+          font-size: 15px;
+          font-weight: bold;
+          padding: 6px;
+          letter-spacing: 1.3px;
+          text-transform: uppercase;
+          text-align: center; 
+          float: left;
+          font-family: 'Sarabun', sans-serif;
+          height: 35px;
+      }
+      .year:active {
+        background-color: #D5EAEC;
+        color: black;
+      }
+
+      .year:focus {
+        outline: none;
+      }
+      .year:hover
+      {
+        background-color: #D5EAEC;
+        border-color: black;
+        color: black;
+      }
+
+      .bottom-year /* 100 year buttons */
+      {
+          border: 0.5px solid #dddddd;
+          background-color: #ffffff;
+          color: #000000;
+          font-size: 13px;
+          font-weight: bold;
+          /*padding: 3px;*/
+          letter-spacing: 1.1px;
+          text-transform: uppercase;
+          text-align: center; 
+          /*float: left;*/
+          font-family: 'Sarabun', sans-serif;
+          height: 40px;
+          width: 70px;
+          display: inline-block;
+          margin-right: -3.8px;
+      }
+      .bottom-year:active {
+        background-color: #D5EAEC;
+        color: black;
+      }
+
+      .bottom-year:focus {
+        outline: none;
+      }
+      .bottom-year:hover
+      {
+        background-color: #D5EAEC;
+        border-color: black;
+        color: black;
+      }
+      div .scroll
+        { 
+          width:100%;
+          height: 70px;
+          overflow-x: scroll;
+          overflow-y: hidden;
+          white-space: nowrap;   
+        }
+            
+
+    </style>
+</head>
+<body>
+    <!-- optionally define the sidebar content via HTML markup -->
+    <div id="sidebar" class="leaflet-sidebar collapsed">
+
+        <!-- nav tabs -->
+        <div class="leaflet-sidebar-tabs">
+            <!-- top aligned tabs -->
+            <ul role="tablist">
+                <li><a href="#home" role="tab"><i class="fa fa-bars active"></i></a></li>
+                <li><a href="#profile" role="tab"><i class="fa fa-user"></i></a></li>
+                <li><a href="#contact" role="tab"><i class="fa fa-envelope"></i></a></li>
+                <li><a href="#logout" role="tab"><i class="fas fa-user-lock"></i></a></li>
+            </ul>
+
+            <!-- bottom aligned tabs 
+            <ul role="tablist">
+                <li><a href="https://github.com/nickpeihl/leaflet-sidebar-v2"><i class="fa fa-github"></i></a></li>
+            </ul> -->
+        </div>
+
+        <!-- panel content -->
+        <div class="leaflet-sidebar-content">
+            <div class="leaflet-sidebar-pane" id="home">
+                <h1 class="leaflet-sidebar-header">
+                    Select Genres
+                    <span class="leaflet-sidebar-close"><i class="fa fa-caret-left"></i></span>
+                </h1>
+
+                <p> Select One or more genres and cick the button. See the changes on the map.
+                  <form action="#">
+                    <input class="genres" type="checkbox" id="one" name="one" value="education">
+                    <label for="one"> Education</label>&emsp;&emsp;
+                    <input class="genres" type="checkbox" id="two" name="two" value="art">
+                    <label for="two"> Literature</label><br>
+                    <input class="genres" type="checkbox" id="three" name="three" value="biology">
+                    <label for="three"> Biology</label>&emsp;&emsp;&ensp;&ensp;&nbsp;&nbsp;
+                    <input class="genres" type="checkbox" id="two" name="two" value="computer science">
+                    <label for="two"> Computer Science</label><br>
+                    <input class="genres" type="checkbox" id="two" name="two" value="health">
+                    <label for="two"> Health</label>&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;
+                    <input class="genres" type="checkbox" id="two" name="two" value="literature">
+                    <label for="two"> Literature</label><br>
+                    <input class="genres" type="checkbox" id="two" name="two" value="politics">
+                    <label for="two"> Art</label>&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;&nbsp;
+                    <input class="genres" type="checkbox" id="two" name="two" value="religion">
+                    <label for="two"> Religion</label><br>
+                    <input class="genres" type="checkbox" id="two" name="two" value="sports">
+                    <label for="two"> Sports</label><br><br>
+                    <button class="genre_button">View On Map</button>
+                  </form>
+                </p>
+            </div>
+
+            <div class="leaflet-sidebar-pane" id="profile">
+                <h1 class="leaflet-sidebar-header">
+                    Profile
+                    <span class="leaflet-sidebar-close"><i class="fa fa-caret-left"></i></span>
+                </h1>
+                <p>
+                    <form>
+                      <label for="name">Name</label>
+                      <input class="prof" type="text" placeholder="Name" id="name" /><br>
+                      <label for="email">E-Mail</label>
+                      <input class="prof" type="email" placeholder="Email" id="email" />
+                    </form>
+                </p>
+            </div>
+
+            <div class="leaflet-sidebar-pane" id="contact">
+                <h1 class="leaflet-sidebar-header">
+                    Contact Us
+                    <span class="leaflet-sidebar-close"><i class="fa fa-caret-left"></i></span>
+                </h1>
+                <p>
+                    <br>
+                    <span><i class="fa fa-envelope"></i>&emsp;the.explorer.verify@gmail.com</span><br><br>
+                    <span><i class="fa fa-phone"></i>&emsp;8989898989</span><br><br>
+                    <span><i class="fa fa-map"></i>&emsp;Christ University, Bangalore</span>
+                </p>
+            </div>
+
+            <div class="leaflet-sidebar-pane" id="logout">
+                <h1 class="leaflet-sidebar-header">
+                    Logout
+
+                    <span class="leaflet-sidebar-close"><i class="fa fa-caret-left"></i></span>
+                </h1>
+                <p class="logout-text">
+                    We are sorry to see you go! Come back soon Explorer!
+                </p>
+                <br>
+                <center><button class="genre_button">Logout</button></center>
+            </div>
+
+        </div>
+    </div>
+
+      <div id="sidebar-right">
+        <p id="event_name" class="event_name">Welcome to The Expl<img class="circle" src="{{url_for('static', filename='earth.png')}}" height="25" width="25">rer</p>
+        <p id="event_text" class="event_text">
+          1. Click on the map markers to get detailed information about the events. Hover over the markers to see the event names.<br>
+          2. Select an year from the timeline and see the events associated with that year on the map.<br>
+          3. Use the right navigation bar to :
+          <ul>
+            <li>Select genres and classify the map events accordingly.</li>
+            <li>View the details you used to registered with The Explorer.</li>
+            <li>Contact Us</li>
+            <li>Logout</li>
+          </ul>
+        </p>
+    </div>
+
+    <div id="map"></div>
+
+   <div class="timelineup btn-group">
+        <button class="year" onclick="update_band(-500)" style="margin-left: 2px;">500BC</button>
+        <button class="year" onclick="update_band(-400)" >400BC</button>
+        <button class="year" onclick="update_band(-300)" >300BC</button>
+        <button class="year" onclick="update_band(-200)" >200BC</button>
+        <button class="year" onclick="update_band(-100)" >100BC</button>
+        <button class="year" onclick="update_band(0)" style="width: 50px;">0</button>
+        <button class="year" onclick="update_band(100)">100</button>
+        <button class="year" onclick="update_band(200)" >200</button>
+        <button class="year" onclick="update_band(300)" >300</button>
+        <button class="year" onclick="update_band(400)" >400</button>
+        <button class="year" onclick="update_band(500)" >500</button>
+        <button class="year" onclick="update_band(600)" >600</button>
+        <button class="year" onclick="update_band(700)" >700</button>
+        <button class="year" onclick="update_band(800)" >800</button>
+        <button class="year" onclick="update_band(900)" >900</button>
+        <button class="year" onclick="update_band(1000')" >1000</button>
+        <button class="year" onclick="update_band(1100)" >1100</button>
+        <button class="year" onclick="update_band(1200)" >1200</button>
+        <button class="year" onclick="update_band(1300)" >1300</button>
+        <button class="year" onclick="update_band(1400)" >1400</button>
+        <button class="year" onclick="update_band(1500)" >1500</button>
+        <button class="year" onclick="update_band(1600)" >1600</button>
+        <button class="year" onclick="update_band(1700)" >1700</button>
+        <button class="year" onclick="update_band(1800)" >1800</button>
+        <button class="year" onclick="update_band(1900)" >1900</button>
+        <button class="year" onclick="update_band(2000)" >2000</button>
+    </div>
+      
+    <div class="timelinedown btn-group">
+      <div class="scroll">
+      	   <button class="bottom-year">1901</button>
+        <button class="bottom-year">1902</button>
+        <button class="bottom-year">1903</button>
+        <button class="bottom-year">1904</button>
+        <button class="bottom-year">1905</button>
+        <button class="bottom-year">1906</button>
+        <button class="bottom-year">1907</button>
+        <button class="bottom-year">1908</button>
+        <button class="bottom-year">1909</button>
+        <button class="bottom-year">1910</button>
+        <button class="bottom-year">1911</button>
+        <button class="bottom-year">1912</button>
+        <button class="bottom-year">1913</button>
+        <button class="bottom-year">1914</button>
+        <button class="bottom-year">1915</button>
+        <button class="bottom-year">1916</button>
+        <button class="bottom-year">1917</button>
+        <button class="bottom-year">1918</button>
+        <button class="bottom-year">1919</button>
+        <button class="bottom-year">1920</button>
+        <button class="bottom-year">1921</button>
+        <button class="bottom-year">1922</button>
+        <button class="bottom-year">1923</button>
+        <button class="bottom-year">1924</button>
+        <button class="bottom-year">1925</button>  
+         <button class="bottom-year">1901</button>
+        <button class="bottom-year">1902</button>
+        <button class="bottom-year">1903</button>
+        <button class="bottom-year">1904</button>
+        <button class="bottom-year">1905</button>
+        <button class="bottom-year">1906</button>
+        <button class="bottom-year">1907</button>
+        <button class="bottom-year">1908</button>
+        <button class="bottom-year">1909</button>
+        <button class="bottom-year">1910</button>
+        <button class="bottom-year">1911</button>
+        <button class="bottom-year">1912</button>
+        <button class="bottom-year">1913</button>
+        <button class="bottom-year">1914</button>
+        <button class="bottom-year">1915</button>
+        <button class="bottom-year">1916</button>
+        <button class="bottom-year">1917</button>
+        <button class="bottom-year">1918</button>
+        <button class="bottom-year">1919</button>
+        <button class="bottom-year">1920</button>
+        <button class="bottom-year">1921</button>
+        <button class="bottom-year">1922</button>
+        <button class="bottom-year">1923</button>
+        <button class="bottom-year">1924</button>
+        <button class="bottom-year">1925</button>   
+        <button class="bottom-year">1901</button>
+        <button class="bottom-year">1902</button>
+        <button class="bottom-year">1903</button>
+        <button class="bottom-year">1904</button>
+        <button class="bottom-year">1905</button>
+        <button class="bottom-year">1906</button>
+        <button class="bottom-year">1907</button>
+        <button class="bottom-year">1908</button>
+        <button class="bottom-year">1909</button>
+        <button class="bottom-year">1910</button>
+        <button class="bottom-year">1911</button>
+        <button class="bottom-year">1912</button>
+        <button class="bottom-year">1913</button>
+        <button class="bottom-year">1914</button>
+        <button class="bottom-year">1915</button>
+        <button class="bottom-year">1916</button>
+        <button class="bottom-year">1917</button>
+        <button class="bottom-year">1918</button>
+        <button class="bottom-year">1919</button>
+        <button class="bottom-year">1920</button>
+        <button class="bottom-year">1921</button>
+        <button class="bottom-year">1922</button>
+        <button class="bottom-year">1923</button>
+        <button class="bottom-year">1924</button>
+        <button class="bottom-year">1925</button>
+        <button class="bottom-year">1901</button>
+        <button class="bottom-year">1902</button>
+        <button class="bottom-year">1903</button>
+        <button class="bottom-year">1904</button>
+        <button class="bottom-year">1905</button>
+        <button class="bottom-year">1906</button>
+        <button class="bottom-year">1907</button>
+        <button class="bottom-year">1908</button>
+        <button class="bottom-year">1909</button>
+        <button class="bottom-year">1910</button>
+        <button class="bottom-year">1911</button>
+        <button class="bottom-year">1912</button>
+        <button class="bottom-year">1913</button>
+        <button class="bottom-year">1914</button>
+        <button class="bottom-year">1915</button>
+        <button class="bottom-year">1916</button>
+        <button class="bottom-year">1917</button>
+        <button class="bottom-year">1918</button>
+        <button class="bottom-year">1919</button>
+        <button class="bottom-year">1920</button>
+        <button class="bottom-year">1921</button>
+        <button class="bottom-year">1922</button>
+        <button class="bottom-year">1923</button>
+        <button class="bottom-year">1924</button>
+        <button class="bottom-year">1925</button>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@0.7.2/dist/leaflet.js"></script>
+    <script >
+
+
+        // @ts-nocheck
+/**
+ * @name Sidebar
+ * @class L.Control.Sidebar
+ * @extends L.Control
+ * @param {string} id - The id of the sidebar element (without the # character)
+ * @param {Object} [options] - Optional options object
+ * @param {string} [options.autopan=false] - whether to move the map when opening the sidebar to make maintain the visible center point
+ * @param {string} [options.position=left] - Position of the sidebar: 'left' or 'right'
+ * @param {string} [options.id] - ID of a predefined sidebar container that should be used
+ * @param {boolean} [data.close=true] Whether to add a close button to the pane header
+ * @see L.control.sidebar
+ */
+L.Control.Sidebar = L.Control.extend(/** @lends L.Control.Sidebar.prototype */ {
+    includes: L.Evented ? L.Evented.prototype : L.Mixin.Events,
+
+    options: {
+        autopan: false,
+        closeButton: true,
+        container: null,
+        position: 'left'
+    },
+
+    /**
+     * Create a new sidebar on this object.
+     *
+     * @constructor
+     * @param {Object} [options] - Optional options object
+     * @param {string} [options.autopan=false] - whether to move the map when opening the sidebar to make maintain the visible center point
+     * @param {string} [options.position=left] - Position of the sidebar: 'left' or 'right'
+     * @param {string} [options.container] - ID of a predefined sidebar container that should be used
+     * @param {bool} [data.close=true] Whether to add a close button to the pane header
+     */
+    initialize: function(options, deprecatedOptions) {
+        if (typeof options === 'string') {
+            console.warn('this syntax is deprecated. please use L.control.sidebar({ container }) now');
+            options = { container: options };
+        }
+
+        if (typeof options === 'object' && options.id) {
+            console.warn('this syntax is deprecated. please use L.control.sidebar({ container }) now');
+            options.container = options.id;
+        }
+
+        this._tabitems = [];
+        this._panes = [];
+        this._closeButtons = [];
+
+        L.setOptions(this, options);
+        L.setOptions(this, deprecatedOptions);
+        return this;
+    },
+
+    /**
+     * Add this sidebar to the specified map.
+     *
+     * @param {L.Map} map
+     * @returns {Sidebar}
+     */
+    onAdd: function(map) {
+        var i, child, tabContainers, newContainer, container;
+
+        // use container from previous onAdd()
+        container = this._container
+
+        // use the container given via options.
+        if (!container) {
+            container = this._container || typeof this.options.container === 'string'
+            ? L.DomUtil.get(this.options.container)
+            : this.options.container;
+        }
+
+        // if no container was specified or not found, create it and apply an ID
+        if (!container) {
+            container = L.DomUtil.create('div', 'leaflet-sidebar collapsed');
+            if (typeof this.options.container === 'string')
+                container.id = this.options.container;
+        }
+
+        // Find paneContainer in DOM & store reference
+        this._paneContainer = container.querySelector('div.leaflet-sidebar-content');
+
+        // If none is found, create it
+        if (this._paneContainer === null)
+            this._paneContainer = L.DomUtil.create('div', 'leaflet-sidebar-content', container);
+
+        // Find tabContainerTop & tabContainerBottom in DOM & store reference
+        tabContainers = container.querySelectorAll('ul.leaflet-sidebar-tabs, div.leaflet-sidebar-tabs > ul');
+        this._tabContainerTop    = tabContainers[0] || null;
+        this._tabContainerBottom = tabContainers[1] || null;
+
+        // If no container was found, create it
+        if (this._tabContainerTop === null) {
+            newContainer = L.DomUtil.create('div', 'leaflet-sidebar-tabs', container);
+            newContainer.setAttribute('role', 'tablist');
+            this._tabContainerTop = L.DomUtil.create('ul', '', newContainer);
+        }
+        if (this._tabContainerBottom === null) {
+            newContainer = this._tabContainerTop.parentNode;
+            this._tabContainerBottom = L.DomUtil.create('ul', '', newContainer);
+        }
+
+        // Store Tabs in Collection for easier iteration
+        for (i = 0; i < this._tabContainerTop.children.length; i++) {
+            child = this._tabContainerTop.children[i];
+            child._sidebar = this;
+            child._id = child.querySelector('a').hash.slice(1); // FIXME: this could break for links!
+            this._tabitems.push(child);
+        }
+        for (i = 0; i < this._tabContainerBottom.children.length; i++) {
+            child = this._tabContainerBottom.children[i];
+            child._sidebar = this;
+            child._id = child.querySelector('a').hash.slice(1); // FIXME: this could break for links!
+            this._tabitems.push(child);
+        }
+
+        // Store Panes in Collection for easier iteration
+        for (i = 0; i < this._paneContainer.children.length; i++) {
+            child = this._paneContainer.children[i];
+            if (child.tagName === 'DIV' &&
+                L.DomUtil.hasClass(child, 'leaflet-sidebar-pane')) {
+                this._panes.push(child);
+
+                // Save references to close buttons
+                var closeButtons = child.querySelectorAll('.leaflet-sidebar-close');
+                if (closeButtons.length) {
+                    this._closeButtons.push(closeButtons[closeButtons.length - 1]);
+                    this._closeClick(closeButtons[closeButtons.length - 1], 'on');
+                }
+            }
+        }
+
+        // set click listeners for tab & close buttons
+        for (i = 0; i < this._tabitems.length; i++) {
+            this._tabClick(this._tabitems[i], 'on');
+        }
+
+        // leaflet moves the returned container to the right place in the DOM
+        return container;
+    },
+
+    /**
+     * Remove this sidebar from the map.
+     *
+     * @param {L.Map} map
+     * @returns {Sidebar}
+     */
+    onRemove: function (map) {
+        // Remove click listeners for tab & close buttons
+        for (var i = 0; i < this._tabitems.length; i++)
+            this._tabClick(this._tabitems[i], 'off');
+        for (var i = 0; i < this._closeButtons.length; i++)
+            this._closeClick(this._closeButtons[i], 'off');
+
+        this._tabitems = [];
+        this._panes = [];
+        this._closeButtons = [];
+
+        return this;
+    },
+
+    /**
+     * @method addTo(map: Map): this
+     * Adds the control to the given map. Overrides the implementation of L.Control,
+     * changing the DOM mount target from map._controlContainer.topleft to map._container
+     */
+    addTo: function (map) {
+        this.onRemove();
+        this._map = map;
+
+        this._container = this.onAdd(map);
+
+        L.DomUtil.addClass(this._container, 'leaflet-control');
+        L.DomUtil.addClass(this._container, 'leaflet-sidebar-' + this.getPosition());
+        if (L.Browser.touch)
+            L.DomUtil.addClass(this._container, 'leaflet-touch');
+
+        // when adding to the map container, we should stop event propagation
+        L.DomEvent.disableScrollPropagation(this._container);
+        L.DomEvent.disableClickPropagation(this._container);
+        L.DomEvent.on(this._container, 'contextmenu', L.DomEvent.stopPropagation);
+
+        // insert as first child of map container (important for css)
+        map._container.insertBefore(this._container, map._container.firstChild);
+
+        return this;
+    },
+
+    /**
+     * @deprecated - Please use remove() instead of removeFrom(), as of Leaflet 0.8-dev, the removeFrom() has been replaced with remove()
+     * Removes this sidebar from the map.
+     * @param {L.Map} map
+     * @returns {Sidebar}
+     */
+    removeFrom: function(map) {
+        console.warn('removeFrom() has been deprecated, please use remove() instead as support for this function will be ending soon.');
+        this._map._container.removeChild(this._container);
+        this.onRemove(map);
+
+        return this;
+    },
+
+   /**
+     * Open sidebar (if it's closed) and show the specified tab.
+     *
+     * @param {string} id - The ID of the tab to show (without the # character)
+     * @returns {L.Control.Sidebar}
+     */
+    open: function(id) {
+        var i, child, tab;
+
+        // If panel is disabled, stop right here
+        tab = this._getTab(id);
+        if (L.DomUtil.hasClass(tab, 'disabled'))
+            return this;
+
+        // Hide old active contents and show new content
+        for (i = 0; i < this._panes.length; i++) {
+            child = this._panes[i];
+            if (child.id === id)
+                L.DomUtil.addClass(child, 'active');
+            else if (L.DomUtil.hasClass(child, 'active'))
+                L.DomUtil.removeClass(child, 'active');
+        }
+
+        // Remove old active highlights and set new highlight
+        for (i = 0; i < this._tabitems.length; i++) {
+            child = this._tabitems[i];
+            if (child.querySelector('a').hash === '#' + id)
+                L.DomUtil.addClass(child, 'active');
+            else if (L.DomUtil.hasClass(child, 'active'))
+                L.DomUtil.removeClass(child, 'active');
+        }
+
+        this.fire('content', { id: id });
+
+        // Open sidebar if it's closed
+        if (L.DomUtil.hasClass(this._container, 'collapsed')) {
+            this.fire('opening');
+            L.DomUtil.removeClass(this._container, 'collapsed');
+            if (this.options.autopan) this._panMap('open');
+        }
+
+        return this;
+    },
+
+    /**
+     * Close the sidebar (if it's open).
+     *
+     * @returns {L.Control.Sidebar}
+     */
+    close: function() {
+        var i;
+
+        // Remove old active highlights
+        for (i = 0; i < this._tabitems.length; i++) {
+            var child = this._tabitems[i];
+            if (L.DomUtil.hasClass(child, 'active'))
+                L.DomUtil.removeClass(child, 'active');
+        }
+
+        // close sidebar, if it's opened
+        if (!L.DomUtil.hasClass(this._container, 'collapsed')) {
+            this.fire('closing');
+            L.DomUtil.addClass(this._container, 'collapsed');
+            if (this.options.autopan) this._panMap('close');
+        }
+
+        return this;
+    },
+
+    /**
+     * Add a panel to the sidebar
+     *
+     * @example
+     * sidebar.addPanel({
+     *     id: 'userinfo',
+     *     tab: '<i class="fa fa-gear"></i>',
+     *     pane: someDomNode.innerHTML,
+     *     position: 'bottom'
+     * });
+     *
+     * @param {Object} [data] contains the data for the new Panel:
+     * @param {String} [data.id] the ID for the new Panel, must be unique for the whole page
+     * @param {String} [data.position='top'] where the tab will appear:
+     *                                       on the top or the bottom of the sidebar. 'top' or 'bottom'
+     * @param {HTMLString} {DOMnode} [data.tab]  content of the tab item, as HTMLstring or DOM node
+     * @param {HTMLString} {DOMnode} [data.pane] content of the panel, as HTMLstring or DOM node
+     * @param {String} [data.link] URL to an (external) link that will be opened instead of a panel
+     * @param {String} [data.title] Title for the pane header
+     * @param {String} {Function} [data.button] URL to an (external) link or a click listener function that will be opened instead of a panel
+     * @param {bool} [data.disabled] If the tab should be disabled by default
+     *
+     * @returns {L.Control.Sidebar}
+     */
+    addPanel: function(data) {
+        var pane, tab, tabHref, closeButtons, content;
+
+        // Create tab node
+        tab = L.DomUtil.create('li', data.disabled ? 'disabled' : '');
+        tabHref = L.DomUtil.create('a', '', tab);
+        tabHref.href = '#' + data.id;
+        tabHref.setAttribute('role', 'tab');
+        tabHref.innerHTML = data.tab;
+        tab._sidebar = this;
+        tab._id = data.id;
+        tab._button = data.button; // to allow links to be disabled, the href cannot be used
+        if (data.title && data.title[0] !== '<') tab.title = data.title;
+
+        // append it to the DOM and store JS references
+        if (data.position === 'bottom')
+            this._tabContainerBottom.appendChild(tab);
+        else
+            this._tabContainerTop.appendChild(tab);
+
+        this._tabitems.push(tab);
+
+        // Create pane node
+        if (data.pane) {
+            if (typeof data.pane === 'string') {
+                // pane is given as HTML string
+                pane = L.DomUtil.create('DIV', 'leaflet-sidebar-pane', this._paneContainer);
+                content = '';
+                if (data.title)
+                    content += '<h1 class="leaflet-sidebar-header">' + data.title;
+                if (this.options.closeButton)
+                    content += '<span class="leaflet-sidebar-close"><i class="fa fa-caret-' + this.options.position + '"></i></span>';
+                if (data.title)
+                    content += '</h1>';
+                pane.innerHTML = content + data.pane;
+            } else {
+                // pane is given as DOM object
+                pane = data.pane;
+                this._paneContainer.appendChild(pane);
+            }
+            pane.id = data.id;
+
+            this._panes.push(pane);
+
+            // Save references to close button & register click listener
+            closeButtons = pane.querySelectorAll('.leaflet-sidebar-close');
+            if (closeButtons.length) {
+                // select last button, because thats rendered on top
+                this._closeButtons.push(closeButtons[closeButtons.length - 1]);
+                this._closeClick(closeButtons[closeButtons.length - 1], 'on');
+            }
+        }
+
+        // Register click listeners, if the sidebar is on the map
+        this._tabClick(tab, 'on');
+
+        return this;
+    },
+
+    /**
+     * Removes a panel from the sidebar
+     *
+     * @example
+     * sidebar.remove('userinfo');
+     *
+     * @param {String} [id] the ID of the panel that is to be removed
+     * @returns {L.Control.Sidebar}
+     */
+    removePanel: function(id) {
+        var i, j, tab, pane, closeButtons;
+
+        // find the tab & panel by ID, remove them, and clean up
+        for (i = 0; i < this._tabitems.length; i++) {
+            if (this._tabitems[i]._id === id) {
+                tab = this._tabitems[i];
+
+                // Remove click listeners
+                this._tabClick(tab, 'off');
+
+                tab.remove();
+                this._tabitems.splice(i, 1);
+                break;
+            }
+        }
+
+        for (i = 0; i < this._panes.length; i++) {
+            if (this._panes[i].id === id) {
+                pane = this._panes[i];
+                closeButtons = pane.querySelectorAll('.leaflet-sidebar-close');
+                for (j = 0; j < closeButtons.length; j++) {
+                    this._closeClick(closeButtons[j], 'off');
+                }
+
+                pane.remove();
+                this._panes.splice(i, 1);
+
+                break;
+            }
+        }
+
+        return this;
+    },
+
+    /**
+     * enables a disabled tab/panel
+     *
+     * @param {String} [id] ID of the panel to enable
+     * @returns {L.Control.Sidebar}
+     */
+    enablePanel: function(id) {
+        var tab = this._getTab(id);
+        L.DomUtil.removeClass(tab, 'disabled');
+
+        return this;
+    },
+
+    /**
+     * disables an enabled tab/panel
+     *
+     * @param {String} [id] ID of the panel to disable
+     * @returns {L.Control.Sidebar}
+     */
+    disablePanel: function(id) {
+        var tab = this._getTab(id);
+        L.DomUtil.addClass(tab, 'disabled');
+
+        return this;
+    },
+
+    onTabClick: function(e) {
+        // `this` points to the tab DOM element!
+        if (L.DomUtil.hasClass(this, 'active')) {
+            this._sidebar.close();
+        } else if (!L.DomUtil.hasClass(this, 'disabled')) {
+            if (typeof this._button === 'string') // an url
+                window.location.href = this._button;
+            else if (typeof this._button === 'function') // a clickhandler
+                this._button(e);
+            else // a normal pane
+                this._sidebar.open(this.querySelector('a').hash.slice(1));
+        }
+    },
+
+    /**
+     * (un)registers the onclick event for the given tab,
+     * depending on the second argument.
+     * @private
+     *
+     * @param {DOMelement} [tab]
+     * @param {String} [on] 'on' or 'off'
+     */
+    _tabClick: function(tab, on) {
+        var link = tab.querySelector('a');
+        if (!link.hasAttribute('href') || link.getAttribute('href')[0] !== '#')
+            return;
+
+        if (on === 'on') {
+            L.DomEvent
+                .on(tab.querySelector('a'), 'click', L.DomEvent.preventDefault, tab)
+                .on(tab.querySelector('a'), 'click', this.onTabClick, tab);
+        } else {
+            L.DomEvent.off(tab.querySelector('a'), 'click', this.onTabClick, tab);
+        }
+    },
+
+    onCloseClick: function() {
+        this.close();
+    },
+
+    /**
+     * (un)registers the onclick event for the given close button
+     * depending on the second argument
+     * @private
+     *
+     * @param {DOMelement} [closeButton]
+     * @param {String} [on] 'on' or 'off'
+     */
+    _closeClick: function(closeButton, on) {
+        if (on === 'on') {
+            L.DomEvent.on(closeButton, 'click', this.onCloseClick, this);
+        } else {
+            L.DomEvent.off(closeButton, 'click', this.onCloseClick);
+        }
+    },
+
+    /**
+     * Finds & returns the DOMelement of a tab
+     *
+     * @param {String} [id] the id of the tab
+     * @returns {DOMelement} the tab specified by id, null if not found
+     */
+    _getTab: function(id) {
+        for (var i = 0; i < this._tabitems.length; i++) {
+            if (this._tabitems[i]._id === id)
+                return this._tabitems[i];
+        }
+
+        throw Error('tab "' + id + '" not found');
+    },
+
+    /**
+     * Helper for autopan: Pans the map for open/close events
+     *
+     * @param {String} [openClose] The behaviour to enact ('open' | 'close')
+     */
+   _panMap: function(openClose) {
+        var panWidth = Number.parseInt(L.DomUtil.getStyle(this._container, 'max-width')) / 2;
+        if (
+            openClose === 'open' && this.options.position === 'left' ||
+            openClose === 'close' && this.options.position === 'right'
+        ) panWidth *= -1;
+        this._map.panBy([panWidth, 0], { duration: 0.5 });
+   }
+});
+
+/**
+ * Create a new sidebar.
+ *
+ * @example
+ * var sidebar = L.control.sidebar({ container: 'sidebar' }).addTo(map);
+ *
+ * @param {Object} [options] - Optional options object
+ * @param {string} [options.autopan=false] - whether to move the map when opening the sidebar to make maintain the visible center point
+ * @param {string} [options.position=left] - Position of the sidebar: 'left' or 'right'
+ * @param {string} [options.container] - ID of a predefined sidebar container that should be used
+ * @param {boolean} [data.close=true] Whether to add a close button to the pane header
+ * @returns {Sidebar} A new sidebar instance
+ */
+L.control.sidebar = function(options, deprecated) {
+    return new L.Control.Sidebar(options, deprecated);
+};
+
+  
+        // standard leaflet map setup
+      var map = L.map('map', {
+       center: [51.505, -0.09],
+       minZoom: 3,
+       zoom: 3
+      });
+      
+      /*basic map
+      L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+         continuousWorld: 'false'
+
+      }).addTo(map);*/
+
+      //esri.world_street_map
+      L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+      {
+        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
+      }).addTo(map);
+
+      /*esri.world_topo_map
+      L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', 
+      {
+        attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community'
+      }).addTo(map);*/
+
+      /*nat geo map
+      L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
+          attribution: 'Tiles &copy; Esri &mdash; National Geographic, Esri, DeLorme, NAVTEQ, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, iPC'
+      }).addTo(map);*/
+
+        
+        // create the sidebar instance and add it to the map
+        var sidebar = L.control.sidebar({ container: 'sidebar' })
+            .addTo(map)
+            .open('home');
+
+        // add panels dynamically to the sidebar
+        sidebar.close();
+            /*.addPanel({
+                id:   'js-api',
+                tab:  '<i class="fa fa-gear"></i>',
+                title: 'JS API',
+                pane: '<p>The Javascript API allows to dynamically create or modify the panel state.<p/><p><button onclick="sidebar.enablePanel(\'mail\')">enable mails panel</button><button onclick="sidebar.disablePanel(\'mail\')">disable mails panel</button></p><p><button onclick="addUser()">add user</button></b>',
+            })
+            // add a tab with a click callback, initially disabled
+            .addPanel({
+                id:   'mail',
+                tab:  '<i class="fa fa-envelope"></i>',
+                title: 'Messages',
+                button: function() { alert('opened via JS callback') },
+                disabled: true,
+            })*/
+
+        // be notified when a panel is opened
+        sidebar.on('content', function (ev) {
+            switch (ev.id) {
+                case 'autopan':
+                sidebar.options.autopan = true;
+                break;
+                default:
+                sidebar.options.autopan = false;
+            }
+        });
+
+
+
+        var userid = 0
+        function addUser() {
+            sidebar.addPanel({
+                id:   'user' + userid++,
+                tab:  '<i class="fa fa-user"></i>',
+                title: 'User Profile ' + userid,
+                pane: '<p>user ipsum dolor sit amet</p>',
+            });
+        }
+    </script>
+    <script src="{{url_for('static', filename='final_map.js')}}"></script>
+
+    <script>
+       
+
+      var southWest = L.latLng(-89.98155760646617, -180),
+      northEast = L.latLng(89.99346179538875, 180);
+      var bounds = L.latLngBounds(southWest, northEast);
+
+      map.setMaxBounds(bounds);
+      map.on('drag', function() {
+          map.panInsideBounds(bounds, { animate: false });
+      });
+
+    window.rightsidebar= L.control.sidebar('sidebar-right', {
+        closeButton: true,
+        position: 'right'
+    });
+    map.addControl(rightsidebar);
+    //map.removeControl(map.zoomControl);
+    setTimeout(function () {
+        rightsidebar.show();
+    }, 500);
+
+    var redIcon = new L.Icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+  });
+
+    
+
+
+
+
+    
+  //L.marker([51.5, -0.09], {icon: redIcon}).addTo(map);
+//   for (var i in stops) {
+//   L.marker(L.latLng(stops[i].Position.Lat, stops[i].Position.Lon), {
+//     title: stops[i].Description
+//   }).addTo(markersLayer).bindPopup("<b>" + stops[i].Description + "</b>").openPopup();
+// }
+  //marker block
+//     {
+//            var id='{{marker_data.lat}}';
+
+//      var lat='{{marker_data.lat}}';
+//     var long='{{marker_data.long}}';
+//     var popline='{{marker_data.popline}}';
+
+//         console.log(lat,long,popline);
+       
+//          var dum=15.9716;
+
+//      var marker = new L.marker([lat, long], {icon: redIcon}).addTo(map).on('click', function (e) {
+//         rightsidebar.toggle();
+//     alert(e.click._source._myId);
+
+//     });
+//     marker.addTo(map); // Adding marker to the map
+//  marker._myId = id;
+
+//     //Adding popup to the marker
+//  marker.bindPopup(popline);
+  
+//  marker.on('mouseover', function(event)
+//  {
+//    marker.openPopup();
+//  });
+//  marker.on('mouseout', function(event){
+//    marker.closePopup();
+//  });
+  
+//     map.on('click', function () {
+//         rightsidebar.hide();
+//     });
+// }
+
+
+{
+var mark = JSON.parse('{{ marker_data | tojson | safe}}');
+      
+console.log(mark[0].lat + " " +mark[0].long+" "+mark[0].popline);
+console.log(mark[1].lat + " " +mark[1].long+" "+mark[1].popline);
+var i=0;
+markers=[];
+for (i=0;i<mark.length;i++){
+  console.log(i);
+   markers[i] = new L.marker([mark[i].lat, mark[i].long], {icon: redIcon}).addTo(map).on('click', function (event) {
+        console.log("12345"+event.target.id);
+        var id=10;
+    $.ajax({
+        url: "{{ url_for('_get_data') }}",
+        type: 'GET',
+
+        data: {'id': event.target.id},
+        
+
+        success: function (data) {
+          if (data) {
+            console.log(data.event_name)
+      
+      rightsidebar.setContent("<h1  class='event_name'>"+data.event_name+"</h1><p   class='event_year'>"+data.year+"</p><p class='event_text'>"+data.description+"</p>");
+      rightsidebar.show();
+
+          }
+        }
+      });
+    
+
+        // rightsidebar.toggle();
+        // console.log(event.target.id);
+
+
+
+    });
+   markers[i].id=i;
+    markers[i].bindPopup(mark[i].popline);
+    markers[i].on('mouseover', function(event)
+  {
+    event.target.openPopup();
+  });
+  markers[i].on('mouseout', function(event){
+    event.target.closePopup();
+  });
+  
+   }
+
+   window.cities = L.layerGroup(markers);
+   window.cities.addTo(map); 
+
+
+}
+
+    L.DomEvent.on(rightsidebar.getCloseButton(), 'click', function () {
+        console.log('Close button clicked.');
+    });
+
+
+
+
+function update_band(selected_century){
+
+	var x = document.getElementsByClassName("bottom-year");
+for (i = 0; i < 100; i++) {
+x[i].innerHTML = selected_century++;}  
+}
+
+$(".bottom-year").click(function() {
+    var selected_year = $(this).text();
+    console.log(selected_year);
+
+
+      $.ajax({
+        url: "{{ url_for('_get_year_data') }}",
+        type: 'GET',
+
+        data: {'id': selected_year},
+        
+        success: function (data) {
+          if (data) {
+    map.removeLayer(window.cities);
+            window.rightsidebar.hide();
+
+
+
+            console.log(  data[0]);
+
+
+
+{
+var mark = data;
+      
+var i=0;
+markers=[];
+for (i=0;i<mark.length;i++){
+  console.log(mark[i].id);
+   markers[i] = new L.marker([mark[i].lat, mark[i].long], {icon: redIcon}).addTo(map).on('click', function (event) {
+    $.ajax({
+        url: "{{ url_for('_get_data') }}",
+        type: 'GET',
+
+        data: {'id': event.target.id},
+        
+
+        success: function (data) {
+          if (data) {
+            console.log("-------------------------");
+      
+      rightsidebar.setContent("<h1  class='event_name'>"+data.event_name+"</h1><p   class='event_year'>"+data.year+"</p><p class='event_text'>"+data.description+"</p>");
+      rightsidebar.show();
+
+          }
+        }
+      });
+    
+
+        // rightsidebar.toggle();
+        // console.log(event.target.id);
+
+
+
+    });
+   markers[i].id=mark[i].id;
+    markers[i].bindPopup(mark[i].popline);
+    markers[i].on('mouseover', function(event)
+  {
+    event.target.openPopup();
+  });
+  markers[i].on('mouseout', function(event){
+    event.target.closePopup();
+  });
+  
+   }
+
+   window.cities = L.layerGroup(markers);
+   window.cities.addTo(map); 
+
+
+}
+
+
+
+
+
+      
+      
+
+          }
+        }
+      });
+});
+
+
+    
+    </script>
+</body>
+</html>

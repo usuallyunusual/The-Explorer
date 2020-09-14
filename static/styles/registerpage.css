@@ -1,0 +1,97 @@
+body
+{
+	overflow: hidden;
+	font-family: 'Marmelad';
+	background-color: white;
+}
+#header.navbar
+{
+	font-family: 'Quando';
+	color: #f6f6e9;
+	background-color: #194769;
+	display: block;
+}
+#header_text p
+{
+	margin-left: 475px;
+	font-size: 50px;
+	margin-top: 10px
+}
+#header_desc
+{
+	margin-left: 1100px;
+}
+a
+{
+	font-size: 15px;
+	color: #f6f6e9;
+	padding: 10px;
+}
+a:hover
+{
+	font-size: 15px;
+	color: #f6f6e9;
+	text-decoration: none;
+}
+#footer.navbar
+{
+	font-family: 'Quando';
+	color: #f6f6e9;
+	font-size: 15px;
+	background-color: #194769;
+	padding: 10px;
+}
+.card
+{
+	margin-top: 230px;
+	margin-left: 500px;
+	background-color: #f2855e;
+	color: #f6f6e9;  
+	width: 400px;
+	font-size: 25px;
+	border-radius: 25px;
+	padding: 5px;
+}
+#fp
+{
+	color: #f6f6e9; 
+	text-decoration:none;	
+}
+hr
+{
+	border: 1px solid #f6f6e9; 
+}
+.btn
+{
+	background-color: #194769;
+	color: #f6f6e9; 
+}
+.btn:hover
+{
+	background-color: #194769;
+	color: #f6f6e9;
+}
+i
+{
+	color: #194769;
+	background-color: white;
+}
+.input-group-text
+{
+	background-color: white;
+}
+.form-control 
+{
+ 	border-color: #dddddd;
+    box-shadow: 1px #dddddd;
+}
+.form-control:focus
+{
+	border-color: #194769;
+  	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(25, 71, 105, 1);
+}
+#fp
+{
+	font-size: 15px;
+	margin-left: 214px;
+}

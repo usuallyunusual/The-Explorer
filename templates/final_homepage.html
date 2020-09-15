@@ -11,21 +11,20 @@
 
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  	<!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" />
 	<link href='https://fonts.googleapis.com/css?family=Quando' rel='stylesheet'>
   	<link href='https://fonts.googleapis.com/css?family=Marmelad' rel='stylesheet'>
 	<link rel="stylesheet" href="{{url_for('static', filename='styles/final_homepage.css')}}">
-	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-
 	<script>
             function validateformLogin(){
             var email=document.myform.email.value;
             var password=document.myform.password.value;
-            console.log("---------asdasd");
+            //console.log("---------asdasd");
             if (email==null || email=="" ){
               alert("email can't be blank");
               return false;
@@ -41,7 +40,7 @@
             var password=document.mform.password.value;
             var email=document.mform.email.value;
             var retype_password=document.mform.retype_password.value;
-            console.log(name+password+retype_password+email);
+            //console.log(name+password+retype_password+email);
             var res=true;
             if (name==null || name=="" || name.length<6){
             	alert("Name can't be blank and has to be longer than 6 characters");
@@ -68,7 +67,12 @@
 
         success: function (data) {
           if (data) {
-          	alert(data);
+          	if(data=="exist"){
+              alert("The email is already in use? DId you forget your password?");
+            }
+            else{
+              alert("OTP has been sent to "+email.slice(0,4)+"**. Please enter OTP");
+            }
        $(document).ready(function() {
     $('#registration').modal('show');
 });
@@ -158,16 +162,15 @@ catch(err) {
         </button>
       </div>
       <div class="modal-body">
-        <form class="modal-form-row">
-			<input class= "modal-input" type="number" placeholder="" />&nbsp;
-			<input class= "modal-input" type="number" placeholder="" />&nbsp;
-			<input class= "modal-input" type="number" placeholder="" />&nbsp;
-			<input class= "modal-input" type="number" placeholder="" />&nbsp;
-			<input class= "modal-input" type="number" placeholder="" />
+        <form class="modal-form-row" id = "otpinfo">
+			<input class= "modal-input" type="number" placeholder="" id = "num1">&nbsp;
+			<input class= "modal-input" type="number" placeholder="" id = "num2">&nbsp;
+			<input class= "modal-input" type="number" placeholder="" id = "num3">&nbsp;
+			<input class= "modal-input" type="number" placeholder="" id = "num4">&nbsp;
 		</form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="modal-button" data-dismiss="modal">Confirm OTP</button>
+        <button type="button" class="modal-button" type = "submit" data-dismiss = "modal" onclick = "signup_verify()">Confirm OTP</button>
        <!-- <button type="button" class="modal-button">Save changes</button> -->
       </div>
     </div>
@@ -211,7 +214,7 @@ catch(err) {
 			<input class= "modal-input" type="number" placeholder="" />&nbsp;
 			<input class= "modal-input" type="number" placeholder="" />&nbsp;
 			<input class= "modal-input" type="number" placeholder="" />&nbsp;
-			<input class= "modal-input" type="number" placeholder="" /><br><br>
+			<br><br>
 		</form>
         <form class="modal-form-col">
 			<input class="fp-input" type="password" placeholder="New Password" />

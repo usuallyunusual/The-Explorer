@@ -60,7 +60,7 @@ def login():
 
 @app.route('/email_validation/', methods=['GET'])
 def email_validation():
-    print("----------------")
+    #print("----------------")
     recieved_email = request.args.get('email')
 
     print(recieved_email)
@@ -74,7 +74,7 @@ def email_validation():
         # Executing the SQL command
         cursor.execute(insert_stmt, data)
         myresult = cursor.fetchall()
-        print(myresult)
+        #print(myresult)
         res = True
         if len(myresult) == 1:
             res = False
@@ -89,17 +89,18 @@ def email_validation():
 
     if res == True:
 
-        li = [recieved_email]
+        #li = [recieved_email]
         number=0
-        for dest in li:
-            s = smtplib.SMTP('smtp.gmail.com', 587)
-            s.starttls()
-            s.login("the.explorer.verify@gmail.com", "8884233310")
-            number = random.randint(1000, 9999)
-            print(number)
-            message = "Your otp "+str(number)
-            s.sendmail("sender_email_id", dest, message)
-            s.quit()
+        s = smtplib.SMTP('smtp.gmail.com', 587)
+        s.starttls()
+        s.login("the.explorer.verify@gmail.com", "8884233310")
+        number = random.randint(1000, 9999)
+        #print(number)
+        message = """Subject: OTP Verification, The Explorer\n\n Thank you for signing up with TheExplorer. We'd love to have you onboard!
+        To proceed and finish your registration please enter the given OTP in thw website. Do not share this OTP with anyone else.
+        \nOTP: """+str(number)+"""\n\nRegards \nTeamExplorer"""
+        s.sendmail("the.explorer.verify@gmail.com",recieved_email,message)
+        s.quit()
 
         return str(number)
     else:
@@ -108,9 +109,11 @@ def email_validation():
 
 @app.route('/signup', methods=['POST'])
 def signup():
-    username = request.form['username']
-    email = request.form['email']
-    password = request.form['password']
+    data = request.form["data"]
+    data = json.loads(data)
+    username = data['username']
+    email = data['email']
+    password = data['password']
     insert_stmt = (
         "SELECT * FROM user WHERE user_email=%s "
     )
@@ -122,7 +125,7 @@ def signup():
         myresult = cursor.fetchall()
         print(myresult)
         if len(myresult) == 0:
-            print("does not exists exists", myresult)
+            #print("does not exists exists", myresult)
 
             insert_stmt = (
                 "INSERT INTO user(user_email, user_name,user_pass,role_id) VALUES (%s, %s, %s, %s)"

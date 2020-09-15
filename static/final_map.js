@@ -196,7 +196,7 @@ L.control.sidebar = function (placeholder, options) {
     return new L.Control.Sidebar(placeholder, options);
 };
 
-$(function() {
+(function() {
     const ps = new PerfectScrollbar("#test-list");
     // Remember, this is just an example.
     // You can also separete function and implement it, such as $("#btn-prev").on("click", ~

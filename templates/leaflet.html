@@ -133,7 +133,7 @@
   box-sizing: border-box;
   padding: 10px 20px; }
   .leaflet-sidebar-pane.active {
-    display: block;s }
+    display: block; }
   @media (min-width: 768px) and (max-width: 991px) {
     .leaflet-sidebar-pane {
       min-width: 265px; } }
@@ -169,8 +169,8 @@
   .leaflet-sidebar-right .leaflet-sidebar-close {
     left: 0; }
 
-.leaflet-sidebar {
-  }
+/*.leaflet-sidebar {
+  }*/
   @media (min-width: 768px) {
     .leaflet-sidebar {
       border-radius: 4px; }
@@ -549,7 +549,7 @@
         <button class="year" onclick="update_band(700)" >700</button>
         <button class="year" onclick="update_band(800)" >800</button>
         <button class="year" onclick="update_band(900)" >900</button>
-        <button class="year" onclick="update_band(1000')" >1000</button>
+        <button class="year" onclick="update_band(1000)" >1000</button>
         <button class="year" onclick="update_band(1100)" >1100</button>
         <button class="year" onclick="update_band(1200)" >1200</button>
         <button class="year" onclick="update_band(1300)" >1300</button>
@@ -1360,12 +1360,12 @@ L.control.sidebar = function(options, deprecated) {
 {
 var mark = JSON.parse('{{ marker_data | tojson | safe}}');
       
-console.log(mark[0].lat + " " +mark[0].long+" "+mark[0].popline);
-console.log(mark[1].lat + " " +mark[1].long+" "+mark[1].popline);
+//console.log(mark[0].lat + " " +mark[0].long+" "+mark[0].popline);
+//console.log(mark[1].lat + " " +mark[1].long+" "+mark[1].popline);
 var i=0;
 markers=[];
 for (i=0;i<mark.length;i++){
-  console.log(i);
+  //console.log(i);
    markers[i] = new L.marker([mark[i].lat, mark[i].long], {icon: redIcon}).addTo(map).on('click', function (event) {
         console.log("12345"+event.target.id);
         var id=10;
@@ -1413,7 +1413,7 @@ for (i=0;i<mark.length;i++){
 }
 
     L.DomEvent.on(rightsidebar.getCloseButton(), 'click', function () {
-        console.log('Close button clicked.');
+        //console.log('Close button clicked.');
     });
 
 

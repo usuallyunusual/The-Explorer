@@ -13,7 +13,7 @@ app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = ''
 app.config['MYSQL_DATABASE_DB'] = 'explorer_db'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-app.config['MYSQL_DATABASE_PORT'] = 3306
+app.config['MYSQL_DATABASE_PORT'] = 3307
 mysql.init_app(app)
 
 app.secret_key = "abc"
@@ -150,6 +150,7 @@ def signup():
 
 @app.route('/map')
 def map():
+    """
     insert_stmt = (
         "SELECT  event_key , event_title ,event_year, event_lat , event_long FROM event ORDER BY event_year DESC"
     )
@@ -176,6 +177,7 @@ def map():
     except:
         # Rolling back in case of error
         conn.rollback()
+    """
 
     marker_data = [{
         'id': 0,
@@ -249,7 +251,7 @@ def _get_data():
 @app.route('/_get_year_data/', methods=['GET'])
 def _get_year_data():
     recieved_year = request.args.get('id')
-    print(recieved_year)
+    #print(recieved_year)
 
     insert_stmt = (
         "SELECT  event_key , event_title ,event_year, event_lat , event_long FROM event where event_year=%s"
@@ -261,6 +263,7 @@ def _get_year_data():
         # Executing the SQL command
         cursor.execute(insert_stmt, data)
         myresult = cursor.fetchall()
+        #print(myresult)
 
         for i in myresult:
             marker = {
@@ -272,16 +275,17 @@ def _get_year_data():
             marker_data.append(marker)
 
         # Commit your changes in the database
-        conn.commit()
+        #conn.commit()
 
 
-    except:
+    except Exception as e:
         # Rolling back in case of error
-        conn.rollback()
+        #conn.rollback()
+        print(e)
 
-    print(marker_data)
+    #print(marker_data)
     return jsonify(marker_data)
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug = True)

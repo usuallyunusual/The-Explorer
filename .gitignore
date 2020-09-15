@@ -2,4 +2,5 @@
 Scripts/Extract Info/explorer_db.xml
 Scripts/explorer_db.sql
 Scripts/__pycache__/
-__pycache__
+__pycache__/
+.idea/

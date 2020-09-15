@@ -262,8 +262,11 @@ def _get_year_data():
     try:
         # Executing the SQL command
         cursor.execute(insert_stmt, data)
+        if cursor.rowcount<=0:
+            return u"Fail",200
         myresult = cursor.fetchall()
         #print(myresult)
+        
 
         for i in myresult:
             marker = {

@@ -1416,7 +1416,9 @@ for (i=0;i<mark.length;i++){
         //console.log('Close button clicked.');
     });
 
-
+function handleError(data){
+          console.log(data);
+        };
 
 
 function update_band(selected_century){
@@ -1428,7 +1430,7 @@ x[i].innerHTML = selected_century++;}
 
 $(".bottom-year").click(function() {
     var selected_year = $(this).text();
-    console.log(selected_year);
+    //console.log(selected_year);
 
 
       $.ajax({
@@ -1441,13 +1443,11 @@ $(".bottom-year").click(function() {
           if (data) {
     map.removeLayer(window.cities);
             window.rightsidebar.hide();
-
-
-
-            console.log(  data[0]);
-
-
-
+            if(data==="Fail"){
+                handleError(data);
+                return;
+            }
+            console.log(data[0]);
 {
 var mark = data;
       
@@ -1459,7 +1459,7 @@ for (i=0;i<mark.length;i++){
     $.ajax({
         url: "{{ url_for('_get_data') }}",
         type: 'GET',
-
+        datatype:'json',
         data: {'id': event.target.id},
         
 
@@ -1505,10 +1505,12 @@ for (i=0;i<mark.length;i++){
 
       
       
-
           }
-        }
+          
+        },
+        error: handleError
       });
+      
 });
 
 

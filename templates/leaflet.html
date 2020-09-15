@@ -271,7 +271,21 @@
         {
           font-family: 'Sarabun', sans-serif;
           font-size: 15px;
+          line-height: 1.5;
 
+        }
+        .search_title
+        {
+          font-weight: bold;
+          font-size: 20px;
+          text-align: left;
+          font-family: 'Sarabun', sans-serif;
+        }
+        .search_desc
+        {
+          font-family: 'Sarabun', sans-serif;
+          font-size: 13px;
+          margin-top: -20px;
         }
         .genre_button /* button*/
         {
@@ -352,8 +366,8 @@
           color: #000000;
           font-size: 15px;
           font-weight: bold;
-          padding: 6px;
-          letter-spacing: 1.3px;
+          padding: 7px;
+          letter-spacing: 1.2px;
           text-transform: uppercase;
           text-align: center; 
           float: left;
@@ -363,10 +377,14 @@
       .year:active {
         background-color: #D5EAEC;
         color: black;
+        border-color: black;
       }
 
       .year:focus {
         outline: none;
+        background-color: #D5EAEC;
+        border-color: black;
+        color: black;
       }
       .year:hover
       {
@@ -396,10 +414,14 @@
       .bottom-year:active {
         background-color: #D5EAEC;
         color: black;
+        border-color: black;
       }
 
       .bottom-year:focus {
         outline: none;
+        background-color: #D5EAEC;
+        color: black;
+        border-color: black;
       }
       .bottom-year:hover
       {
@@ -415,7 +437,29 @@
           overflow-y: hidden;
           white-space: nowrap;   
         }
-            
+        .s_input
+        {
+            -webkit-border-radius: 20px;
+            -moz-border-radius: 20px;
+             border-radius: 20px;
+             border: 1px solid #000000;
+             color: #a0d18c;
+             width: 350px;
+             height: 30px;
+             padding-left: 10px;
+             font-family: 'Sarabun', sans-serif;
+             font-size: 15px;
+             float: left;
+        }
+
+        .s_input:focus
+        {
+             outline: none;
+             border: 2px solid black;
+             color: black;
+             font-family: 'Sarabun', sans-serif;
+             font-size: 15px;
+        }
 
     </style>
 </head>
@@ -427,6 +471,7 @@
         <div class="leaflet-sidebar-tabs">
             <!-- top aligned tabs -->
             <ul role="tablist">
+                <li><a href="#search" role="tab"><i class="fa fa-search"></i></a></li>
                 <li><a href="#home" role="tab"><i class="fa fa-bars active"></i></a></li>
                 <li><a href="#profile" role="tab"><i class="fa fa-user"></i></a></li>
                 <li><a href="#contact" role="tab"><i class="fa fa-envelope"></i></a></li>
@@ -441,6 +486,36 @@
 
         <!-- panel content -->
         <div class="leaflet-sidebar-content">
+            <div class="leaflet-sidebar-pane" id="search">
+                <h1 class="leaflet-sidebar-header">
+                    Search
+                    <span class="leaflet-sidebar-close"><i class="fa fa-caret-left"></i></span>
+                </h1>
+                <p>
+                        <input class="s_input" type="text" placeholder="Search"><br><br>
+                        <!-- For 1st search result -->
+                        <p id="search_title1" class="search_title">Title 1</p>
+                        <p id="search_desc1" class="search_desc">
+                          Description for title 1 is inserted here.
+                        </p>
+                        <!-- For 2nd search result -->
+                        <p id="search_title2" class="search_title">Title 2</p>
+                        <p id="search_desc2" class="search_desc">
+                          Description for title 2 is inserted here.
+                        </p>
+                        <!-- For 3rd search result -->
+                        <p id="search_title3" class="search_title">Title 3</p>
+                        <p id="search_desc3" class="search_desc">
+                          Description for title 3 is inserted here.
+                        </p>
+                        <!-- For 4th search result -->
+                        <p id="search_title4" class="search_title">Title 4</p>
+                        <p id="search_desc4" class="search_desc">
+                          Description for title 4 is inserted here.
+                        </p>
+                </p>
+            </div>
+
             <div class="leaflet-sidebar-pane" id="home">
                 <h1 class="leaflet-sidebar-header">
                     Select Genres
@@ -480,9 +555,9 @@
                 <p>
                     <form>
                       <label for="name">Name</label>
-                      <input class="prof" type="text" placeholder="Name" id="name" /><br>
+                      <input class="prof" type="text" placeholder="Name" id="name" readonly/><br>
                       <label for="email">E-Mail</label>
-                      <input class="prof" type="email" placeholder="Email" id="email" />
+                      <input class="prof" type="email" placeholder="Email" id="email" readonly/>
                     </form>
                 </p>
             </div>

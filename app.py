@@ -163,62 +163,28 @@ def signup():
 
 @app.route('/map')
 def map():
-    """
     insert_stmt = (
-        "SELECT  event_key , event_title ,event_year, event_lat , event_long FROM event ORDER BY event_year DESC"
+        "SELECT  event_key,event_title, event_lat,event_long FROM event LIMIT 6"
     )
-
+    marker_data = list()
     try:
         # Executing the SQL command
         cursor.execute(insert_stmt)
         myresult = cursor.fetchall()
-        yearint = 0
-        for i in myresult:
-            li = []
-            if i[2][0] == "[":
-                li = i[2].strip('][').split(', ')
-                print(type(li))
-
-            else:
-                yearint = int(i[2])
-
-            # print(yearint)
-
+        for rec in myresult:
+            temp = dict()
+            temp["id"] = rec[0]
+            temp["popline"] = rec[1]
+            temp["lat"] = rec[2]
+            temp["long"] = rec[3]
+            marker_data.append(temp)
         # Commit your changes in the database
-        conn.commit()
+        #conn.commit()
 
-    except:
+    except Exception as e:
         # Rolling back in case of error
-        conn.rollback()
-    """
-
-    marker_data = [{
-        'id': 0,
-        'lat': 13.00715,
-        'long': 76.0962,
-        'popline': 'this is pop line 0'
-    },
-        {
-            'id': 1,
-            'lat': 13.120000,
-            'long': 73.680000,
-            'popline': 'this is pop line 1'
-        }
-        ,
-        {
-            'id': 2,
-            'lat': 43.120000,
-            'long': 73.680000,
-            'popline': 'this is pop line 2'
-        },
-        {
-            'id': 3,
-            'lat': 13.120000,
-            'long': 43.680000,
-            'popline': 'this is pop line 3'
-        }
-
-    ]
+        #conn.rollback()
+        print(e)
 
     user = [{'firstname': "fn", 'lastname': "ln", 'age': 10.2555185},
             {'firstname': "dfsfn", 'lastname': "lasdfsfn", 'age': 20}]
@@ -229,10 +195,10 @@ def map():
 @app.route('/_get_data/', methods=['GET'])
 def _get_data():
     recieved_event_id = request.args.get('id')
-    print(recieved_event_id)
+    #print(recieved_event_id)
 
     insert_stmt = (
-        "SELECT   event_year, event_title , event_text FROM event where event_key=%s"
+        "SELECT   event_year,event_title,event_text,url FROM event where event_key=%s"
     )
 
     data = recieved_event_id
@@ -241,22 +207,24 @@ def _get_data():
         # Executing the SQL command
         cursor.execute(insert_stmt, data)
         myresult = cursor.fetchall()
-        print(myresult)
+        #print(myresult)
         ss = myresult[0]
         final_data = {
             'event_name': ss[1],
             'year': ss[0],
-            'description': ss[2]
+            'description': ss[2],
+            'url': ss[3]
         }
-        print("a----------")
+        #print("a----------")
 
         # Commit your changes in the database
-        conn.commit()
+        #conn.commit()
 
 
-    except:
+    except Exception as e:
         # Rolling back in case of error
-        conn.rollback()
+        #conn.rollback()
+        print(e)
 
     return final_data
 

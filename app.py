@@ -3,6 +3,8 @@ import random
 from flask import Flask, request, url_for, render_template, jsonify
 from werkzeug.utils import redirect
 from flaskext.mysql import MySQL
+import bcrypt
+
 
 import json
 
@@ -31,7 +33,7 @@ def test():
 def login():
     login_email = request.form['email']
     login_password = request.form['password']
-    print(login_email, login_password)
+    #print(login_email, login_password)
     # # Preparing SQL query to INSERT a record into the database.
     insert_stmt = (
         "SELECT * FROM user WHERE user_email=%s "
@@ -45,8 +47,10 @@ def login():
 
         print(myresult[0][1], myresult[0][2])
 
-        if len(myresult) == 1 and myresult[0][1] == login_email and myresult[0][3] == login_password:
+        if len(myresult) == 1 and myresult[0][1] == login_email and bcrypt.checkpw(login_password.encode(),myresult[0][3].encode()):
             return redirect(url_for('map'))
+        else:
+            print("Fail")
 
         # Commit your changes in the database
         conn.commit()
@@ -114,6 +118,8 @@ def signup():
     username = data['username']
     email = data['email']
     password = data['password']
+    salt = bcrypt.gensalt()
+    password = bcrypt.hashpw(password.encode(),salt)
     insert_stmt = (
         "SELECT * FROM user WHERE user_email=%s "
     )

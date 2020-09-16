@@ -7,7 +7,7 @@
 	<meta http-equiv="X-UA-Compatible" content="ie-edge">
 
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+	<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -21,85 +21,84 @@
   	<link href='https://fonts.googleapis.com/css?family=Marmelad' rel='stylesheet'>
 	<link rel="stylesheet" href="{{url_for('static', filename='styles/final_homepage.css')}}">
 	<script>
-            function validateformLogin(){
-            var email=document.myform.email.value;
-            var password=document.myform.password.value;
-            //console.log("---------asdasd");
-            if (email==null || email=="" ){
-              alert("email can't be blank");
-              return false;
-            }else if(password.length<6){
-              alert("Password must be at least 6 characters long.");
-              return false;
-              }
+            function validateformLogin()
+            {
+				var email=document.myform.email.value;
+				var password=document.myform.password.value;
+				if (email==null || email=="" )
+				{
+				  alert("email can't be blank");
+				  return false;
+				}
+				else if(password.length<6)
+				{
+				  alert("Password must be at least 6 characters long.");
+				  return false;
+				 }
             }
 
-             function validateformsignup(){
+             function validateformsignup()
+            {
 
-            var name=document.mform.username.value;
-            var password=document.mform.password.value;
-            var email=document.mform.email.value;
-            var retype_password=document.mform.retype_password.value;
-            //console.log(name+password+retype_password+email);
-            var res=true;
-            if (name==null || name=="" || name.length<6){
-            	alert("Name can't be blank and has to be longer than 6 characters");
+				var name=document.mform.username.value;
+				var password=document.mform.password.value;
+				var email=document.mform.email.value;
+				var retype_password=document.mform.retype_password.value;
+				//console.log(name+password+retype_password+email);
+				var res=true;
+				if (name==null || name=="" || name.length<6)
+				{
+            		alert("Name can't be blank and has to be longer than 6 characters");
+					res= false;
+            	}
+				if(password.length<6 || password.length!=retype_password.length)
+				{
+					alert("Password must be at least 6 characters long and matching.");
+				  	res= false;
+				}
+				if(res==true)
+				{
+                     try
+                     {
+						$.ajax({
+        				url: "{{ url_for('email_validation') }}",
+        				type: 'GET',
+        				data: {'email': email},
+       					success: function (data)
+       					{
+          					if (data)
+          					{
+								if(data=="exist")
+								{
+								  alert("The email is already in use? DId you forget your password?");
+								}
+								else
+								{
+								  alert("OTP has been sent to "+email.slice(0,4)+"**. Please enter OTP");
+								  $("#h_name").val(name);
+								  $("#h_pass").val(password);
+								  $("#h_email").val(email);
 
-
-              res= false;
+								}
+							   $(document).ready(function()
+							   	{
+									$('#registration').modal('show');
+								});
+								window.otp=data;
+							}
+        				} });
+      				}
+					catch(err)
+					{
+					  alert(err.message);
+					}
+            	}
+				return false;
             }
-             if(password.length<6 || password.length!=retype_password.length){
-				alert("Password must be at least 6 characters long and matching.");
-              res= false;
-            }
-            console.log(res);
-            if(res==true){
-                     
-
-                     try {
-
-                         $.ajax({
-        url: "{{ url_for('email_validation') }}",
-        type: 'GET',
-
-        data: {'email': email},
-        
-
-        success: function (data) {
-          if (data) {
-          	if(data=="exist"){
-              alert("The email is already in use? DId you forget your password?");
-            }
-            else{
-              alert("OTP has been sent to "+email.slice(0,4)+"**. Please enter OTP");
-            }
-       $(document).ready(function() {
-    $('#registration').modal('show');
-});
-				window.otp=data;
-
-
-          }
-        }
-      });}
-catch(err) {
-  alert(err.message);
-}
-
-
-
-
-            }
-
-
-            return false;
-              
-            }
-            </script>
+    </script>
 </head>
 
 <body>
-
 <header>
 	<p class="logo">
 		The Expl<img class="circle" src="{{url_for('static', filename='earth.png')}}" height="40" width="40">rer
@@ -111,22 +110,24 @@ catch(err) {
 
 	<div class="container" id="container">
 		<div class="form-container sign-up-container">
- <form name="mform" onsubmit="return validateformsignup()"   >
-				<h2><b>Create Account</b></h2>
-				<input type="text" placeholder="Name"  name="username" />
-				<input type="email" placeholder="Email" name="email" />
-				<input type="password" placeholder="Password" name="password" />
-				<input type="password" placeholder="Confirm Password"  name="retype_password" /><br>
-				<!-- <button type="button" data-toggle="modal" data-target="#registration">Sign Up</button> -->
- 					 <button  type="submit" name="Submit" value="Submit">Sign Up</button>
-
-
-			</form>
+		 <form name="mform" onsubmit="return validateformsignup()"   >
+					<h2><b>Create Account</b></h2>
+					<input type="text" placeholder="Name"  name="username" />
+					<input type="email" placeholder="Email" name="email" />
+					<input type="password" placeholder="Password" name="password" />
+					<input type="password" placeholder="Confirm Password"  name="retype_password" /><br>
+					<!-- <button type="button" data-toggle="modal" data-target="#registration">Sign Up</button> -->
+						 <button  type="submit" name="Submit" value="Submit">Sign Up</button>
+		 </form>
+		<form action = "{{ url_for('signup') }}" id = "p_sign" style = "display:none;" method = "post">
+					<input type = "hidden" name = "h_name", value = "placeholder" id = "h_name"/>
+					<input type = "hidden" name = "h_email", value = "placeholder" id = "h_email"/>
+					<input type = "hidden" name = "h_pass", value = "placeholder" id = "h_pass"/>
+		</form>
 		</div>
 		<div class="form-container sign-in-container">
 		<form name = "myform" action = "http://localhost:5000/login" method = "post" onsubmit="return validateformLogin()">
 				<h2><b>Sign in</b></h2>
-
 				<input type="email" placeholder="Email" name="email" />
 				<input type="password" placeholder="Password"  name="password" />
 				<button type="button" data-toggle="modal" data-target="#fp" class="forgotpassword">Forgot your password?</button>

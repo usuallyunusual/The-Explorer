@@ -2,98 +2,147 @@
 <html>
 <head>
     <title>Map</title>
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@0.7.2/dist/leaflet.css" />
-      <script
-  src="https://code.jquery.com/jquery-3.4.1.min.js"
-  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-  crossorigin="anonymous"></script>
-  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/final_map.css') }}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <script src='https://kit.fontawesome.com/a076d05399.js'></script>
-  <link rel="shortcut-icon" type="image/x-icon" href="{{url_for('static', filename = 'favicon.ico')}}">
-  <link href="https://fonts.googleapis.com/css2?family=Sarabun&display=swap" rel="stylesheet">
-    <!--[if lte IE 8]><link rel="stylesheet" href="https://unpkg.com/leaflet@0.7.2/dist/leaflet.ie.css" /><![endif]-->
+     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+     <link rel="stylesheet" href="https://unpkg.com/leaflet@0.7.2/dist/leaflet.css" />
+     <script
+          src="https://code.jquery.com/jquery-3.4.1.min.js"
+          integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+          crossorigin="anonymous">
+      </script>
+      <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/final_map.css') }}">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+      <link rel="shortcut-icon" type="image/x-icon" href="{{url_for('static', filename = 'favicon.ico')}}">
+      <link href="https://fonts.googleapis.com/css2?family=Sarabun&display=swap" rel="stylesheet">
+        <!--[if lte IE 8]><link rel="stylesheet" href="https://unpkg.com/leaflet@0.7.2/dist/leaflet.ie.css" /><![endif]-->
 
     <!-- <link rel="stylesheet" href="../css/leaflet-sidebar.css" /> -->
     <style type="text/css">
-  .leaflet-sidebar {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 100%;
-  overflow: hidden;
-  z-index: 2000; }
-  .leaflet-sidebar.collapsed {
-    width: 40px; }
-  @media (min-width: 768px) {
-    .leaflet-sidebar {
-      top: 10px;
-      bottom: 10px;
-      transition: width 500ms; } }
-  @media (min-width: 768px) and (max-width: 991px) {
-    .leaflet-sidebar {
-      width: 305px;
-      max-width: 305px; } }
-  @media (min-width: 992px) and (max-width: 1199px) {
-    .leaflet-sidebar {
-      width: 390px;
-      max-width: 390px; } }
-  @media (min-width: 1200px) {
-    .leaflet-sidebar {
-      width: 460px;
-      max-width: 460px; } }
-
-.leaflet-sidebar-left {
-  left: 0; }
-  @media (min-width: 768px) {
-    .leaflet-sidebar-left {
-      left: 10px; } }
-
-.leaflet-sidebar-right {
-  right: 0; }
-  @media (min-width: 768px) {
-    .leaflet-sidebar-right {
-      right: 10px; } }
-
-.leaflet-sidebar-tabs {
-  top: 0;
-  bottom: 0;
-  height: 95%;
-  background-color: #fff; }
-  .leaflet-sidebar-left .leaflet-sidebar-tabs {
-    left: 0; }
-  .leaflet-sidebar-right .leaflet-sidebar-tabs {
-    right: 0; }
-  .leaflet-sidebar-tabs, .leaflet-sidebar-tabs > ul {
-    position: absolute;
-    width: 40px;
-    margin: 0;
-    padding: 0;
-    list-style-type: none; }
-    .leaflet-sidebar-tabs > li, .leaflet-sidebar-tabs > ul > li {
-      width: 100%;
-      height: 40px;
-      color: #333;
-      font-size: 12pt;
-      overflow: hidden;
-      transition: all 80ms; }
-      .leaflet-sidebar-tabs > li:hover, .leaflet-sidebar-tabs > ul > li:hover {
+      .leaflet-sidebar
+      {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          width: 100%;
+          overflow: hidden;
+          z-index: 2000;
+      }
+      .leaflet-sidebar.collapsed
+      {
+        width: 40px;
+      }
+      @media (min-width: 768px)
+      {
+        .leaflet-sidebar
+        {
+          top: 10px;
+          bottom: 10px;
+          transition: width 500ms;
+        }
+      }
+      @media (min-width: 768px) and (max-width: 991px)
+      {
+        .leaflet-sidebar
+        {
+          width: 305px;
+          max-width: 305px;
+        }
+      }
+      @media (min-width: 992px) and (max-width: 1199px)
+      {
+        .leaflet-sidebar
+        {
+          width: 390px;
+          max-width: 390px;
+        }
+      }
+      @media (min-width: 1200px)
+      {
+        .leaflet-sidebar
+        {
+          width: 460px;
+          max-width: 460px;
+        }
+      }
+    .leaflet-sidebar-left
+    {
+      left: 0;
+    }
+    @media (min-width: 768px)
+    {
+        .leaflet-sidebar-left
+        {
+          left: 10px;
+        }
+    }
+    .leaflet-sidebar-right
+    {
+      right: 0;
+    }
+    @media (min-width: 768px)
+    {
+        .leaflet-sidebar-right
+        {
+          right: 10px;
+        }
+    }
+    .leaflet-sidebar-tabs
+    {
+      top: 0;
+      bottom: 0;
+      height: 95%;
+      background-color: #fff;
+    }
+    .leaflet-sidebar-left .leaflet-sidebar-tabs
+    {
+        left: 0;
+    }
+    .leaflet-sidebar-right .leaflet-sidebar-tabs
+    {
+        right: 0;
+    }
+    .leaflet-sidebar-tabs, .leaflet-sidebar-tabs > ul
+    {
+        position: absolute;
+        width: 40px;
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+    }
+    .leaflet-sidebar-tabs > li, .leaflet-sidebar-tabs > ul > li
+    {
+        width: 100%;
+        height: 40px;
+        color: #333;
+        font-size: 12pt;
+        overflow: hidden;
+        transition: all 80ms;
+    }
+    .leaflet-sidebar-tabs > li:hover, .leaflet-sidebar-tabs > ul > li:hover
+    {
         color: #000;
-        background-color: #eee; }
-      .leaflet-sidebar-tabs > li.active, .leaflet-sidebar-tabs > ul > li.active {
+        background-color: #eee;
+    }
+    .leaflet-sidebar-tabs > li.active, .leaflet-sidebar-tabs > ul > li.active
+    {
         color: black;
-        background-color: #D5EAEC; }
-      .leaflet-sidebar-tabs > li.disabled, .leaflet-sidebar-tabs > ul > li.disabled {
-        color: rgba(51, 51, 51, 0.4); }
-        .leaflet-sidebar-tabs > li.disabled:hover, .leaflet-sidebar-tabs > ul > li.disabled:hover {
-          background: transparent; }
-        .leaflet-sidebar-tabs > li.disabled > a, .leaflet-sidebar-tabs > ul > li.disabled > a {
-          cursor: default; }
-      .leaflet-sidebar-tabs > li > a, .leaflet-sidebar-tabs > ul > li > a {
+        background-color: #D5EAEC;
+    }
+    .leaflet-sidebar-tabs > li.disabled, .leaflet-sidebar-tabs > ul > li.disabled
+    {
+        color: rgba(51, 51, 51, 0.4);
+    }
+    .leaflet-sidebar-tabs > li.disabled:hover, .leaflet-sidebar-tabs > ul > li.disabled:hover
+    {
+      background: transparent;
+    }
+    .leaflet-sidebar-tabs > li.disabled > a, .leaflet-sidebar-tabs > ul > li.disabled > a
+    {
+      cursor: default;
+    }
+    .leaflet-sidebar-tabs > li > a, .leaflet-sidebar-tabs > ul > li > a
+    {
         display: block;
         width: 100%;
         height: 100%;
@@ -101,127 +150,132 @@
         color: inherit;
         text-decoration: none;
         text-align: center;
-        cursor: pointer; }
-  .leaflet-sidebar-tabs > ul + ul {
-    bottom: 0; }
-
-.leaflet-sidebar-content {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  background-color: rgba(255, 255, 255, 0.95);
-  overflow-x: hidden;
-  overflow-y: auto; }
-  .leaflet-sidebar-left .leaflet-sidebar-content {
+        cursor: pointer;
+    }
+   .leaflet-sidebar-tabs > ul + ul
+   {
+        bottom: 0;
+   }
+   .leaflet-sidebar-content
+   {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      background-color: rgba(255, 255, 255, 0.95);
+      overflow-x: hidden;
+      overflow-y: auto;
+   }
+  .leaflet-sidebar-left .leaflet-sidebar-content
+  {
     left: 40px;
-    right: 0; 
-      height: 95%;
-}
-  .leaflet-sidebar-right .leaflet-sidebar-content {
-    left: 0;
-    right: 40px; }
-  .leaflet-sidebar.collapsed > .leaflet-sidebar-content {
-    overflow-y: hidden; }
+    right: 0;
+    height: 95%;
+   }
+      .leaflet-sidebar-right .leaflet-sidebar-content {
+        left: 0;
+        right: 40px; }
+      .leaflet-sidebar.collapsed > .leaflet-sidebar-content {
+        overflow-y: hidden; }
 
-.collapsed > .leaflet-sidebar-content {
-  overflow-y: hidden; }
+    .collapsed > .leaflet-sidebar-content {
+      overflow-y: hidden; }
 
-.leaflet-sidebar-pane {
-  display: none;
-  left: 0;
-  right: 0;
-  box-sizing: border-box;
-  padding: 10px 20px; }
-  .leaflet-sidebar-pane.active {
-    display: block; }
-  @media (min-width: 768px) and (max-width: 991px) {
     .leaflet-sidebar-pane {
-      min-width: 265px; } }
-  @media (min-width: 992px) and (max-width: 1199px) {
-    .leaflet-sidebar-pane {
-      min-width: 350px; } }
-  @media (min-width: 1200px) {
-    .leaflet-sidebar-pane {
-      min-width: 420px; } }
+      display: none;
+      left: 0;
+      right: 0;
+      box-sizing: border-box;
+      padding: 10px 20px; }
+      .leaflet-sidebar-pane.active {
+        display: block; }
+      @media (min-width: 768px) and (max-width: 991px) {
+        .leaflet-sidebar-pane {
+          min-width: 265px; } }
+      @media (min-width: 992px) and (max-width: 1199px) {
+        .leaflet-sidebar-pane {
+          min-width: 350px; } }
+      @media (min-width: 1200px) {
+        .leaflet-sidebar-pane {
+          min-width: 420px; } }
 
-.leaflet-sidebar-header {
-  margin: -10px -20px 0;
-  height: 40px;
-  padding: 0 20px;
-  line-height: 40px;
-  font-size: 14.4pt;
-  color: black;
-  background-color: #D5EAEC; 
-  font-family: 'Sarabun', sans-serif;
-}
-  .leaflet-sidebar-right .leaflet-sidebar-header {
-    padding-left: 40px; }
+    .leaflet-sidebar-header {
+      margin: -10px -20px 0;
+      height: 40px;
+      padding: 0 20px;
+      line-height: 40px;
+      font-size: 14.4pt;
+      color: black;
+      background-color: #D5EAEC;
+      font-family: 'Sarabun', sans-serif;
+    }
+      .leaflet-sidebar-right .leaflet-sidebar-header {
+        padding-left: 40px; }
 
-.leaflet-sidebar-close {
-  position: absolute;
-  top: 0;
-  width: 40px;
-  height: 40px;
-  text-align: center;
-  cursor: pointer; }
-  .leaflet-sidebar-left .leaflet-sidebar-close {
-    right: 0; }
-  .leaflet-sidebar-right .leaflet-sidebar-close {
-    left: 0; }
+    .leaflet-sidebar-close {
+      position: absolute;
+      top: 0;
+      width: 40px;
+      height: 40px;
+      text-align: center;
+      cursor: pointer; }
+      .leaflet-sidebar-left .leaflet-sidebar-close {
+        right: 0; }
+      .leaflet-sidebar-right .leaflet-sidebar-close {
+        left: 0; }
 
-/*.leaflet-sidebar {
-  }*/
-  @media (min-width: 768px) {
-    .leaflet-sidebar {
-      border-radius: 4px; }
-      .leaflet-sidebar.leaflet-touch {
-        border: 2px solid rgba(0, 0, 0, 0.2); } }
+    /*.leaflet-sidebar {
+      }*/
+      @media (min-width: 768px) {
+        .leaflet-sidebar {
+          border-radius: 4px; }
+          .leaflet-sidebar.leaflet-touch {
+            border: 2px solid rgba(0, 0, 0, 0.2); } }
 
-.leaflet-sidebar-left.leaflet-touch {
-  box-shadow: none;
-  border-right: 2px solid rgba(0, 0, 0, 0.2); }
+    .leaflet-sidebar-left.leaflet-touch {
+      box-shadow: none;
+      border-right: 2px solid rgba(0, 0, 0, 0.2); }
 
-@media (min-width: 768px) {
-  .leaflet-sidebar-left ~ .leaflet-control-container .leaflet-left {
-    transition: left 500ms; } }
+    @media (min-width: 768px) {
+      .leaflet-sidebar-left ~ .leaflet-control-container .leaflet-left {
+        transition: left 500ms; } }
 
-@media (min-width: 768px) and (max-width: 991px) {
-  .leaflet-sidebar-left ~ .leaflet-control-container .leaflet-left {
-    left: 315px; } }
+    @media (min-width: 768px) and (max-width: 991px) {
+      .leaflet-sidebar-left ~ .leaflet-control-container .leaflet-left {
+        left: 315px; } }
 
-@media (min-width: 992px) and (max-width: 1199px) {
-  .leaflet-sidebar-left ~ .leaflet-control-container .leaflet-left {
-    left: 400px; } }
+    @media (min-width: 992px) and (max-width: 1199px) {
+      .leaflet-sidebar-left ~ .leaflet-control-container .leaflet-left {
+        left: 400px; } }
 
-@media (min-width: 1200px) {
-  .leaflet-sidebar-left ~ .leaflet-control-container .leaflet-left {
-    left: 470px; } }
+    @media (min-width: 1200px) {
+      .leaflet-sidebar-left ~ .leaflet-control-container .leaflet-left {
+        left: 470px; } }
 
-.leaflet-sidebar-left.collapsed ~ .leaflet-control-container .leaflet-left {
-  left: 50px; }
+    .leaflet-sidebar-left.collapsed ~ .leaflet-control-container .leaflet-left {
+      left: 50px; }
 
-.leaflet-sidebar-right.leaflet-touch {
-  box-shadow: none;
-  border-left: 2px solid rgba(0, 0, 0, 0.2); }
+    .leaflet-sidebar-right.leaflet-touch {
+      box-shadow: none;
+      border-left: 2px solid rgba(0, 0, 0, 0.2); }
 
-@media (min-width: 768px) {
-  .leaflet-sidebar-right ~ .leaflet-control-container .leaflet-right {
-    transition: right 500ms; } }
+    @media (min-width: 768px) {
+      .leaflet-sidebar-right ~ .leaflet-control-container .leaflet-right {
+        transition: right 500ms; } }
 
-@media (min-width: 768px) and (max-width: 991px) {
-  .leaflet-sidebar-right ~ .leaflet-control-container .leaflet-right {
-    right: 315px; } }
+    @media (min-width: 768px) and (max-width: 991px) {
+      .leaflet-sidebar-right ~ .leaflet-control-container .leaflet-right {
+        right: 315px; } }
 
-@media (min-width: 992px) and (max-width: 1199px) {
-  .leaflet-sidebar-right ~ .leaflet-control-container .leaflet-right {
-    right: 400px; } }
+    @media (min-width: 992px) and (max-width: 1199px) {
+      .leaflet-sidebar-right ~ .leaflet-control-container .leaflet-right {
+        right: 400px; } }
 
-@media (min-width: 1200px) {
-  .leaflet-sidebar-right ~ .leaflet-control-container .leaflet-right {
-    right: 470px; } }
+    @media (min-width: 1200px) {
+      .leaflet-sidebar-right ~ .leaflet-control-container .leaflet-right {
+        right: 470px; } }
 
-.leaflet-sidebar-right.collapsed ~ .leaflet-control-container .leaflet-right {
-  right: 50px; }
+    .leaflet-sidebar-right.collapsed ~ .leaflet-control-container .leaflet-right {
+      right: 50px; }
 
     </style>
 
@@ -524,24 +578,24 @@
 
                 <p> Select One or more genres and cick the button. See the changes on the map.
                   <form action="#">
-                    <input class="genres" type="checkbox" id="one" name="one" value="education">
+                    <input class="genres" type="checkbox" id="one" name="one" value="Education">
                     <label for="one"> Education</label>&emsp;&emsp;
-                    <input class="genres" type="checkbox" id="two" name="two" value="art">
+                    <input class="genres" type="checkbox" id="two" name="two" value="Literature">
                     <label for="two"> Literature</label><br>
-                    <input class="genres" type="checkbox" id="three" name="three" value="biology">
+                    <input class="genres" type="checkbox" id="three" name="three" value="Biology">
                     <label for="three"> Biology</label>&emsp;&emsp;&ensp;&ensp;&nbsp;&nbsp;
-                    <input class="genres" type="checkbox" id="two" name="two" value="computer science">
-                    <label for="two"> Computer Science</label><br>
-                    <input class="genres" type="checkbox" id="two" name="two" value="health">
-                    <label for="two"> Health</label>&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;
-                    <input class="genres" type="checkbox" id="two" name="two" value="literature">
-                    <label for="two"> Literature</label><br>
-                    <input class="genres" type="checkbox" id="two" name="two" value="politics">
-                    <label for="two"> Art</label>&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;&nbsp;
-                    <input class="genres" type="checkbox" id="two" name="two" value="religion">
-                    <label for="two"> Religion</label><br>
-                    <input class="genres" type="checkbox" id="two" name="two" value="sports">
-                    <label for="two"> Sports</label><br><br>
+                    <input class="genres" type="checkbox" id="four" name="four" value="Computer S0cience">
+                    <label for="four"> Computer Science</label><br>
+                    <input class="genres" type="checkbox" id="five" name="five" value="Health">
+                    <label for="five"> Health</label>&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;
+                    <input class="genres" type="checkbox" id="six" name="six" value="Political">
+                    <label for="six"> Political</label><br>
+                    <input class="genres" type="checkbox" id="seven" name="seven" value="Art">
+                    <label for="seven"> Art</label>&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;&nbsp;
+                    <input class="genres" type="checkbox" id="eight" name="eight" value="Religious">
+                    <label for="eight"> Religious</label><br>
+                    <input class="genres" type="checkbox" id="nine" name="nine" value="Sports">
+                    <label for="nine"> Sports</label><br><br>
                     <button class="genre_button">View On Map</button>
                   </form>
                 </p>
@@ -585,7 +639,8 @@
                     We are sorry to see you go! Come back soon Explorer!
                 </p>
                 <br>
-                <center><button class="genre_button">Logout</button></center>
+                <form id = "log" style = "display:none" action = "{{ url_for('logout') }}" method = "GET"></form>
+              <center><button class="genre_button" type = "submit" onclick="$('#log').submit();">Logout</button></center>
             </div>
 
         </div>
@@ -639,7 +694,7 @@
       
     <div class="timelinedown btn-group">
       <div class="scroll">
-      	   <button class="bottom-year">1901</button>
+      	<button class="bottom-year">1901</button>
         <button class="bottom-year">1902</button>
         <button class="bottom-year">1903</button>
         <button class="bottom-year">1904</button>
@@ -759,10 +814,12 @@
  * @param {boolean} [data.close=true] Whether to add a close button to the pane header
  * @see L.control.sidebar
  */
-L.Control.Sidebar = L.Control.extend(/** @lends L.Control.Sidebar.prototype */ {
+L.Control.Sidebar = L.Control.extend(/** @lends L.Control.Sidebar.prototype */
+{
     includes: L.Evented ? L.Evented.prototype : L.Mixin.Events,
 
-    options: {
+    options:
+    {
         autopan: false,
         closeButton: true,
         container: null,
@@ -779,13 +836,16 @@ L.Control.Sidebar = L.Control.extend(/** @lends L.Control.Sidebar.prototype */ {
      * @param {string} [options.container] - ID of a predefined sidebar container that should be used
      * @param {bool} [data.close=true] Whether to add a close button to the pane header
      */
-    initialize: function(options, deprecatedOptions) {
-        if (typeof options === 'string') {
+    initialize: function(options, deprecatedOptions)
+    {
+        if (typeof options === 'string')
+        {
             console.warn('this syntax is deprecated. please use L.control.sidebar({ container }) now');
             options = { container: options };
         }
 
-        if (typeof options === 'object' && options.id) {
+        if (typeof options === 'object' && options.id)
+        {
             console.warn('this syntax is deprecated. please use L.control.sidebar({ container }) now');
             options.container = options.id;
         }
@@ -805,21 +865,24 @@ L.Control.Sidebar = L.Control.extend(/** @lends L.Control.Sidebar.prototype */ {
      * @param {L.Map} map
      * @returns {Sidebar}
      */
-    onAdd: function(map) {
+    onAdd: function(map)
+    {
         var i, child, tabContainers, newContainer, container;
 
         // use container from previous onAdd()
         container = this._container
 
         // use the container given via options.
-        if (!container) {
+        if (!container)
+        {
             container = this._container || typeof this.options.container === 'string'
             ? L.DomUtil.get(this.options.container)
             : this.options.container;
         }
 
         // if no container was specified or not found, create it and apply an ID
-        if (!container) {
+        if (!container)
+        {
             container = L.DomUtil.create('div', 'leaflet-sidebar collapsed');
             if (typeof this.options.container === 'string')
                 container.id = this.options.container;
@@ -838,24 +901,28 @@ L.Control.Sidebar = L.Control.extend(/** @lends L.Control.Sidebar.prototype */ {
         this._tabContainerBottom = tabContainers[1] || null;
 
         // If no container was found, create it
-        if (this._tabContainerTop === null) {
+        if (this._tabContainerTop === null)
+        {
             newContainer = L.DomUtil.create('div', 'leaflet-sidebar-tabs', container);
             newContainer.setAttribute('role', 'tablist');
             this._tabContainerTop = L.DomUtil.create('ul', '', newContainer);
         }
-        if (this._tabContainerBottom === null) {
+        if (this._tabContainerBottom === null)
+        {
             newContainer = this._tabContainerTop.parentNode;
             this._tabContainerBottom = L.DomUtil.create('ul', '', newContainer);
         }
 
         // Store Tabs in Collection for easier iteration
-        for (i = 0; i < this._tabContainerTop.children.length; i++) {
+        for (i = 0; i < this._tabContainerTop.children.length; i++)
+        {
             child = this._tabContainerTop.children[i];
             child._sidebar = this;
             child._id = child.querySelector('a').hash.slice(1); // FIXME: this could break for links!
             this._tabitems.push(child);
         }
-        for (i = 0; i < this._tabContainerBottom.children.length; i++) {
+        for (i = 0; i < this._tabContainerBottom.children.length; i++)
+        {
             child = this._tabContainerBottom.children[i];
             child._sidebar = this;
             child._id = child.querySelector('a').hash.slice(1); // FIXME: this could break for links!
@@ -863,15 +930,18 @@ L.Control.Sidebar = L.Control.extend(/** @lends L.Control.Sidebar.prototype */ {
         }
 
         // Store Panes in Collection for easier iteration
-        for (i = 0; i < this._paneContainer.children.length; i++) {
+        for (i = 0; i < this._paneContainer.children.length; i++)
+        {
             child = this._paneContainer.children[i];
             if (child.tagName === 'DIV' &&
-                L.DomUtil.hasClass(child, 'leaflet-sidebar-pane')) {
+                L.DomUtil.hasClass(child, 'leaflet-sidebar-pane'))
+                {
                 this._panes.push(child);
 
                 // Save references to close buttons
                 var closeButtons = child.querySelectorAll('.leaflet-sidebar-close');
-                if (closeButtons.length) {
+                if (closeButtons.length)
+                {
                     this._closeButtons.push(closeButtons[closeButtons.length - 1]);
                     this._closeClick(closeButtons[closeButtons.length - 1], 'on');
                 }
@@ -879,7 +949,8 @@ L.Control.Sidebar = L.Control.extend(/** @lends L.Control.Sidebar.prototype */ {
         }
 
         // set click listeners for tab & close buttons
-        for (i = 0; i < this._tabitems.length; i++) {
+        for (i = 0; i < this._tabitems.length; i++)
+        {
             this._tabClick(this._tabitems[i], 'on');
         }
 
@@ -893,7 +964,8 @@ L.Control.Sidebar = L.Control.extend(/** @lends L.Control.Sidebar.prototype */ {
      * @param {L.Map} map
      * @returns {Sidebar}
      */
-    onRemove: function (map) {
+    onRemove: function (map)
+    {
         // Remove click listeners for tab & close buttons
         for (var i = 0; i < this._tabitems.length; i++)
             this._tabClick(this._tabitems[i], 'off');
@@ -912,7 +984,8 @@ L.Control.Sidebar = L.Control.extend(/** @lends L.Control.Sidebar.prototype */ {
      * Adds the control to the given map. Overrides the implementation of L.Control,
      * changing the DOM mount target from map._controlContainer.topleft to map._container
      */
-    addTo: function (map) {
+    addTo: function (map)
+    {
         this.onRemove();
         this._map = map;
 
@@ -940,7 +1013,8 @@ L.Control.Sidebar = L.Control.extend(/** @lends L.Control.Sidebar.prototype */ {
      * @param {L.Map} map
      * @returns {Sidebar}
      */
-    removeFrom: function(map) {
+    removeFrom: function(map)
+    {
         console.warn('removeFrom() has been deprecated, please use remove() instead as support for this function will be ending soon.');
         this._map._container.removeChild(this._container);
         this.onRemove(map);
@@ -954,7 +1028,8 @@ L.Control.Sidebar = L.Control.extend(/** @lends L.Control.Sidebar.prototype */ {
      * @param {string} id - The ID of the tab to show (without the # character)
      * @returns {L.Control.Sidebar}
      */
-    open: function(id) {
+    open: function(id)
+    {
         var i, child, tab;
 
         // If panel is disabled, stop right here
@@ -963,7 +1038,8 @@ L.Control.Sidebar = L.Control.extend(/** @lends L.Control.Sidebar.prototype */ {
             return this;
 
         // Hide old active contents and show new content
-        for (i = 0; i < this._panes.length; i++) {
+        for (i = 0; i < this._panes.length; i++)
+        {
             child = this._panes[i];
             if (child.id === id)
                 L.DomUtil.addClass(child, 'active');
@@ -972,7 +1048,8 @@ L.Control.Sidebar = L.Control.extend(/** @lends L.Control.Sidebar.prototype */ {
         }
 
         // Remove old active highlights and set new highlight
-        for (i = 0; i < this._tabitems.length; i++) {
+        for (i = 0; i < this._tabitems.length; i++)
+        {
             child = this._tabitems[i];
             if (child.querySelector('a').hash === '#' + id)
                 L.DomUtil.addClass(child, 'active');
@@ -983,7 +1060,8 @@ L.Control.Sidebar = L.Control.extend(/** @lends L.Control.Sidebar.prototype */ {
         this.fire('content', { id: id });
 
         // Open sidebar if it's closed
-        if (L.DomUtil.hasClass(this._container, 'collapsed')) {
+        if (L.DomUtil.hasClass(this._container, 'collapsed'))
+        {
             this.fire('opening');
             L.DomUtil.removeClass(this._container, 'collapsed');
             if (this.options.autopan) this._panMap('open');
@@ -997,18 +1075,21 @@ L.Control.Sidebar = L.Control.extend(/** @lends L.Control.Sidebar.prototype */ {
      *
      * @returns {L.Control.Sidebar}
      */
-    close: function() {
+    close: function()
+    {
         var i;
 
         // Remove old active highlights
-        for (i = 0; i < this._tabitems.length; i++) {
+        for (i = 0; i < this._tabitems.length; i++)
+        {
             var child = this._tabitems[i];
             if (L.DomUtil.hasClass(child, 'active'))
                 L.DomUtil.removeClass(child, 'active');
         }
 
         // close sidebar, if it's opened
-        if (!L.DomUtil.hasClass(this._container, 'collapsed')) {
+        if (!L.DomUtil.hasClass(this._container, 'collapsed'))
+        {
             this.fire('closing');
             L.DomUtil.addClass(this._container, 'collapsed');
             if (this.options.autopan) this._panMap('close');
@@ -1041,7 +1122,8 @@ L.Control.Sidebar = L.Control.extend(/** @lends L.Control.Sidebar.prototype */ {
      *
      * @returns {L.Control.Sidebar}
      */
-    addPanel: function(data) {
+    addPanel: function(data)
+    {
         var pane, tab, tabHref, closeButtons, content;
 
         // Create tab node
@@ -1064,8 +1146,10 @@ L.Control.Sidebar = L.Control.extend(/** @lends L.Control.Sidebar.prototype */ {
         this._tabitems.push(tab);
 
         // Create pane node
-        if (data.pane) {
-            if (typeof data.pane === 'string') {
+        if (data.pane)
+        {
+            if (typeof data.pane === 'string')
+            {
                 // pane is given as HTML string
                 pane = L.DomUtil.create('DIV', 'leaflet-sidebar-pane', this._paneContainer);
                 content = '';
@@ -1076,7 +1160,9 @@ L.Control.Sidebar = L.Control.extend(/** @lends L.Control.Sidebar.prototype */ {
                 if (data.title)
                     content += '</h1>';
                 pane.innerHTML = content + data.pane;
-            } else {
+            }
+            else
+            {
                 // pane is given as DOM object
                 pane = data.pane;
                 this._paneContainer.appendChild(pane);
@@ -1109,12 +1195,15 @@ L.Control.Sidebar = L.Control.extend(/** @lends L.Control.Sidebar.prototype */ {
      * @param {String} [id] the ID of the panel that is to be removed
      * @returns {L.Control.Sidebar}
      */
-    removePanel: function(id) {
+    removePanel: function(id)
+    {
         var i, j, tab, pane, closeButtons;
 
         // find the tab & panel by ID, remove them, and clean up
-        for (i = 0; i < this._tabitems.length; i++) {
-            if (this._tabitems[i]._id === id) {
+        for (i = 0; i < this._tabitems.length; i++)
+        {
+            if (this._tabitems[i]._id === id)
+            {
                 tab = this._tabitems[i];
 
                 // Remove click listeners
@@ -1126,11 +1215,14 @@ L.Control.Sidebar = L.Control.extend(/** @lends L.Control.Sidebar.prototype */ {
             }
         }
 
-        for (i = 0; i < this._panes.length; i++) {
-            if (this._panes[i].id === id) {
+        for (i = 0; i < this._panes.length; i++)
+        {
+            if (this._panes[i].id === id)
+            {
                 pane = this._panes[i];
                 closeButtons = pane.querySelectorAll('.leaflet-sidebar-close');
-                for (j = 0; j < closeButtons.length; j++) {
+                for (j = 0; j < closeButtons.length; j++)
+                {
                     this._closeClick(closeButtons[j], 'off');
                 }
 
@@ -1150,7 +1242,8 @@ L.Control.Sidebar = L.Control.extend(/** @lends L.Control.Sidebar.prototype */ {
      * @param {String} [id] ID of the panel to enable
      * @returns {L.Control.Sidebar}
      */
-    enablePanel: function(id) {
+    enablePanel: function(id)
+    {
         var tab = this._getTab(id);
         L.DomUtil.removeClass(tab, 'disabled');
 
@@ -1163,18 +1256,23 @@ L.Control.Sidebar = L.Control.extend(/** @lends L.Control.Sidebar.prototype */ {
      * @param {String} [id] ID of the panel to disable
      * @returns {L.Control.Sidebar}
      */
-    disablePanel: function(id) {
+    disablePanel: function(id)
+    {
         var tab = this._getTab(id);
         L.DomUtil.addClass(tab, 'disabled');
 
         return this;
     },
 
-    onTabClick: function(e) {
+    onTabClick: function(e)
+    {
         // `this` points to the tab DOM element!
-        if (L.DomUtil.hasClass(this, 'active')) {
+        if (L.DomUtil.hasClass(this, 'active'))
+        {
             this._sidebar.close();
-        } else if (!L.DomUtil.hasClass(this, 'disabled')) {
+        }
+        else if (!L.DomUtil.hasClass(this, 'disabled'))
+        {
             if (typeof this._button === 'string') // an url
                 window.location.href = this._button;
             else if (typeof this._button === 'function') // a clickhandler
@@ -1192,21 +1290,26 @@ L.Control.Sidebar = L.Control.extend(/** @lends L.Control.Sidebar.prototype */ {
      * @param {DOMelement} [tab]
      * @param {String} [on] 'on' or 'off'
      */
-    _tabClick: function(tab, on) {
+    _tabClick: function(tab, on)
+    {
         var link = tab.querySelector('a');
         if (!link.hasAttribute('href') || link.getAttribute('href')[0] !== '#')
             return;
 
-        if (on === 'on') {
+        if (on === 'on')
+        {
             L.DomEvent
                 .on(tab.querySelector('a'), 'click', L.DomEvent.preventDefault, tab)
                 .on(tab.querySelector('a'), 'click', this.onTabClick, tab);
-        } else {
+        }
+        else
+        {
             L.DomEvent.off(tab.querySelector('a'), 'click', this.onTabClick, tab);
         }
     },
 
-    onCloseClick: function() {
+    onCloseClick: function()
+    {
         this.close();
     },
 
@@ -1218,10 +1321,14 @@ L.Control.Sidebar = L.Control.extend(/** @lends L.Control.Sidebar.prototype */ {
      * @param {DOMelement} [closeButton]
      * @param {String} [on] 'on' or 'off'
      */
-    _closeClick: function(closeButton, on) {
-        if (on === 'on') {
+    _closeClick: function(closeButton, on)
+    {
+        if (on === 'on')
+        {
             L.DomEvent.on(closeButton, 'click', this.onCloseClick, this);
-        } else {
+        }
+        else
+        {
             L.DomEvent.off(closeButton, 'click', this.onCloseClick);
         }
     },
@@ -1233,7 +1340,8 @@ L.Control.Sidebar = L.Control.extend(/** @lends L.Control.Sidebar.prototype */ {
      * @returns {DOMelement} the tab specified by id, null if not found
      */
     _getTab: function(id) {
-        for (var i = 0; i < this._tabitems.length; i++) {
+        for (var i = 0; i < this._tabitems.length; i++)
+        {
             if (this._tabitems[i]._id === id)
                 return this._tabitems[i];
         }
@@ -1246,7 +1354,8 @@ L.Control.Sidebar = L.Control.extend(/** @lends L.Control.Sidebar.prototype */ {
      *
      * @param {String} [openClose] The behaviour to enact ('open' | 'close')
      */
-   _panMap: function(openClose) {
+   _panMap: function(openClose)
+   {
         var panWidth = Number.parseInt(L.DomUtil.getStyle(this._container, 'max-width')) / 2;
         if (
             openClose === 'open' && this.options.position === 'left' ||
@@ -1269,20 +1378,23 @@ L.Control.Sidebar = L.Control.extend(/** @lends L.Control.Sidebar.prototype */ {
  * @param {boolean} [data.close=true] Whether to add a close button to the pane header
  * @returns {Sidebar} A new sidebar instance
  */
-L.control.sidebar = function(options, deprecated) {
+L.control.sidebar = function(options, deprecated)
+{
     return new L.Control.Sidebar(options, deprecated);
 };
 
   
         // standard leaflet map setup
-      var map = L.map('map', {
+      var map = L.map('map',
+      {
        center: [51.505, -0.09],
        minZoom: 3,
        zoom: 3
       });
       
       /*basic map
-      L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+      L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+      {
          continuousWorld: 'false'
 
       }).addTo(map);*/
@@ -1341,7 +1453,8 @@ L.control.sidebar = function(options, deprecated) {
 
 
         var userid = 0
-        function addUser() {
+        function addUser()
+        {
             sidebar.addPanel({
                 id:   'user' + userid++,
                 tab:  '<i class="fa fa-user"></i>',
@@ -1360,17 +1473,20 @@ L.control.sidebar = function(options, deprecated) {
       var bounds = L.latLngBounds(southWest, northEast);
 
       map.setMaxBounds(bounds);
-      map.on('drag', function() {
+      map.on('drag', function()
+      {
           map.panInsideBounds(bounds, { animate: false });
       });
 
-    window.rightsidebar= L.control.sidebar('sidebar-right', {
+    window.rightsidebar= L.control.sidebar('sidebar-right',
+    {
         closeButton: true,
         position: 'right'
     });
     map.addControl(rightsidebar);
     //map.removeControl(map.zoomControl);
-    setTimeout(function () {
+    setTimeout(function ()
+    {
         rightsidebar.show();
     }, 500);
 
@@ -1439,9 +1555,11 @@ var mark = JSON.parse('{{ marker_data | tojson | safe}}');
 //console.log(mark[1].lat + " " +mark[1].long+" "+mark[1].popline);
 var i=0;
 markers=[];
-for (i=0;i<mark.length;i++){
+for (i=0;i<mark.length;i++)
+{
   //console.log(i);
-   markers[i] = new L.marker([mark[i].lat, mark[i].long], {icon: redIcon}).addTo(map).on('click', function (event) {
+   markers[i] = new L.marker([mark[i].lat, mark[i].long], {icon: redIcon}).addTo(map).on('click', function (event)
+   {
         console.log("12345"+event.target.id);
         var id=10;
     $.ajax({
@@ -1451,145 +1569,123 @@ for (i=0;i<mark.length;i++){
         data: {'id': event.target.id},
         
 
-        success: function (data) {
-          if (data) {
+        success: function (data)
+        {
+          if (data)
+          {
             console.log(data.event_name)
-      
-      rightsidebar.setContent("<h1  class='event_name'>"+data.event_name+"</h1><p   class='event_year'>"+data.year+"</p><p class='event_text'>"+data.description+"</p>");
-      rightsidebar.show();
-
+              rightsidebar.setContent("<h1  class='event_name'>"+data.event_name+"</h1><p   class='event_year'>"+data.year+"</p><p class='event_text'>"+data.description+"</p>");
+              rightsidebar.show();
           }
         }
       });
-    
 
         // rightsidebar.toggle();
         // console.log(event.target.id);
-
-
 
     });
    markers[i].id=i;
     markers[i].bindPopup(mark[i].popline);
     markers[i].on('mouseover', function(event)
-  {
-    event.target.openPopup();
-  });
-  markers[i].on('mouseout', function(event){
-    event.target.closePopup();
-  });
-  
-   }
+    {
+        event.target.openPopup();
+    });
+    markers[i].on('mouseout', function(event)
+    {
+        event.target.closePopup();
+    });
+  }
 
    window.cities = L.layerGroup(markers);
-   window.cities.addTo(map); 
-
+   window.cities.addTo(map);
 
 }
-
-    L.DomEvent.on(rightsidebar.getCloseButton(), 'click', function () {
+    L.DomEvent.on(rightsidebar.getCloseButton(), 'click', function ()
+    {
         //console.log('Close button clicked.');
     });
 
-function handleError(data){
-          console.log(data);
-        };
+    function handleError(data)
+    {
+      console.log(data);
+    };
 
 
-function update_band(selected_century){
+function update_band(selected_century)
+{
 
 	var x = document.getElementsByClassName("bottom-year");
-for (i = 0; i < 100; i++) {
-x[i].innerHTML = selected_century++;}  
-}
-
-$(".bottom-year").click(function() {
-    var selected_year = $(this).text();
-    //console.log(selected_year);
-
-
+    for (i = 0; i < 100; i++)
+    {
+        x[i].innerHTML = selected_century++;}
+    }
+    $(".bottom-year").click(function()
+    {
+        var selected_year = $(this).text();
+        //console.log(selected_year);
       $.ajax({
         url: "{{ url_for('_get_year_data') }}",
         type: 'GET',
 
         data: {'id': selected_year},
         
-        success: function (data) {
-          if (data) {
-    map.removeLayer(window.cities);
-            window.rightsidebar.hide();
-            if(data==="Fail"){
-                handleError(data);
-                return;
+        success: function (data)
+        {
+          if (data)
+          {
+                map.removeLayer(window.cities);
+                window.rightsidebar.hide();
+                if(data==="Fail")
+                {
+                    handleError(data);
+                    return;
+                }
+                console.log(data[0]);
+                {
+                    var mark = data;
+                    var i=0;
+                    markers=[];
+                    for (i=0;i<mark.length;i++)
+                    {
+                      console.log(mark[i].id);
+                       markers[i] = new L.marker([mark[i].lat, mark[i].long], {icon: redIcon}).addTo(map).on('click', function (event) {
+                        $.ajax({
+                            url: "{{ url_for('_get_data') }}",
+                            type: 'GET',
+                            datatype:'json',
+                            data: {'id': event.target.id},
+                            success: function (data)
+                            {
+                              if (data)
+                              {
+                                  console.log("-------------------------");
+                                  rightsidebar.setContent("<h1  class='event_name'>"+data.event_name+"</h1><p   class='event_year'>"+data.year+"</p><p class='event_text'>"+data.description+"</p>");
+                                  rightsidebar.show();
+                              }
+                            }
+                          });
+                        // rightsidebar.toggle();
+                        // console.log(event.target.id);
+                    });
+                   markers[i].id=mark[i].id;
+                   markers[i].bindPopup(mark[i].popline);
+                   markers[i].on('mouseover', function(event)
+                  {
+                    event.target.openPopup();
+                  });
+                  markers[i].on('mouseout', function(event)
+                  {
+                    event.target.closePopup();
+                  });
+                }
+               window.cities = L.layerGroup(markers);
+               window.cities.addTo(map);
             }
-            console.log(data[0]);
-{
-var mark = data;
-      
-var i=0;
-markers=[];
-for (i=0;i<mark.length;i++){
-  console.log(mark[i].id);
-   markers[i] = new L.marker([mark[i].lat, mark[i].long], {icon: redIcon}).addTo(map).on('click', function (event) {
-    $.ajax({
-        url: "{{ url_for('_get_data') }}",
-        type: 'GET',
-        datatype:'json',
-        data: {'id': event.target.id},
-        
-
-        success: function (data) {
-          if (data) {
-            console.log("-------------------------");
-      
-      rightsidebar.setContent("<h1  class='event_name'>"+data.event_name+"</h1><p   class='event_year'>"+data.year+"</p><p class='event_text'>"+data.description+"</p>");
-      rightsidebar.show();
-
           }
-        }
-      });
-    
-
-        // rightsidebar.toggle();
-        // console.log(event.target.id);
-
-
-
-    });
-   markers[i].id=mark[i].id;
-    markers[i].bindPopup(mark[i].popline);
-    markers[i].on('mouseover', function(event)
-  {
-    event.target.openPopup();
-  });
-  markers[i].on('mouseout', function(event){
-    event.target.closePopup();
-  });
-  
-   }
-
-   window.cities = L.layerGroup(markers);
-   window.cities.addTo(map); 
-
-
-}
-
-
-
-
-
-      
-      
-          }
-          
         },
         error: handleError
       });
-      
 });
-
-
-    
     </script>
 </body>
 </html>

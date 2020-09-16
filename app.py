@@ -25,7 +25,8 @@ cursor = conn.cursor()
 
 
 @app.route('/')
-def test():
+@app.route('/index.html')
+def index():
     return render_template('final_homepage.html')
 
 
@@ -60,6 +61,11 @@ def login():
         conn.rollback()
 
     return render_template('final_homepage.html', exist="wrong email or password")
+
+@app.route('/logout')
+def logout():
+    return redirect(url_for('index'))
+
 
 
 @app.route('/email_validation/', methods=['GET'])
@@ -101,7 +107,7 @@ def email_validation():
         number = random.randint(1000, 9999)
         #print(number)
         message = """Subject: OTP Verification, The Explorer\n\n Thank you for signing up with TheExplorer. We'd love to have you onboard!
-        To proceed and finish your registration please enter the given OTP in thw website. Do not share this OTP with anyone else.
+        To proceed and finish your registration please enter the given OTP in the website. Do not share this OTP with anyone else.
         \nOTP: """+str(number)+"""\n\nRegards \nTeamExplorer"""
         s.sendmail("the.explorer.verify@gmail.com",recieved_email,message)
         s.quit()
@@ -113,11 +119,10 @@ def email_validation():
 
 @app.route('/signup', methods=['POST'])
 def signup():
-    data = request.form["data"]
-    data = json.loads(data)
-    username = data['username']
-    email = data['email']
-    password = data['password']
+    username = request.form["h_name"]
+    email = request.form["h_email"]
+    password = request.form["h_pass"]
+    
     salt = bcrypt.gensalt()
     password = bcrypt.hashpw(password.encode(),salt)
     insert_stmt = (
@@ -155,7 +160,6 @@ def signup():
         conn.rollback()
 
     # Preparing SQL query to INSERT a record into the database.
-
 
 @app.route('/map')
 def map():

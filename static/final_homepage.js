@@ -2,14 +2,17 @@ const signUpButton = document.getElementById('signUp');
 const signInButton = document.getElementById('signIn');
 const container = document.getElementById('container');
 
-signUpButton.addEventListener('click', () => {
+signUpButton.addEventListener('click', () =>
+{
 	container.classList.add("right-panel-active");
 });
 
-signInButton.addEventListener('click', () => {
+signInButton.addEventListener('click', () =>
+{
 	container.classList.remove("right-panel-active");
 });
-function signup_verify(){
+function signup_verify()
+{
 	var a = document.querySelector("#num1").value;
 	var b = document.querySelector("#num2").value;
 	var c = document.querySelector("#num3").value;
@@ -22,18 +25,25 @@ function signup_verify(){
 
 	var con = String(a)+String(b)+String(c)+String(d);
 
-	if(con===window.otp){
+	if(con===window.otp)
+	{
 		alert("Successfully verified");
-		$.ajax({
+		$("#p_sign").submit();
+		/*
+		$.ajax
+		({
 			url:"/signup",
 			type : "POST",
 			datatype:'json',
 			data:{'data':data},
-			success:function(data){
+			success:function(data)
+			{
 				console.log("Logged in");
-				document.write(data);
+				window.location.href = "http://localhost:5000/map";
+				//$("html").html($("html", data).html());;
 			}
 		});
+		*/
 		
 	}
 }

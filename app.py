@@ -1,12 +1,9 @@
 import smtplib
 import random
-from flask import Flask, request, url_for, render_template, jsonify
+from flask import Flask, request, url_for, render_template, jsonify, session
 from werkzeug.utils import redirect
 from flaskext.mysql import MySQL
 import bcrypt
-
-
-import json
 
 app = Flask(__name__)
 
@@ -15,7 +12,7 @@ app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = ''
 app.config['MYSQL_DATABASE_DB'] = 'explorer_db'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-app.config['MYSQL_DATABASE_PORT'] = 3307
+app.config['MYSQL_DATABASE_PORT'] = 3306
 mysql.init_app(app)
 
 app.secret_key = "abc"
@@ -34,7 +31,7 @@ def index():
 def login():
     login_email = request.form['email']
     login_password = request.form['password']
-    #print(login_email, login_password)
+    # print(login_email, login_password)
     # # Preparing SQL query to INSERT a record into the database.
     insert_stmt = (
         "SELECT * FROM user WHERE user_email=%s "
@@ -48,7 +45,12 @@ def login():
 
         print(myresult[0][1], myresult[0][2])
 
-        if len(myresult) == 1 and myresult[0][1] == login_email and bcrypt.checkpw(login_password.encode(),myresult[0][3].encode()):
+        if len(myresult) == 1 and myresult[0][1] == login_email and bcrypt.checkpw(login_password.encode(),
+                                                                                   myresult[0][3].encode()):
+
+            session['useremail'] = login_email
+            session['genre'] = []
+
             return redirect(url_for('map'))
         else:
             print("Fail")
@@ -62,15 +64,16 @@ def login():
 
     return render_template('final_homepage.html', exist="wrong email or password")
 
+
 @app.route('/logout')
 def logout():
+    session.clear()
     return redirect(url_for('index'))
-
 
 
 @app.route('/email_validation/', methods=['GET'])
 def email_validation():
-    #print("----------------")
+    # print("----------------")
     recieved_email = request.args.get('email')
 
     print(recieved_email)
@@ -84,7 +87,7 @@ def email_validation():
         # Executing the SQL command
         cursor.execute(insert_stmt, data)
         myresult = cursor.fetchall()
-        #print(myresult)
+        # print(myresult)
         res = True
         if len(myresult) == 1:
             res = False
@@ -99,17 +102,17 @@ def email_validation():
 
     if res == True:
 
-        #li = [recieved_email]
-        number=0
+        # li = [recieved_email]
+        number = 0
         s = smtplib.SMTP('smtp.gmail.com', 587)
         s.starttls()
         s.login("the.explorer.verify@gmail.com", "8884233310")
         number = random.randint(1000, 9999)
-        #print(number)
+        # print(number)
         message = """Subject: OTP Verification, The Explorer\n\n Thank you for signing up with TheExplorer. We'd love to have you onboard!
         To proceed and finish your registration please enter the given OTP in the website. Do not share this OTP with anyone else.
-        \nOTP: """+str(number)+"""\n\nRegards \nTeamExplorer"""
-        s.sendmail("the.explorer.verify@gmail.com",recieved_email,message)
+        \nOTP: """ + str(number) + """\n\nRegards \nTeamExplorer"""
+        s.sendmail("the.explorer.verify@gmail.com", recieved_email, message)
         s.quit()
 
         return str(number)
@@ -122,9 +125,9 @@ def signup():
     username = request.form["h_name"]
     email = request.form["h_email"]
     password = request.form["h_pass"]
-    
+
     salt = bcrypt.gensalt()
-    password = bcrypt.hashpw(password.encode(),salt)
+    password = bcrypt.hashpw(password.encode(), salt)
     insert_stmt = (
         "SELECT * FROM user WHERE user_email=%s "
     )
@@ -136,7 +139,7 @@ def signup():
         myresult = cursor.fetchall()
         print(myresult)
         if len(myresult) == 0:
-            #print("does not exists exists", myresult)
+            # print("does not exists exists", myresult)
 
             insert_stmt = (
                 "INSERT INTO user(user_email, user_name,user_pass,role_id) VALUES (%s, %s, %s, %s)"
@@ -161,11 +164,14 @@ def signup():
 
     # Preparing SQL query to INSERT a record into the database.
 
+
 @app.route('/map')
 def map():
     insert_stmt = (
         "SELECT  event_key,event_title, event_lat,event_long FROM event LIMIT 6"
     )
+    print(type(session['useremail']))
+
     marker_data = list()
     try:
         # Executing the SQL command
@@ -179,11 +185,11 @@ def map():
             temp["long"] = rec[3]
             marker_data.append(temp)
         # Commit your changes in the database
-        #conn.commit()
+        # conn.commit()
 
     except Exception as e:
         # Rolling back in case of error
-        #conn.rollback()
+        # conn.rollback()
         print(e)
 
     user = [{'firstname': "fn", 'lastname': "ln", 'age': 10.2555185},
@@ -195,7 +201,7 @@ def map():
 @app.route('/_get_data/', methods=['GET'])
 def _get_data():
     recieved_event_id = request.args.get('id')
-    #print(recieved_event_id)
+    # print(recieved_event_id)
 
     insert_stmt = (
         "SELECT   event_year,event_title,event_text,url FROM event where event_key=%s"
@@ -207,7 +213,7 @@ def _get_data():
         # Executing the SQL command
         cursor.execute(insert_stmt, data)
         myresult = cursor.fetchall()
-        #print(myresult)
+        # print(myresult)
         ss = myresult[0]
         final_data = {
             'event_name': ss[1],
@@ -215,15 +221,15 @@ def _get_data():
             'description': ss[2],
             'url': ss[3]
         }
-        #print("a----------")
+        # print("a----------")
 
         # Commit your changes in the database
-        #conn.commit()
+        # conn.commit()
 
 
     except Exception as e:
         # Rolling back in case of error
-        #conn.rollback()
+        # conn.rollback()
         print(e)
 
     return final_data
@@ -232,22 +238,27 @@ def _get_data():
 @app.route('/_get_year_data/', methods=['GET'])
 def _get_year_data():
     recieved_year = request.args.get('id')
-    #print(recieved_year)
+    print(session['genre'])
+    genre_list = session['genre']
+    if len(genre_list) == 0:
+        select_stmt = (
+            "SELECT  event_key , event_title ,event_year, event_lat , event_long FROM event where event_year=%s"
+        )
+        data = recieved_year
+    else:
+        print("genre exists need join")
 
-    insert_stmt = (
-        "SELECT  event_key , event_title ,event_year, event_lat , event_long FROM event where event_year=%s"
-    )
-    data = recieved_year
+    # print(recieved_year)
+
     marker_data = []
 
     try:
         # Executing the SQL command
-        cursor.execute(insert_stmt, data)
-        if cursor.rowcount<=0:
-            return u"Fail",200
+        cursor.execute(select_stmt, data)
+        if cursor.rowcount <= 0:
+            return u"Fail", 200
         myresult = cursor.fetchall()
-        #print(myresult)
-        
+        # print(myresult)
 
         for i in myresult:
             marker = {
@@ -259,17 +270,32 @@ def _get_year_data():
             marker_data.append(marker)
 
         # Commit your changes in the database
-        #conn.commit()
+        # conn.commit()
 
 
     except Exception as e:
         # Rolling back in case of error
-        #conn.rollback()
+        # conn.rollback()
         print(e)
 
-    #print(marker_data)
+    # print(marker_data)
     return jsonify(marker_data)
 
 
+@app.route('/_set_genre/', methods=['GET'])
+def _set_genre():
+    recieved_genre = request.args.get('genre')
+    genre_list = session['genre']
+
+    if recieved_genre in genre_list:
+        genre_list.remove(recieved_genre)
+    else:
+        genre_list.append(recieved_genre)
+    session['genre'] = genre_list
+    print(genre_list)
+
+    return str(session['genre'])
+
+
 if __name__ == '__main__':
-    app.run(debug = True)
+    app.run(debug=True)

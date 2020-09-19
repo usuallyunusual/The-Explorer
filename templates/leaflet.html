@@ -19,6 +19,13 @@
 
     <!-- <link rel="stylesheet" href="../css/leaflet-sidebar.css" /> -->
     <style type="text/css">
+
+
+		div.sticky {
+		  position: -webkit-sticky;
+		  position: sticky;
+		  top: 0;
+		}
       .leaflet-sidebar
       {
           position: absolute;
@@ -550,35 +557,66 @@
 
         <!-- panel content -->
         <div class="leaflet-sidebar-content">
-            <div class="leaflet-sidebar-pane" id="search">
+            <div class="leaflet-sidebar-pane" id="search">F
+            	<div class="sticky">
                 <h1 class="leaflet-sidebar-header">
                     Search
                     <span class="leaflet-sidebar-close"><i class="fa fa-caret-left"></i></span>
                 </h1>
-                <p>
-                        <input class="s_input" type="text" placeholder="Search"><br><br>
+                <p><div style="background-color: white; height: 50px">
+                        <input type="text"  style="margin-top: 10px" class="s_input" id="myInput" onkeyup="search_event()" placeholder="Search for events.." title="Type in a name">
+                        </div>
+                    </div>
                         <!-- For 1st search result -->
-                        <p id="search_title1" class="search_title">Title 1</p>
-                        <p id="search_desc1" class="search_desc">
-                          Description for title 1 is inserted here.
-                        </p>
-                        <!-- For 2nd search result -->
-                        <p id="search_title2" class="search_title">Title 2</p>
-                        <p id="search_desc2" class="search_desc">
-                          Description for title 2 is inserted here.
-                        </p>
-                        <!-- For 3rd search result -->
-                        <p id="search_title3" class="search_title">Title 3</p>
-                        <p id="search_desc3" class="search_desc">
-                          Description for title 3 is inserted here.
-                        </p>
-                        <!-- For 4th search result -->
-                        <p id="search_title4" class="search_title">Title 4</p>
-                        <p id="search_desc4" class="search_desc">
-                          Description for title 4 is inserted here.
-                        </p>
+                        <ul id="myUL">
+						  <li><h3>Adele</h3>dfds</li>
+						  <li><h3>gnes</h3>fdsgd</li>
+
+						  <li><h3>Billy</h3>dsfgdsf</li>
+						  <li><h3>Bob</h3>dsfgdsf</li>
+
+						  <li><h3>Calvin</h3>dsfgdsf</li>
+						  <li><h3>Christina</h3>dsgsdf</li>
+						  <li><h3>Cindy</h3>dsfgdfsg</li>
+						   <li><h3>Adele</h3>dfds</li>
+						  <li><h3>gnes</h3>fdsgd</li>
+
+						  <li><h3>Billy</h3>dsfgdsf</li>
+						  <li><h3>Bob</h3>dsfgdsf</li>
+
+						  <li><h3>Calvin</h3>dsfgdsf</li>
+						  <li><h3>Christina</h3>dsgsdf</li>
+						  <li><h3>Cindy</h3>dsfgdfsg</li> <li><h3>Adele</h3>dfds</li>
+						  <li><h3>gnes</h3>fdsgd</li>
+
+						  <li><h3>Billy</h3>dsfgdsf</li>
+						  <li><h3>Bob</h3>dsfgdsf</li>
+
+						  <li><h3>Calvin</h3>dsfgdsf</li>
+						  <li><h3>Christina</h3>dsgsdf</li>
+						  <li><h3>Cindy</h3>dsfgdfsg</li>
+						</ul>
                 </p>
             </div>
+
+			            <script>
+								function search_event() {
+								    var input, filter, ul, li, a, i, txtValue;
+								    input = document.getElementById("myInput");
+								    filter = input.value.toUpperCase();
+								    ul = document.getElementById("myUL");
+								    li = ul.getElementsByTagName("li");
+								    for (i = 0; i < li.length; i++) {
+								        a = li[i];
+								        txtValue = a.textContent || a.innerText;
+								        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+								            li[i].style.display = "";
+								        } else {
+								            li[i].style.display = "none";
+								        }
+								    }
+								}
+			</script>
 
             <div class="leaflet-sidebar-pane" id="home">
                 <h1 class="leaflet-sidebar-header">
@@ -586,28 +624,37 @@
                     <span class="leaflet-sidebar-close"><i class="fa fa-caret-left"></i></span>
                 </h1>
 
-                <p> Select One or more genres and cick the button. See the changes on the map.
-                  <form action="#">
-                    <input class="genres" type="checkbox" id="one" name="one" value="Education">
-                    <label for="one"> Education</label>&emsp;&emsp;
-                    <input class="genres" type="checkbox" id="two" name="two" value="Literature">
-                    <label for="two"> Literature</label><br>
-                    <input class="genres" type="checkbox" id="three" name="three" value="Biology">
-                    <label for="three"> Biology</label>&emsp;&emsp;&ensp;&ensp;&nbsp;&nbsp;
-                    <input class="genres" type="checkbox" id="four" name="four" value="Computer S0cience">
-                    <label for="four"> Computer Science</label><br>
-                    <input class="genres" type="checkbox" id="five" name="five" value="Health">
-                    <label for="five"> Health</label>&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;
-                    <input class="genres" type="checkbox" id="six" name="six" value="Political">
-                    <label for="six"> Political</label><br>
-                    <input class="genres" type="checkbox" id="seven" name="seven" value="Art">
-                    <label for="seven"> Art</label>&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;&nbsp;
-                    <input class="genres" type="checkbox" id="eight" name="eight" value="Religious">
-                    <label for="eight"> Religious</label><br>
-                    <input class="genres" type="checkbox" id="nine" name="nine" value="Sports">
-                    <label for="nine"> Sports</label><br><br>
-                    <button class="genre_button">View On Map</button>
-                  </form>
+                <p> Select One or more genres and click the button. See the changes on the map.
+                	<br>
+                  	<input class="genres" type="checkbox" id="myCheck" onclick="myFunction('Education')"><label > Education</label></input>
+					<br>
+					<input class="genres" type="checkbox" id="myCheck" onclick="myFunction('Biology')"><label > Biology</label></input>
+					<br>
+					<input class="genres" type="checkbox" id="myCheck" onclick="myFunction('Computer Science')"><label > Computer Science</label></input>
+					<br>
+					<input class="genres" type="checkbox" id="myCheck" onclick="myFunction('Health')"><label > Health</label></input>
+					<br>
+					<input class="genres" type="checkbox" id="myCheck" onclick="myFunction('Political')"><label > Political</label></input>
+					<br>
+					<input class="genres" type="checkbox" id="myCheck" onclick="myFunction('Art')"><label > Art</label></input>
+					<br>
+					<input class="genres" type="checkbox" id="myCheck" onclick="myFunction('Religious')"><label > Religious</label></input>
+					<br><input class="genres" type="checkbox" id="myCheck" onclick="myFunction('Sports')"><label > Sports</label></input>
+					<br>
+                    <script>
+					function myFunction(genre) {
+   					$.ajax({
+                  url: "{{ url_for('_set_genre') }}",
+                  type: 'GET',
+                  data: {'genre': genre},
+                  success: function (data)
+                  {
+                    console.log(data);
+                  }
+                  });					
+   				}
+					</script>
+                 
                 </p>
             </div>
 

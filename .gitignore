@@ -4,3 +4,4 @@ Scripts/explorer_db.sql
 Scripts/__pycache__/
 __pycache__/
 .idea/
+venv/

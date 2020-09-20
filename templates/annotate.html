@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Data Handling</title>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- for Bootstarp -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<!-- for Bootstarp -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<!-- In file CSS -->
+	<style type="text/css">
+		body
+		{
+			overflow: hidden;
+		}
+		.gn
+		{
+			height: 75px;
+			width: 200px;
+			margin: 10px;
+		}
+		.pn
+		{
+			height: 65px;
+			width: 200px;
+			margin-top: 20px;
+			margin-right: 10px;
+		}
+		.active
+		{
+			text-decoration: underline;
+		}
+		.nav-item
+		{
+			margin-left: 30px;
+			font-size: 18px;
+		}
+	</style>
+</head>
+
+<body>
+	<!-- Navbar/Header -->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	  <a class="navbar-brand" href="#">The Explorer</a>
+	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+	    <span class="navbar-toggler-icon"></span>
+	  </button>
+	  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+	    <ul class="navbar-nav">
+	      <li class="nav-item active">
+	        <a class="nav-link" href="p1_annotate.html">Annotate</a>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link" href="p2_runscripts.html">Run Scripts</a>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link" href="p3_viewdata.html">View Data</a>
+	      </li>
+	    </ul>
+	  </div>
+	</nav>
+	<br>
+	<!-- Content -->
+	<div class="row">
+		<div class="col-sm-6">
+			<form>
+				<div class="row">
+					<div class="col-sm-1"></div>
+					<div class="col">
+						<input type="text" class="form-control" placeholder="Event Title" name="event_title" readonly>
+					</div>
+					<div class="col">
+						<input type="text" class="form-control" placeholder="Event Key" name="event_key" readonly>
+					</div>
+				</div>
+			</form>
+			<br>
+			<form>
+				<div class="row">
+					<div class="col-sm-1"></div>
+					<div class="col">
+						<input type="text" class="form-control" placeholder="Event URL" name="event_url" readonly>
+					</div>
+				</div>
+			</form>
+			<br>
+			<form>
+				<div class="row">
+					<div class="col-sm-1"></div>
+					<div class="col">
+						<textarea type="text" class="form-control" placeholder="Event Text" name="event_text" rows="13" style="resize: none;" readonly></textarea>
+					</div>
+				</div>
+			</form>
+			<br>
+			<form>
+				<div class="row">
+					<div class="col"><center>
+						<button type="button" class="btn btn-dark btn-lg pn">Previous</button>
+						<button type="button" class="btn btn-dark btn-lg pn">Next</button></center>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<div class="col-sm-6">
+			<form>
+				<div class="row">
+					<div class="col-sm-2"></div>
+					<div class="col">
+						<button type="button" class="btn btn-dark btn-lg gn">Art</button>
+					</div>
+					<div class="col">
+						<button type="button" class="btn btn-dark btn-lg gn">Biology</button>
+					</div>
+				</div>
+			</form>
+			<br>
+			<form>
+				<div class="row">
+					<div class="col-sm-2"></div>
+					<div class="col">
+						<button type="button" class="btn btn-dark btn-lg gn">Computer Science</button>
+					</div>
+					<div class="col">
+						<button type="button" class="btn btn-dark btn-lg gn">Education</button>
+					</div>
+				</div>
+			</form>
+			<br>
+			<form>
+				<div class="row">
+					<div class="col-sm-2"></div>
+					<div class="col">
+						<button type="button" class="btn btn-dark btn-lg gn">Health</button>
+					</div>
+					<div class="col">
+						<button type="button" class="btn btn-dark btn-lg gn">Literature</button>
+					</div>
+				</div>
+			</form>
+			<br>
+			<form>
+				<div class="row">
+					<div class="col-sm-2"></div>
+					<div class="col">
+						<button type="button" class="btn btn-dark btn-lg gn">Literature</button>
+					</div>
+					<div class="col">
+						<button type="button" class="btn btn-dark btn-lg gn">Religion</button>
+					</div>
+				</div>
+			</form>
+			<br>
+			<form>
+				<div class="row">
+					<div class="col-sm-2"></div>
+					<div class="col">
+						<button type="button" class="btn btn-dark btn-lg gn">Sports</button>
+					</div>
+					<div class="col">
+						<button type="button" class="btn btn-dark btn-lg gn">None</button>
+					</div>
+				</div>
+			</form>
+		</div>
+
+	</div>
+
+</body>
+</html>

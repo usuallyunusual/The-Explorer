@@ -1,7 +1,3 @@
-
-
-
-
 """
 
 TO DO:
@@ -21,21 +17,6 @@ TO DO:
 """
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.pipeline import make_pipeline
@@ -45,47 +26,43 @@ import mysql
 from mysql.connector import Error
 
 try:
-    conn = mysql.connector.connect(host='127.0.0.1',port = 3307,database='explorer_db',user='root',password = '')
+    conn = mysql.connector.connect(
+        host="127.0.0.1", port=3307, database="explorer_db", user="root", password=""
+    )
     if conn.is_connected():
-        print("Connection successful: ",conn.get_server_info())
+        print("Connection successful: ", conn.get_server_info())
     cur = conn.cursor()
-    cur.execute('''SELECT * FROM event WHERE html IS NOT NULL AND error IS NULL''')
+    cur.execute("""SELECT * FROM event WHERE html IS NOT NULL AND error IS NULL""")
     data = pd.DataFrame(cur.fetchall())
     heads = list()
     for row in cur.description:
         heads.append(row[0])
     data.columns = heads
     vect = TfidfVectorizer()
-    x = vect.fit_transform(data['htext'])
-    knn = KNeighborsClassifier(n_neighbors=5, metric='euclidean')
-    knn.fit(x,data['url'])
+    x = vect.fit_transform(data["htext"])
+    knn = KNeighborsClassifier(n_neighbors=5, metric="euclidean")
+    knn.fit(x, data["url"])
     while True:
         try:
-            query = input('Search query: ')
-            feature = data['htext']
-            feature = feature.append(pd.DataFrame({query}),ignore_index = True)
-            url = data['url']
-            url = url.append(pd.DataFrame({'query'}),ignore_index = True)
-            x = vect.fit_transform(feature[0])
-            res = knn.kneighbors(x[-1:],n_neighbors = 6,return_distance = False)
-            res = res[0][1:]
-            def result(x):
-                for i in x:
-                    print(queries['url'][i]) 
-            queries = data.loc[res,['event_key','url','new_rank']]
-            queries = queries.sort_values(by=['new_rank'],ascending = False)
-            #print(queries)
-            result(res)
+            query = input("Search query: ")
+            feature = data["htext"]
+            feature = feature.append(pd.Series([query]), ignore_index=True)
+            url = data["url"]
+            url = url.append(pd.Series(["query"]), ignore_index=True)
+            x = vect.fit_transform(feature)
+            res = knn.kneighbors(x[-1:], n_neighbors=6, return_distance=False)
+            print(res)
+            res = res[0][:]
+            queries = data.loc[res, ["event_key", "event_title", "url", "new_rank"]]
+            queries = queries.sort_values(by=["new_rank"], ascending=False)
+            print(queries)
         except KeyboardInterrupt:
-            print('')
-            print('Program interrupted by user...')
+            print("")
+            print("Program interrupted by user...")
             break
-        except:
-            print('Unknown error')
+        except Exception as e:
+            print(e)
             break
 except Error as e:
     print("Error while connecting to MySQL", e)
-
-
-
 

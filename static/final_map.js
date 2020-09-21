@@ -6,11 +6,10 @@ L.Control.Sidebar = L.Control.extend({
     {
         closeButton: true,
         position: 'left',
-        autoPan: true,
+        autoPan: false,
     },
 
-    initialize: function (placeholder, options)
-    {
+    initialize: function (placeholder, options) {
         L.setOptions(this, options);
 
         // Find content container
@@ -30,22 +29,19 @@ L.Control.Sidebar = L.Control.extend({
         container.appendChild(content);
 
         // Create close button and attach it if configured
-        if (this.options.closeButton)
-        {
+        if (this.options.closeButton) {
             var close = this._closeButton =
                 L.DomUtil.create('a', 'close', container);
             close.innerHTML = '&times;';
         }
     },
 
-    addTo: function (map)
-    {
+    addTo: function (map) {
         var container = this._container;
         var content = this._contentContainer;
 
         // Attach event to close button
-        if (this.options.closeButton)
-        {
+        if (this.options.closeButton) {
             var close = this._closeButton;
 
             L.DomEvent.on(close, 'click', this.hide, this);
@@ -78,8 +74,7 @@ L.Control.Sidebar = L.Control.extend({
         return this;
     },
 
-    removeFrom: function (map)
-    {
+    removeFrom: function (map) {
         //if the control is visible, hide it before removing it.
         this.hide();
 
@@ -111,8 +106,7 @@ L.Control.Sidebar = L.Control.extend({
             .off(container, 'webkitTransitionEnd',
                 this._handleTransitionEvent, this);
 
-        if (this._closeButton && this._close)
-        {
+        if (this._closeButton && this._close) {
             var close = this._closeButton;
 
             L.DomEvent.off(close, 'click', this.hide, this);
@@ -121,18 +115,15 @@ L.Control.Sidebar = L.Control.extend({
         return this;
     },
 
-    isVisible: function ()
-    {
+    isVisible: function () {
         return L.DomUtil.hasClass(this._container, 'visible');
     },
 
-    show: function ()
-    {
-        if (!this.isVisible())
-        {
+    show: function () {
+        if (!this.isVisible()) {
             L.DomUtil.addClass(this._container, 'visible');
-            if (this.options.autoPan)
-            {
+
+            if (this.options.autoPan) {
                 this._map.panBy([-this.getOffset() / 2, 0], {
                     duration: 0.5
                 });
@@ -141,61 +132,48 @@ L.Control.Sidebar = L.Control.extend({
         }
     },
 
-    hide: function (e)
-    {
-        if (this.isVisible())
-        {
+    hide: function (e) {
+        if (this.isVisible()) {
             L.DomUtil.removeClass(this._container, 'visible');
-            if (this.options.autoPan)
-            {
+            if (this.options.autoPan) {
                 this._map.panBy([this.getOffset() / 2, 0],
-                {
-                    duration: 0.5
-                });
+                    {
+                        duration: 0.5
+                    });
             }
             this.fire('hide');
         }
-        if(e)
-        {
+        if (e) {
             L.DomEvent.stopPropagation(e);
         }
     },
 
-    toggle: function ()
-    {
-        if (this.isVisible())
-        {
+    toggle: function () {
+        if (this.isVisible()) {
             this.hide();
         }
-        else
-        {
+        else {
             this.show();
         }
     },
 
-    getContainer: function ()
-    {
+    getContainer: function () {
         return this._contentContainer;
     },
 
-    getCloseButton: function ()
-    {
+    getCloseButton: function () {
         return this._closeButton;
     },
 
-    setContent: function (content)
-    {
+    setContent: function (content) {
         var container = this.getContainer();
 
-        if (typeof content === 'string')
-        {
+        if (typeof content === 'string') {
             container.innerHTML = content;
         }
-        else
-        {
+        else {
             // clean current content
-            while (container.firstChild)
-            {
+            while (container.firstChild) {
                 container.removeChild(container.firstChild);
             }
 
@@ -205,88 +183,75 @@ L.Control.Sidebar = L.Control.extend({
         return this;
     },
 
-    getOffset: function ()
-    {
-        if (this.options.position === 'right')
-        {
+    getOffset: function () {
+        if (this.options.position === 'right') {
             return -this._container.offsetWidth;
         }
-        else
-        {
+        else {
             return this._container.offsetWidth;
         }
     },
 
-    _handleTransitionEvent: function (e)
-    {
+    _handleTransitionEvent: function (e) {
         if (e.propertyName == 'left' || e.propertyName == 'right')
             this.fire(this.isVisible() ? 'shown' : 'hidden');
     }
 });
 
-L.control.sidebar = function (placeholder, options)
-{
+L.control.sidebar = function (placeholder, options) {
     return new L.Control.Sidebar(placeholder, options);
 };
 
-(function()
-{
+(function () {
     const ps = new PerfectScrollbar("#test-list");
     // Remember, this is just an example.
     // You can also separete function and implement it, such as $("#btn-prev").on("click", ~
     // This function will be called when clicking the buttons(prev, today, next).
-    $("#button-wrap").on("click", ".btn", function()
-    {
-      // if $(this) has a class 'reset', currentMonth is reseted.
-      if ($(this).hasClass("reset"))
-      {
-          currentMonth = monthOfToday;
-      }
-      else
-      {
-          // Otherwise, get a data parameter. 
-          currentMonth += Number($(this).data("addMonth"));
-      }
-      // If currentMonth is 1 or limit, disabling the prev/next buttons.
-      changeButtonState(currentMonth);
-      // Get the list.
-      var ul = $("#test-list");
-      // Get the li of the target month.
-      var targetMonth = $("#month-" + currentMonth);
-      // Remove all active-month classes.
-      ul.find("li").removeClass("active-month");
-      // Add the active-month class
-      targetMonth.addClass("active-month");
-      // current scroll position + target position;
-      // 15 = margin('class:row' has a margin)
-      ul.animate({
-          scrollLeft: ul.scrollLeft() + targetMonth.position().left - 15
-      }, 200);
-      // update perfect scrollbar.
-      ps.update();
+    $("#button-wrap").on("click", ".btn", function () {
+        // if $(this) has a class 'reset', currentMonth is reseted.
+        if ($(this).hasClass("reset")) {
+            currentMonth = monthOfToday;
+        }
+        else {
+            // Otherwise, get a data parameter. 
+            currentMonth += Number($(this).data("addMonth"));
+        }
+        // If currentMonth is 1 or limit, disabling the prev/next buttons.
+        changeButtonState(currentMonth);
+        // Get the list.
+        var ul = $("#test-list");
+        // Get the li of the target month.
+        var targetMonth = $("#month-" + currentMonth);
+        // Remove all active-month classes.
+        ul.find("li").removeClass("active-month");
+        // Add the active-month class
+        targetMonth.addClass("active-month");
+        // current scroll position + target position;
+        // 15 = margin('class:row' has a margin)
+        ul.animate({
+            scrollLeft: ul.scrollLeft() + targetMonth.position().left - 15
+        }, 200);
+        // update perfect scrollbar.
+        ps.update();
     });
-    
+
     // function...
-    function changeButtonState(value)
-    {
+    function changeButtonState(value) {
         // If currentMonth is 1 or 12, disable the prev/next buttons..
-      if (currentMonth === 1)
-      {
-          $("#btn-prev").prop("disabled", true);
-          $("#btn-next").prop("disabled", false);
-      }
-      else if (currentMonth === listCount)
-      {
-          $("#btn-prev").prop("disabled", false);
-          $("#btn-next").prop("disabled", true);
-      }
-      else
-      {
-          $("#btn-prev").prop("disabled", false);
-          $("#btn-next").prop("disabled", false);
-      }
+        if (currentMonth === 1) {
+            $("#btn-prev").prop("disabled", true);
+            $("#btn-next").prop("disabled", false);
+        }
+        else if (currentMonth === listCount) {
+            $("#btn-prev").prop("disabled", false);
+            $("#btn-next").prop("disabled", true);
+        }
+        else {
+            $("#btn-prev").prop("disabled", false);
+            $("#btn-next").prop("disabled", false);
+        }
     }
-    
+
     //
     // Initialize process.
     //
@@ -298,5 +263,5 @@ L.control.sidebar = function (placeholder, options)
     var currentMonth = monthOfToday;
     // Calling the click event of today to initialize.
     $("#btn-today").trigger("click");
-    
+
 });

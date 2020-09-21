@@ -9,6 +9,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.pipeline import make_pipeline
 from bs4 import BeautifulSoup
 import pandas as pd
+import json
 
 app = Flask(__name__)
 
@@ -229,16 +230,26 @@ def _get_data():
 
 @app.route("/_get_year_data/", methods=["GET"])
 def _get_year_data():
-    recieved_year = request.args.get("id")
+    recieved_year = json.loads(request.args.get("main"))
+    opt = recieved_year["option"]
     genre_list = session["genre"]
-    if len(genre_list) == 0:
-        select_stmt = "SELECT event_key , event_title ,event_year, event_lat , event_long FROM event where event_year=%s"
-        data = recieved_year
+    select_stmt = ""
+    if opt == 0:
+        if len(genre_list) == 0:
+            select_stmt = "SELECT event_key , event_title ,event_year, event_lat , event_long FROM event where event_year=%s"
+            data = recieved_year["data"]
+        else:
+            select_stmt = """SELECT event.event_key , event.event_title ,event.event_year, event.event_lat , event.event_long, genre.genre_text
+            FROM event JOIN genre ON event.event_genre = genre.genre_id 
+            WHERE event.event_year = %s AND genre.genre_text IN %s"""
+            data = (recieved_year["data"], tuple(session["genre"]))
     else:
-        select_stmt = """SELECT event.event_key , event.event_title ,event.event_year, event.event_lat , event.event_long, genre.genre_text
-         FROM event JOIN genre ON event.event_genre = genre.genre_id 
-         WHERE event.event_year = %s AND genre.genre_text IN %s"""
-        data = (recieved_year, tuple(session["genre"]))
+        temp = recieved_year["data"]
+        keys = tuple([temp[str(i)] for i in range(6)])
+        select_stmt = "SELECT event_key,event_title ,event_year, event_lat , event_long FROM event where event_key IN %s"
+        data = ((keys),)
+        print(keys)
+
     marker_data = []
     try:
         # Executing the SQL command

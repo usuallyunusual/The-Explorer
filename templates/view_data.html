@@ -1,144 +1,88 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<title>Data Handling</title>
-	<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- for Bootstarp -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-	<!-- for Bootstarp -->
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  <!-- In file CSS -->
-  <style type="text/css">
-    body
-    {
-      overflow-x: hidden;
-    }
-    .active
-    {
-      text-decoration: underline;
-    }
-    .nav-item
-    {
-      margin-left: 30px;
-      font-size: 18px;
-    }
-    .rn
-    {
-      width: 200px;
-    }
-  </style>
-<head>
-<body>
+{% extends 'layout.html'%}
+{% set active_page = "view_data" %}
+{% block content%}
+<!-- Content -->
+<div class="row">
 
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">The Explorer</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="p1_annotate.html">Annotate</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="p2_runscripts.html">Run Scripts</a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link" href="p3_viewdata.html">View Data</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
-  <br>
-  <!-- Content -->
-  <div class="row">
+  <div class="col-sm-12">
 
-    <div class="col-sm-12">
-      
-      <form>
-        <div class="row">
-        
-          <div class="col-sm-1"></div>
-          
-          <div class="col-sm-4">
-            <select class="form-control form-control-lg bg-dark text-white" id="d1">
-              <option>Table Names</option>
-              <option>activity_log</option>
-              <option>event</option>
-              <option>event_samples</option>
-              <option>flag_log</option>
-              <option>genre</option>
-              <option>links</option>
-              <option>role</option>
-              <option>user</option>
-              <option>webs</option>
-            </select>
-          </div>
+    <form>
+      <div class="row">
 
-          <div class="col-sm-4">
-            <select class="form-control form-control-lg bg-dark text-white" id="d2">
-              <option>Sort by Attribte</option>
-              <option>a</option>
-              <option>b</option>
-              <option>c</option>
-            </select>
-          </div>
+        <div class="col-sm-1"></div>
 
-          <div class="col-sm-3">
-            <button type="button" class="btn btn-dark btn-lg rn">Fetch</button>
-          </div>
-        
+        <div class="col-sm-4">
+          <select class="form-control form-control-lg bg-dark text-white" id="d1">
+            <option>Table Names</option>
+            <option>activity_log</option>
+            <option>event</option>
+            <option>event_samples</option>
+            <option>flag_log</option>
+            <option>genre</option>
+            <option>links</option>
+            <option>role</option>
+            <option>user</option>
+            <option>webs</option>
+          </select>
         </div>
-      </form>
-      <br>
 
-       <form>
-        <div class="row">
-        
-          <div class="col-sm-1"></div>
-          
-          <div class="col-sm-10">
-            <table class="table table-bordered table-dark">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">First</th>
-                  <th scope="col">Last</th>
-                  <th scope="col">Handle</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>Larry</td>
-                  <td>the Bird</td>
-                  <td>@twitter</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        
+        <div class="col-sm-4">
+          <select class="form-control form-control-lg bg-dark text-white" id="d2">
+            <option>Sort by Attribte</option>
+            <option>a</option>
+            <option>b</option>
+            <option>c</option>
+          </select>
         </div>
-      </form>
-    </div>
+
+        <div class="col-sm-3">
+          <button type="button" class="btn btn-dark btn-lg rn">Fetch</button>
+        </div>
+
+      </div>
+    </form>
+    <br>
+
+    <form>
+      <div class="row">
+
+        <div class="col-sm-1"></div>
+
+        <div class="col-sm-10">
+          <table class="table table-bordered table-dark">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">First</th>
+                <th scope="col">Last</th>
+                <th scope="col">Handle</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>@twitter</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </form>
   </div>
-
-
-
-</body>
-</html>
+</div>
+{% endblock content%}

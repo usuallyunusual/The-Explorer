@@ -47,12 +47,16 @@ def login():
         if len(myresult) == 1 and bcrypt.checkpw(
             login_password.encode(), myresult[0][3].encode()
         ):
-
-            session["useremail"] = login_email
-            session["username"] = myresult[0][2]
-            session["genre"] = []
-
-            return redirect(url_for("map"))
+            if myresult[0][4] == 3:
+                print("Got here")
+                return redirect(url_for("annotate"))
+            elif myresult[0][4] == 2:
+                pass
+            else:
+                session["useremail"] = login_email
+                session["username"] = myresult[0][2]
+                session["genre"] = []
+                return redirect(url_for("map"))
         else:
             print("Fail")
 
@@ -138,6 +142,8 @@ def signup():
 
 @app.route("/map")
 def map():
+    if "username" not in session.keys():
+        return render_template("final_homepage.html")
     insert_stmt = (
         "SELECT  event_key,event_title, event_lat,event_long FROM event LIMIT 6"
     )
@@ -278,6 +284,42 @@ def _set_genre():
         genre_list.append(recieved_genre)
     session["genre"] = genre_list
     return str(session["genre"])
+
+
+@app.route("/annotate")
+def annotate():
+    return render_template("annotate.html")
+
+
+@app.route("/runscripts")
+def runscripts():
+    return render_template("run_scripts.html")
+
+
+@app.route("/viewdata")
+def viewdata():
+    return render_template("view_data.html")
+
+
+@app.route("/fetch_data", methods=["GET"])
+def fetch_data():
+    key = request.args.get("id")
+    print(key)
+    stmt = "SELECT event_key,event_title,url,event_text FROM event WHERE event_key = %s"
+    try:
+        cursor.execute(stmt, key)
+        res = cursor.fetchall()
+        response = {
+            "event_key": res[0][0],
+            "event_title": res[0][1],
+            "url": res[0][2],
+            "event_text": res[0][3],
+        }
+
+    except Exception as e:
+        print(e)
+
+    return response
 
 
 if __name__ == "__main__":

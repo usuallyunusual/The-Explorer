@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<title>The Explorer</title>
 	<meta charset="UTF-8" />
@@ -10,227 +11,228 @@
 	<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 
 
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  	<!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
+	<link rel="icon" type="image/x-icon" href="{{ url_for('static', filename = 'favicon.ico') }}">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" />
 	<link href='https://fonts.googleapis.com/css?family=Quando' rel='stylesheet'>
-  	<link href='https://fonts.googleapis.com/css?family=Marmelad' rel='stylesheet'>
+	<link href='https://fonts.googleapis.com/css?family=Marmelad' rel='stylesheet'>
 	<link rel="stylesheet" href="{{url_for('static', filename='styles/final_homepage.css')}}">
 	<script>
-            function validateformLogin()
-            {
-				var email=document.myform.email.value;
-				var password=document.myform.password.value;
-				if (email==null || email=="" )
-				{
-				  alert("email can't be blank");
-				  return false;
-				}
-				else if(password.length<6)
-				{
-				  alert("Password must be at least 6 characters long.");
-				  return false;
-				 }
-            }
+		function validateformLogin() {
+			var email = document.myform.email.value;
+			var password = document.myform.password.value;
+			if (email == null || email == "") {
+				alert("email can't be blank");
+				return false;
+			}
+			else if (password.length < 6) {
+				alert("Password must be at least 6 characters long.");
+				return false;
+			}
+		}
 
-             function validateformsignup()
-            {
+		function validateformsignup() {
 
-				var name=document.mform.username.value;
-				var password=document.mform.password.value;
-				var email=document.mform.email.value;
-				var retype_password=document.mform.retype_password.value;
-				//console.log(name+password+retype_password+email);
-				var res=true;
-				if (name==null || name=="" || name.length<6)
-				{
-            		alert("Name can't be blank and has to be longer than 6 characters");
-					res= false;
-            	}
-				if(password.length<6 || password.length!=retype_password.length)
-				{
-					alert("Password must be at least 6 characters long and matching.");
-				  	res= false;
-				}
-				if(res==true)
-				{
-                     try
-                     {
-						$.ajax({
-        				url: "{{ url_for('email_validation') }}",
-        				type: 'GET',
-        				data: {'email': email},
-       					success: function (data)
-       					{
-          					if (data)
-          					{
-								if(data=="exist")
-								{
-								  alert("The email is already in use? DId you forget your password?");
+			var name = document.mform.username.value;
+			var password = document.mform.password.value;
+			var email = document.mform.email.value;
+			var retype_password = document.mform.retype_password.value;
+			//console.log(name+password+retype_password+email);
+			var res = true;
+			if (name == null || name == "" || name.length < 6) {
+				alert("Name can't be blank and has to be longer than 6 characters");
+				res = false;
+			}
+			if (password.length < 6 || password.length != retype_password.length) {
+				alert("Password must be at least 6 characters long and matching.");
+				res = false;
+			}
+			if (res == true) {
+				try {
+					$.ajax({
+						url: "{{ url_for('email_validation') }}",
+						type: 'GET',
+						data: { 'email': email },
+						success: function (data) {
+							if (data) {
+								if (data == "exist") {
+									alert("The email is already in use? DId you forget your password?");
 								}
-								else
-								{
-								  alert("OTP has been sent to "+email.slice(0,4)+"**. Please enter OTP");
-								  $("#h_name").val(name);
-								  $("#h_pass").val(password);
-								  $("#h_email").val(email);
+								else {
+									alert("OTP has been sent to " + email.slice(0, 4) + "**. Please enter OTP");
+									$("#h_name").val(name);
+									$("#h_pass").val(password);
+									$("#h_email").val(email);
 
 								}
-							   $(document).ready(function()
-							   	{
+								$(document).ready(function () {
 									$('#registration').modal('show');
 								});
-								window.otp=data;
+								window.otp = data;
 							}
-        				} });
-      				}
-					catch(err)
-					{
-					  alert(err.message);
-					}
-            	}
-				return false;
-            }
-    </script>
+						}
+					});
+				}
+				catch (err) {
+					alert(err.message);
+				}
+			}
+			return false;
+		}
+	</script>
 </head>
 
 <body>
-<header>
-	<p class="logo">
-		The Expl<img class="circle" src="{{url_for('static', filename='earth.png')}}" height="40" width="40">rer
-	</p>
-	<h5>This website allows the users to set the events in the map according to the timeline and genre selected. </h5>
-</header>
+	<header>
+		<p class="logo">
+			The Expl<img class="circle" src="{{url_for('static', filename='earth.png')}}" height="40" width="40">rer
+		</p>
+		<h5>This website allows the users to set the events in the map according to the timeline and genre selected.
+		</h5>
+	</header>
 
-<div class="bodyfrost">
+	<div class="bodyfrost">
 
-	<div class="container" id="container">
-		<div class="form-container sign-up-container">
-		 <form name="mform" onsubmit="return validateformsignup()"   >
+		<div class="container" id="container">
+			<div class="form-container sign-up-container">
+				<form name="mform" onsubmit="return validateformsignup()">
 					<h2><b>Create Account</b></h2>
-					<input type="text" placeholder="Name"  name="username" />
+					<input type="text" placeholder="Name" name="username" />
 					<input type="email" placeholder="Email" name="email" />
 					<input type="password" placeholder="Password" name="password" />
-					<input type="password" placeholder="Confirm Password"  name="retype_password" /><br>
+					<input type="password" placeholder="Confirm Password" name="retype_password" /><br>
 					<!-- <button type="button" data-toggle="modal" data-target="#registration">Sign Up</button> -->
-						 <button  type="submit" name="Submit" value="Submit">Sign Up</button>
-		 </form>
-		<form action = "{{ url_for('signup') }}" id = "p_sign" style = "display:none;" method = "post">
-					<input type = "hidden" name = "h_name", value = "placeholder" id = "h_name"/>
-					<input type = "hidden" name = "h_email", value = "placeholder" id = "h_email"/>
-					<input type = "hidden" name = "h_pass", value = "placeholder" id = "h_pass"/>
-		</form>
-		</div>
-		<div class="form-container sign-in-container">
-		<form name = "myform" action = "http://localhost:5000/login" method = "post" onsubmit="return validateformLogin()">
-				<h2><b>Sign in</b></h2>
-				<input type="email" placeholder="Email" name="email" />
-				<input type="password" placeholder="Password"  name="password" />
-				<button type="button" data-toggle="modal" data-target="#fp" class="forgotpassword">Forgot your password?</button>
-				<button>Sign In</button>
-			</form>
+					<button type="submit" name="Submit" value="Submit">Sign Up</button>
+				</form>
+				<form action="{{ url_for('signup') }}" id="p_sign" style="display:none;" method="post">
+					<input type="hidden" name="h_name" , value="placeholder" id="h_name" />
+					<input type="hidden" name="h_email" , value="placeholder" id="h_email" />
+					<input type="hidden" name="h_pass" , value="placeholder" id="h_pass" />
+				</form>
+			</div>
+			<div class="form-container sign-in-container">
+				<form name="myform" action="http://localhost:5000/login" method="post"
+					onsubmit="return validateformLogin()">
+					<h2><b>Sign in</b></h2>
+					<input type="email" placeholder="Email" name="email" />
+					<input type="password" placeholder="Password" name="password" />
+					<button type="button" data-toggle="modal" data-target="#fp" class="forgotpassword">Forgot your
+						password?</button>
+					<button>Sign In</button>
+				</form>
 
-		</div>
-		<div class="overlay-container">
-			<div class="overlay">
-				<div class="overlay-panel overlay-left">
-					<h2><b>Welcome Back Explorer!</b></h2><br>
-					<p>Login with your credentials and start exploring with us!</p><br>
-					<button class="ghost" id="signIn">Sign In</button>
-				</div>
+			</div>
+			<div class="overlay-container">
+				<div class="overlay">
+					<div class="overlay-panel overlay-left">
+						<h2><b>Welcome Back Explorer!</b></h2><br>
+						<p>Login with your credentials and start exploring with us!</p><br>
+						<button class="ghost" id="signIn">Sign In</button>
+					</div>
 
-				<div class="overlay-panel overlay-right">
-					<h2><b>Hello, Explorer!</b></h2><br>
-					<p>Sign up for free and start exploring with us!</p><br>
-					<button class="ghost" id="signUp">Sign Up</button>
+					<div class="overlay-panel overlay-right">
+						<h2><b>Hello, Explorer!</b></h2><br>
+						<p>Sign up for free and start exploring with us!</p><br>
+						<button class="ghost" id="signUp">Sign Up</button>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
 
-<div class="modal fade" id="registration" tabindex="-1" role="dialog" aria-labelledby="registrationTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header justify-content-center">
-        <h5 class="modal-title" id="registrationTitle">Enter the OTP sent to the registered E-mail.</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form class="modal-form-row" id = "otpinfo">
-			<input class= "modal-input" type="number" placeholder="" id = "num1">&nbsp;
-			<input class= "modal-input" type="number" placeholder="" id = "num2">&nbsp;
-			<input class= "modal-input" type="number" placeholder="" id = "num3">&nbsp;
-			<input class= "modal-input" type="number" placeholder="" id = "num4">&nbsp;
-		</form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="modal-button" type = "submit" data-dismiss = "modal" onclick = "signup_verify()">Confirm OTP</button>
-       <!-- <button type="button" class="modal-button">Save changes</button> -->
-      </div>
-    </div>
-  </div>
-</div>
+	<div class="modal fade" id="registration" tabindex="-1" role="dialog" aria-labelledby="registrationTitle"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header justify-content-center">
+					<h5 class="modal-title" id="registrationTitle">Enter the OTP sent to the registered E-mail.</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form class="modal-form-row" id="otpinfo">
+						<input class="modal-input" type="number" placeholder="" id="num1">&nbsp;
+						<input class="modal-input" type="number" placeholder="" id="num2">&nbsp;
+						<input class="modal-input" type="number" placeholder="" id="num3">&nbsp;
+						<input class="modal-input" type="number" placeholder="" id="num4">&nbsp;
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="modal-button" type="submit" data-dismiss="modal"
+						onclick="signup_verify()">Confirm OTP</button>
+					<!-- <button type="button" class="modal-button">Save changes</button> -->
+				</div>
+			</div>
+		</div>
+	</div>
 
-<div class="modal fade" id="fp" tabindex="-1" role="dialog" aria-labelledby="fpTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header justify-content-center">
-        <h5 class="modal-title" id="fpTitle">Enter your registered E-mail address.</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form class="modal-form-col">
-			<input class="fp-input" type="email" placeholder="E-mail" />
-		</form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="modal-button" data-dismiss="modal" data-toggle="modal" data-target="#resetpassword">Send OTP</button>
-       <!-- <button type="button" class="modal-button">Save changes</button> -->
-      </div>
-    </div>
-  </div>
-</div>
+	<div class="modal fade" id="fp" tabindex="-1" role="dialog" aria-labelledby="fpTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header justify-content-center">
+					<h5 class="modal-title" id="fpTitle">Enter your registered E-mail address.</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form class="modal-form-col">
+						<input class="fp-input" type="email" placeholder="E-mail" />
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="modal-button" data-dismiss="modal" data-toggle="modal"
+						data-target="#resetpassword">Send OTP</button>
+					<!-- <button type="button" class="modal-button">Save changes</button> -->
+				</div>
+			</div>
+		</div>
+	</div>
 
-<div class="modal fade" id="resetpassword" tabindex="-1" role="dialog" aria-labelledby="resetpasswordTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header justify-content-center">
-        <h5 class="modal-title" id="resetpasswordTitle">Enter the OTP sent and reset your password.</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form class="modal-form-row">
-			<input class= "modal-input" type="number" placeholder="" />&nbsp;
-			<input class= "modal-input" type="number" placeholder="" />&nbsp;
-			<input class= "modal-input" type="number" placeholder="" />&nbsp;
-			<input class= "modal-input" type="number" placeholder="" />&nbsp;
-			<br><br>
-		</form>
-        <form class="modal-form-col">
-			<input class="fp-input" type="password" placeholder="New Password" />
-			<input class="fp-input" type="password" placeholder="Retype New Password" />
-		</form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="modal-button" data-dismiss="modal" data-toggle="modal" data-target="#resetpassword">Reset Password</button>
-       <!-- <button type="button" class="modal-button">Save changes</button> -->
-      </div>
-    </div>
-  </div>
-</div>
+	<div class="modal fade" id="resetpassword" tabindex="-1" role="dialog" aria-labelledby="resetpasswordTitle"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header justify-content-center">
+					<h5 class="modal-title" id="resetpasswordTitle">Enter the OTP sent and reset your password.</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form class="modal-form-row">
+						<input class="modal-input" type="number" placeholder="" />&nbsp;
+						<input class="modal-input" type="number" placeholder="" />&nbsp;
+						<input class="modal-input" type="number" placeholder="" />&nbsp;
+						<input class="modal-input" type="number" placeholder="" />&nbsp;
+						<br><br>
+					</form>
+					<form class="modal-form-col">
+						<input class="fp-input" type="password" placeholder="New Password" />
+						<input class="fp-input" type="password" placeholder="Retype New Password" />
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="modal-button" data-dismiss="modal" data-toggle="modal"
+						data-target="#resetpassword">Reset Password</button>
+					<!-- <button type="button" class="modal-button">Save changes</button> -->
+				</div>
+			</div>
+		</div>
+	</div>
 
-<script src="{{url_for('static', filename='final_homepage.js')}}"></script>
+	<script src="{{url_for('static', filename='final_homepage.js')}}"></script>
 
 </body>
+
 </html>

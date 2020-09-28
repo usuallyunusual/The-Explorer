@@ -57,9 +57,7 @@ var sortBy = e.options[e.selectedIndex].text;
  
 
  var e = document.getElementById("numberOfRec").value;
- if(e == 0){
- e=5;
-}
+
 
   	$.ajax({
 						url: "{{ url_for('getrows') }}",
@@ -147,7 +145,7 @@ var sortBy = e.options[e.selectedIndex].text;
         <div class="col-sm-3">
         	      <label for="inputState">Number of records</label>
 
-    <input type="number" class="form-control" id="numberOfRec" aria-describedby="emailHelp" placeholder="number of records">
+    <input type="number" value="5" class="form-control" id="numberOfRec" aria-describedby="emailHelp" placeholder="number of records">
 		</div>
 
         <div  style="margin-top: 29px" class="col-sm-3">

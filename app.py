@@ -18,7 +18,7 @@ app.config["MYSQL_DATABASE_USER"] = "root"
 app.config["MYSQL_DATABASE_PASSWORD"] = ""
 app.config["MYSQL_DATABASE_DB"] = "explorer_db"
 app.config["MYSQL_DATABASE_HOST"] = "localhost"
-app.config["MYSQL_DATABASE_PORT"] = 3307
+app.config["MYSQL_DATABASE_PORT"] = 3306
 mysql.init_app(app)
 
 app.secret_key = "abc"
@@ -45,12 +45,12 @@ def login():
         myresult = cursor.fetchall()
         # print(myresult[0][1], myresult[0][2])
         if len(myresult) == 1 and bcrypt.checkpw(
-            login_password.encode(), myresult[0][3].encode()
+                login_password.encode(), myresult[0][3].encode()
         ):
-            if myresult[0][4] == 3:
+            if myresult[0][4] == 2:
                 print("Got here")
                 return redirect(url_for("annotate"))
-            elif myresult[0][4] == 2:
+            elif myresult[0][4] == 3:
                 pass
             else:
                 session["useremail"] = login_email
@@ -58,7 +58,7 @@ def login():
                 session["genre"] = []
                 return redirect(url_for("map"))
         else:
-            print("Fail")
+            return "fail"
 
     except Exception as e:
         print(e)
@@ -95,11 +95,11 @@ def email_validation():
         s.login("the.explorer.verify@gmail.com", "8884233310")
         number = random.randint(1000, 9999)
         message = (
-            """Subject: OTP Verification, The Explorer\n\n Thank you for signing up with TheExplorer. We'd love to have you onboard!
+                """Subject: OTP Verification, The Explorer\n\n Thank you for signing up with TheExplorer. We'd love to have you onboard!
         To proceed and finish your registration please enter the given OTP in the website. Do not share this OTP with anyone else.
         \nOTP: """
-            + str(number)
-            + """\n\nRegards \nTeamExplorer"""
+                + str(number)
+                + """\n\nRegards \nTeamExplorer"""
         )
         s.sendmail("the.explorer.verify@gmail.com", recieved_email, message)
         s.quit()
@@ -320,6 +320,55 @@ def fetch_data():
         print(e)
 
     return response
+
+
+@app.route("/getAttributes", methods=["GET"])
+def getAttributes():
+    key = request.args.get("table")
+    columns = list()
+    stmt = "SHOW COLUMNS FROM " + key
+    try:
+        cursor.execute(stmt)
+        res = cursor.fetchall()
+        for i in res:
+            temp = dict()
+            temp["col"] = i[0]
+            columns.append(temp)
+    except Exception as e:
+        print(e)
+
+    return jsonify(columns)
+
+
+@app.route("/getrows", methods=["GET"])
+def getrows():
+    table = request.args.get("table")
+    sortBy = request.args.get("sortBy")
+    number = int(request.args.get("number"))
+    
+
+    if table=="event":
+        if number > 500:
+            number=500
+            stmt = "SELECT * FROM " + table + " WHERE htext IS NOT NULL AND error IS NOT NULL ORDER BY " + sortBy + " LIMIT " + str(number)
+        else:
+            stmt = "SELECT * FROM " + table + " ORDER BY " + sortBy + " LIMIT " + str(number)
+
+
+    else:
+        stmt = "SELECT * FROM "+table+" ORDER BY "+sortBy+" LIMIT "+str(number)
+    try:
+        print(stmt)
+        cursor.execute(stmt)
+        res = cursor.fetchall()
+        for i in res:
+            print(i)
+
+
+    except Exception as e:
+        print(e)
+
+    return jsonify(res)
 
 
 if __name__ == "__main__":

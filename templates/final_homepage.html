@@ -31,7 +31,7 @@
 			var email = document.myform.email.value;
 			var password = document.myform.password.value;
 			if (email == null || email == "") {
-				alert("email can't be blank");
+				alert("email or password can't be blank");
 				return false;
 			}
 			else if (password.length < 6) {
@@ -48,14 +48,23 @@
 			var retype_password = document.mform.retype_password.value;
 			//console.log(name+password+retype_password+email);
 			var res = true;
-			if (name == null || name == "" || name.length < 6) {
-				alert("Name can't be blank and has to be longer than 6 characters");
+			if (name == null || name == "" || name.length < 6 || password == ""  || retype_password == "") {
+				alert("Name or password can't be blank and has to be longer than 6 characters");
 				res = false;
-			}
-			if (password.length < 6 || password.length != retype_password.length) {
+			}else{
+				if (password.length <6){
+						alert("Password must be at least 6 characters ");
+
+				}else{
+					if (password.length < 6 || password.length != retype_password.length) {
 				alert("Password must be at least 6 characters long and matching.");
 				res = false;
 			}
+
+				}
+				
+		}
+			
 			if (res == true) {
 				try {
 					$.ajax({

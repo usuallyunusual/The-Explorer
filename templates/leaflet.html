@@ -684,22 +684,24 @@
       </div>
       <script>
 
-      function show_article(id){
-      	  $.ajax({
-                  url: "{{ url_for('_get_data') }}",
-                  type: 'GET',
-                  datatype: 'json',
-                  data: { 'id': id},
-                  success: function (data) {
-                    if (data) {
+        function show_article(id) {
+          $.ajax({
+            url: "{{ url_for('_get_data') }}",
+            type: 'GET',
+            datatype: 'json',
+            data: { 'id': id },
+            success: function (data) {
+              if (data) {
 
 
-                      rightsidebar.setContent("<h1  class='event_name'>" + data.event_name + "</h1><p   class='event_year'>" + data.year + "</p><p class='event_text'>" + data.description + "</p><a target = '_blank' href = '" + data.url + "'>" + data.url + "</a>");
-                      rightsidebar.show();
-                    }
-                  }
-                });
-      }
+                rightsidebar.setContent("<h1  class='event_name'>" + data.event_name + "</h1><p   class='event_year'>" + data.year + "</p><p class='event_text'>" + data.description + "</p><a target = '_blank' href = '" + data.url + "'>" + data.url + "</a>");
+                rightsidebar.show();
+                console.log(marker[id]);
+                map.setView([marker[id].latlng.lat, marker[id].latlng.lng], 4);
+              }
+            }
+          });
+        }
         function markclick(num) {
           /* THIS IS FOR CLICKING ON TITLE AND ACTIVATING RIGHT SIDEBAR 
           OF THE PARTICULAR EVENT. THE FUNCTION IS NOT READY DO NOT DELETE*/
@@ -726,7 +728,7 @@
                   var toins = "";
                   var keys = new Object();
                   for (i = 0; i < 6; i++) {
-                  	                  console.log(response[i]);
+                    console.log(response[i]);
 
                     toins += "<div><p onclick='show_article(" + response[i][0] + ")' id = '" + response[i][0] + "'class='search_title'>" + response[i][1] + "</p><p class='search_desc'>" + response[i][2].slice(0, 100) + "...</p></div>";
                     keys[String(i)] = String(response[i][0]);
@@ -1654,6 +1656,7 @@
         event.target.closePopup();
       });
     }
+    window.markers = markers;
     window.cities = L.layerGroup(markers);
     window.cities.addTo(map);
     L.DomEvent.on(rightsidebar.getCloseButton(), 'click', function () {
@@ -1696,7 +1699,7 @@
               //console.log(mark[i].id);
               markers[i] = new L.marker([mark[i].lat, mark[i].long], { icon: redIcon }).addTo(map).on('click', function (event) {
                 map.setView([event.latlng.lat, event.latlng.lng], 6);
-              show_article(event.target.id );
+                show_article(event.target.id);
                 // rightsidebar.toggle();
               });
               markers[i].id = mark[i].id;

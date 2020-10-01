@@ -1,0 +1,115 @@
+{% extends "layout_admin.html" %}
+{% set active_page = "vis" %}
+{% set title  = "The Explorer - Visualization" %}
+{% block content %}
+<!-- 4 tiles on top -->
+<div class="container_fluid">
+	<div class="row">
+
+		<div class="col-md-3 text-center">
+			<div class="card bgtile">
+				<div class="card-body">
+					<p>500</p>
+				</div>
+				<div class="card-footer">
+					Events
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-3 text-center">
+			<div class="card bgtile">
+				<div class="card-body">
+					<p>9</p>
+				</div>
+				<div class="card-footer">
+					Genres
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-3 text-center">
+			<div class="card bgtile">
+				<div class="card-body">
+					<p>2500</p>
+				</div>
+				<div class="card-footer">
+					Years
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-3 text-center">
+			<div class="card bgtile">
+				<div class="card-body">
+					<p>10</p>
+				</div>
+				<div class="card-footer">
+					Users
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<br>
+
+<!-- Pie chart for Genres -->
+<div class="container_fluid">
+	<div class="row">
+		<div class="col-md-6 text-center">
+			<div class="card vistile">
+				<div class="card-body">
+					<canvas id="pieChart"></canvas>
+				</div>
+				<div class="card-footer">
+					Genres Distribution
+				</div>
+			</div>
+		</div>
+		<!-- Bar chart for search trends -->
+		<div class="col-md-6 text-center">
+			<div class="card vistile">
+				<div class="card-body">
+					<canvas id="barChartHorizontal"></canvas>
+				</div>
+				<div class="card-footer">
+					Search Trends
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<br>
+
+<!-- Line chart for traffic -->
+<div class="container_fluid">
+	<div class="row">
+		<div class="col-md-6 text-center">
+			<div class="card vistile">
+				<div class="card-body">
+					<canvas id="lineChart"></canvas>
+				</div>
+				<div class="card-footer">
+					Traffic
+				</div>
+			</div>
+		</div>
+		<!-- Top page ranks -->
+		<div class="col-md-6 text-center">
+			<div class="card vistile">
+				<div class="card-body">
+					<canvas id="myChart"></canvas>
+				</div>
+				<div class="card-footer">
+					Top page ranks
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<br>
+
+
+<!-- JS file with visualizations -->
+<script type="text/javascript" src="{{ url_for('static',filename = 'vis.js') }}"></script>
+{% endblock content%}

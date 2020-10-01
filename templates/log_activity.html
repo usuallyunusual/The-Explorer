@@ -1,0 +1,183 @@
+{% extends 'layout_admin.html' %}
+{% set active_page = 'log' %}
+{% set title  = "The Explorer - Log Activity" %}
+{% block content %}
+<div class="container-fluid temp">
+	<div class="row">
+		<div class="col-md-6">
+			<div class="row">
+				<div class=" table table-wrapper-scroll-y my-custom-scrollbar">
+					<table class="table-bordered text-center">
+						<thead>
+							<tr>
+								<th scope="col">flag_key</th>
+								<th scope="col">event_key</th>
+								<th scope="col">flag_date</th>
+								<th scope="col">flag_time</th>
+								<th scope="col">flag_description</th>
+								<!--<th scope="col">user_id</th>-->
+								<th scope="col">flag_approved</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th scope="row">1</th>
+								<td>Mark</td>
+								<td>Otto</td>
+								<td>@mdo</td>
+								<td>Mark</td>
+								<!--<td>Otto</td>-->
+								<td>@mdo</td>
+							</tr>
+							<tr>
+								<th scope="row">2</th>
+								<td>Jacob</td>
+								<td>Thornton</td>
+								<td>@fat</td>
+								<td>Jacob</td>
+								<!--<td>Thornton</td>-->
+								<td>@fat</td>
+							</tr>
+							<tr>
+								<th scope="row">3</th>
+								<td>Larry</td>
+								<td>the Bird</td>
+								<td>@twitter</td>
+								<td>Larry</td>
+								<!--<td>the Bird</td>-->
+								<td>@twitter</td>
+							</tr>
+							<tr>
+								<th scope="row">4</th>
+								<td>Mark</td>
+								<td>Otto</td>
+								<td>@mdo</td>
+								<td>Mark</td>
+								<!-- <td>Otto</td>-->
+								<td>@mdo</td>
+							</tr>
+							<tr>
+								<th scope="row">5</th>
+								<td>Jacob</td>
+								<td>Thornton</td>
+								<td>@fat</td>
+								<td>Jacob</td>
+								<!--<td>Thornton</td>-->
+								<td>@fat</td>
+							</tr>
+							<tr>
+								<th scope="row">6</th>
+								<td>Larry</td>
+								<td>the Bird</td>
+								<td>@twitter</td>
+								<td>Larry</td>
+								<!--<td>the Bird</td>-->
+								<td>@twitter</td>
+							</tr>
+							<tr>
+								<th scope="row">6</th>
+								<td>Larry</td>
+								<td>the Bird</td>
+								<td>@twitter</td>
+								<td>Larry</td>
+								<!--<td>the Bird</td>-->
+								<td>@twitter</td>
+							</tr>
+							<tr>
+								<th scope="row">6</th>
+								<td>Larry</td>
+								<td>the Bird</td>
+								<td>@twitter</td>
+								<td>Larry</td>
+								<!--<td>the Bird</td>-->
+								<td>@twitter</td>
+							</tr>
+							<tr>
+								<th scope="row">6</th>
+								<td>Larry</td>
+								<td>the Bird</td>
+								<td>@twitter</td>
+								<td>Larry</td>
+								<!--<td>the Bird</td>-->
+								<td>@twitter</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<br><br>
+			<div class="row">
+				<div class="col-md-12 d-flex justify-content-center">
+					<button type="button" class="btn">Accept</button>
+					<button type="button" class="btn">Reject</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<form>
+				<div class="row">
+					<!--<div class="col-sm-1"></div>-->
+					<div class="col-xs-1 col-md-4">
+						<input readonly type="text" class="form-control smallest_text" placeholder="Event Key"
+							name="event_key" value="">
+					</div>
+					<!--<div class="col-sm-1"></div>
+						<div class="col-sm-1"></div>-->
+					<div class="col-xs-1 col-md-8">
+						<input readonly type="text" class="form-control smaller_text" placeholder="Event Title"
+							name="event_title">
+					</div>
+				</div>
+			</form>
+			<br>
+			<form>
+				<div class="row">
+					<!--<div class="col-sm-1"></div>-->
+					<div class="col-md-4">
+						<input readonly type="text" class="form-control smallest_text" placeholder="Event Year"
+							name="event_year" value="">
+					</div>
+					<!--<div class="col-sm-1"></div>-->
+					<!--<div class="col-sm-1"></div>-->
+					<div class="col-md-8">
+						<input readonly type="text" class="form-control smaller_text" placeholder="Event Genre"
+							name="event_genre">
+					</div>
+				</div>
+			</form>
+			<br>
+			<form>
+				<div class="row">
+					<!--<div class="col-sm-1"></div>-->
+					<div class="col-md-12">
+						<input readonly type="text" class="form-control long_text" placeholder="Event URL"
+							name="event_url" value="">
+					</div>
+				</div>
+			</form>
+			<br>
+			<form>
+				<div class="row">
+					<!--<div class="col-sm-1"></div>-->
+					<div class="col-md-12">
+						<input readonly type="text" class="form-control long_text" placeholder="Event Location"
+							name="event_location" value="">
+					</div>
+				</div>
+			</form>
+			<br>
+			<form>
+				<div class="row">
+					<!--<div class="col-sm-1"></div>-->
+					<div class="col-md-12">
+						<textarea readonly type="text" class="form-control long_text" placeholder="Event Text"
+							name="event_text" value="" rows="11" style="resize: none;"></textarea>
+					</div>
+				</div>
+			</form>
+			<br>
+		</div>
+	</div>
+</div>
+{% endblock content%}

@@ -49,11 +49,14 @@ def login():
         if len(myresult) == 1 and bcrypt.checkpw(
             login_password.encode(), myresult[0][3].encode()
         ):
-            if myresult[0][4] == 2:
-                print("Got here")
+            print(myresult[0][4])
+            if myresult[0][4] == 3:
+                session["username"] = "Backend"
                 return redirect(url_for("annotate"))
-            elif myresult[0][4] == 3:
-                pass
+            elif myresult[0][4] == 2:
+                print("Here")
+                session["username"] = "Admin"
+                return redirect(url_for("log_activity"))
             else:
                 session["useremail"] = login_email
                 session["username"] = myresult[0][2]
@@ -212,9 +215,7 @@ def search():
 @app.route("/_get_data/", methods=["GET"])
 def _get_data():
     recieved_event_id = request.args.get("id")
-    insert_stmt = (
-        "SELECT   event_year,event_title,event_text,url,event_key FROM event where event_key=%s"
-    )
+    insert_stmt = "SELECT   event_year,event_title,event_text,url,event_key FROM event where event_key=%s"
     data = recieved_event_id
     final_data = {}
     try:
@@ -298,7 +299,31 @@ def runscripts():
 
 @app.route("/viewdata")
 def viewdata():
-    return render_template("view_data.html")
+    if session["username"] == "Admin":
+        return render_template("view_data.html", layout_variable="layout_admin.html")
+    elif session["username"] == "Backend":
+        return render_template("view_data.html", layout_variable="layout.html")
+    else:
+        return redirect(url_for("map"))
+
+
+@app.route("/annot")
+def annot():
+    id = request.args.get("id")
+    genre = request.args.get("genre")
+    stmt = "SELECT genre_id FROM genre WHERE genre_text = %s"
+    try:
+        cursor.execute(stmt, genre)
+        res = cursor.fetchall()[0][0]
+        stmt = "UPDATE event SET event_genre = %s WHERE event_key = %s"
+        cursor.execute(stmt, (res, id))
+        print(cursor._last_executed)
+        conn.commit()
+        return "Success"
+    except Exception as e:
+        print(e)
+        conn.rollback()
+        return "Fail"
 
 
 @app.route("/fetch_data", methods=["GET"])
@@ -319,6 +344,16 @@ def fetch_data():
         print(e)
 
     return response
+
+
+@app.route("/log_activity")
+def log_activity():
+    return render_template("log_activity.html")
+
+
+@app.route("/vis")
+def vis():
+    return render_template("vis.html")
 
 
 @app.route("/getAttributes", methods=["GET"])
@@ -348,41 +383,22 @@ def getrows():
     if table == "event":
         if number > 500:
             number = 500
-<<<<<<< HEAD
-            stmt = "SELECT * FROM " + table + " WHERE htext IS NOT NULL AND error IS NOT NULL ORDER BY " + sortBy + " LIMIT " + str(
-                number)
-=======
-            stmt = (
-                "SELECT * FROM "
-                + table
-                + " WHERE htext IS NOT NULL AND error IS NOT NULL ORDER BY "
-                + sortBy
-                + " LIMIT "
-                + str(number)
-            )
->>>>>>> 38f86a2f49345cac955ce7d191815f3bdb837566
-        else:
-            stmt = (
-                "SELECT * FROM "
-                + table
-                + " ORDER BY "
-                + sortBy
-                + " LIMIT "
-                + str(number)
-            )
-
+        stmt = (
+            "SELECT * FROM "
+            + table
+            + " WHERE htext IS NOT NULL AND error IS NULL ORDER BY "
+            + sortBy
+            + " LIMIT "
+            + str(number)
+        )
     else:
-<<<<<<< HEAD
-        stmt = "SELECT * FROM " + table + " ORDER BY " + sortBy + " LIMIT " + str(number)
-=======
         stmt = (
             "SELECT * FROM " + table + " ORDER BY " + sortBy + " LIMIT " + str(number)
         )
->>>>>>> 38f86a2f49345cac955ce7d191815f3bdb837566
     try:
         cursor.execute(stmt)
+        print(cursor._last_executed)
         res = cursor.fetchall()
-
     except Exception as e:
         print(e)
 
@@ -393,21 +409,21 @@ def getrows():
 def send_flag():
     event_key = request.args.get("event_key")
     radioflag = request.args.get("radioflag") + " " + request.args.get("flagDesc")
-
-    request.args.get("flagDesc")
-    date = datetime.date.today()
-    time = datetime.datetime.now().time()
+    date = request.args.get("date")
+    time = request.args.get("time")
     insert_stmt = "INSERT INTO flag_log(event_key,flag_date,flag_time,flag_description, user_id,flag_approved) VALUES (%s,%s,%s,%s,%s,0)"
 
-    userid = "SELECT user_id FROM user  WHERE user_email=\""+str(session["useremail"])+"\""
+    userid = (
+        'SELECT user_id FROM user  WHERE user_email="' + str(session["useremail"]) + '"'
+    )
     try:
         cursor.execute(userid)
         res = cursor.fetchall()
-        data = (event_key,date, time, radioflag, res[0][0])
-
-        cursor.execute(insert_stmt,data)
+        data = (event_key, date, time, radioflag, res[0][0])
+        print(data)
+        cursor.execute(insert_stmt, data)
         res = cursor.fetchall()
-
+        conn.commit()
 
     except Exception as e:
         print(e)

@@ -1,178 +1,178 @@
-{% extends 'layout.html'%}
+{% extends layout_variable %}
 {% set active_page = "view_data" %}
+{% set title  = "The Explorer - View Data" %}
 {% block content%}
 <!-- Content -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-		crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+	integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+	crossorigin="anonymous"></script>
 
 <style type="text/css">
-	table{
-   overflow-y:scroll;
-   height:400px;
-   display:block;
-}
+	table {
+		overflow-y: scroll;
+		height: 400px;
+		display: block;
+	}
 </style>
-		<script>
-			function getAttributes(value)
-
-{
+<script>
+	function getAttributes(value) {
 
 		$.ajax({
-						url: "{{ url_for('getAttributes') }}",
-						type: 'GET',
-						data: { 'table': value },
-						success: function (data) {
-							 var mark = data;
-					            var i = 0;
-					          $('#attributes').html('');
+			url: "{{ url_for('getAttributes') }}",
+			type: 'GET',
+			data: { 'table': value },
+			success: function (data) {
+				var mark = data;
+				var i = 0;
+				$('#attributes').html('');
+				var sel = document.getElementById('attributes');
+				var opt = null;
+				window.attribute = [];
 
-									var sel = document.getElementById('attributes');
-									var opt = null;
-									window.attribute=[];
+				for (i = 0; i < mark.length; i++) {
+					window.attribute.push(mark[i]['col']);
+					opt = document.createElement('option');
+					opt.value = mark[i]['col'];
+					opt.innerHTML = mark[i]['col'];
+					sel.appendChild(opt);
+				}
+			}
+		});
+	}
+	function process() {
+		var e = document.getElementById("drop_table");
+		var table = e.options[e.selectedIndex].text;
 
-									for(i = 0; i<mark.length; i++) { 
-										window.attribute.push(mark[i]['col']);
 
-									    opt = document.createElement('option');
-									    opt.value = mark[i]['col'];
-									    opt.innerHTML = mark[i]['col'];
-									    sel.appendChild(opt);
-									}
-										
+		var e = document.getElementById("attributes");
+		var sortBy = e.options[e.selectedIndex].text;
 
-						
+
+
+		var e = document.getElementById("numberOfRec").value;
+
+
+		$.ajax({
+			url: "{{ url_for('getrows') }}",
+			type: 'GET',
+			data: { 'table': table, 'sortBy': sortBy, 'number': e },
+			success: function (data) {
+				//console.log(data);
+				var column_name = window.attribute;
+
+
+				// var table = "<tr><th>Match No</th><th>VS</th><th>Time</th><th>Location</th></tr>"; 
+				var table = "<tr>";
+				for (var i = 0; i < column_name.length; i++) {
+					table = table + "<th>" + column_name[i] + "</th>";
+
+				}
+				table = table + "</tr>";
+				// subcategory heading
+				for (var i = 0; i < data.length; i++) {
+					inter = data[i];
+					var row = "<tr>"
+					for (var j = 0; j < inter.length; j++) {
+						if (String(inter[j]).includes("<html")) {
+							row = row + "<td></td>";
+						}
+						else {
+							row = row + "<td>" + inter[j] + "</td>";
+						}
 					}
-					});
-}
-function process() {
-var e = document.getElementById("drop_table");
-var table = e.options[e.selectedIndex].text;
+					row = row + "</tr>"
 
+					table = table + row;
+				}
 
-var e = document.getElementById("attributes");
-var sortBy = e.options[e.selectedIndex].text;
-
- 
-
- var e = document.getElementById("numberOfRec").value;
-
-
-  	$.ajax({
-						url: "{{ url_for('getrows') }}",
-						type: 'GET',
-						data: { 'table': table,'sortBy':sortBy,'number':e },
-						success: function (data) {
-							console.log(data);
-							var column_name=window.attribute;
-
-
-							// var table = "<tr><th>Match No</th><th>VS</th><th>Time</th><th>Location</th></tr>"; 
-							var table="<tr>";
-							for (var i=0;i<column_name.length;i++)
-							{
-								table=table+"<th>"+column_name[i]+"</th>";
-
-							}
-							table=table+"</tr>";
-				 // subcategory heading
-				  for(var i=0;i<data.length;i++){
-				  	inter=data[i];
-				  	var row="<tr>"
-				  	for(var j=0;j<inter.length;j++){
-				  		row=row+"<td>"+inter[j]+"</td>";
-				  	}
-				  	row=row+"</tr>"
-
-				  	table=table+row;				  
-				    }
-
-				    table=table+"</tr>"
+				table = table + "</tr>"
 
 
 
-				    //   var titles = obj.Matches[i].mno;
-				    // var cats = obj.Matches[i].vs;
-				    // var subCats = obj.Matches[i].time;
-				    // var currentPrice = obj.Matches[i].location;
+				//   var titles = obj.Matches[i].mno;
+				// var cats = obj.Matches[i].vs;
+				// var subCats = obj.Matches[i].time;
+				// var currentPrice = obj.Matches[i].location;
 
-				    // table += "<tr><td>" + titles + "</td><td>" + cats + "</td><td>" + subCats +"</td><td>"+currentPrice+"</td></tr>";
-				    //   console.log(table);
+				// table += "<tr><td>" + titles + "</td><td>" + cats + "</td><td>" + subCats +"</td><td>"+currentPrice+"</td></tr>";
+				//   console.log(table);
 
-				  document.getElementById("year_table").innerHTML = table;
-
-										
-
-						
-					}
-					});
+				document.getElementById("year_table").innerHTML = table;
 
 
-}
+
+
+			}
+		});
+
+
+	}
 </script>
 <div class="row">
 
-  <div class="col-sm-12">
+	<div class="col-sm-12">
 
-      <div style="width: 90%;margin: auto;" class="row">
-
-
-        <div class="col-sm-3">
-        	      <label  for="inputState">Table</label>
-
-          <select   onmousedown="this.value='';" onchange="getAttributes(this.value);" id="drop_table" name="table" class="form-control">
-        <option selected>event</option>
-        <option>user</option>
-        <option>activity_log</option>
-        <option>flag_log</option>
-        <option>links</option>
-        <option>role</option>
-        <option>webs</option>
-                <option>genre</option>
+		<div style="width: 90%;margin: auto;" class="row">
 
 
-      </select>
-        </div>
+			<div class="col-sm-3">
+				<label for="inputState">Table</label>
 
-        <div class="col-sm-3">
-        	<label for="inputState">Sort by</label>
+				<select onmousedown="this.value='';" onchange="getAttributes(this.value);" id="drop_table" name="table"
+					class="form-control">
+					<option selected>event</option>
+					<option>user</option>
+					<option>activity_log</option>
+					<option>flag_log</option>
+					<option>links</option>
+					<option>role</option>
+					<option>webs</option>
+					<option>genre</option>
 
-           <select id="attributes"    class="form-control">
-        
-      </select>
-        </div>
-        <div class="col-sm-3">
-        	      <label for="inputState">Number of records</label>
 
-    <input type="number" value="5" class="form-control" id="numberOfRec" aria-describedby="emailHelp" placeholder="number of records">
+				</select>
+			</div>
+
+			<div class="col-sm-3">
+				<label for="inputState">Sort by</label>
+
+				<select id="attributes" class="form-control">
+
+				</select>
+			</div>
+			<div class="col-sm-3">
+				<label for="inputState">Number of records</label>
+
+				<input type="number" value="5" class="form-control" id="numberOfRec" aria-describedby="emailHelp"
+					placeholder="number of records">
+			</div>
+
+			<div style="margin-top: 29px" class="col-sm-3">
+				<button type="button" onclick="process()" class="btn btn-primary">Submit</button>
+			</div>
+
 		</div>
+		</form>
+		<br>
 
-        <div  style="margin-top: 29px" class="col-sm-3">
-  <button type="button"  onclick="process()" class="btn btn-primary">Submit</button>
-        </div>
+		<div class="row">
 
-      </div>
-    </form>
-    <br>
+			<div class="col-sm-1"></div>
 
-      <div class="row">
+			<div class="col-sm-10">
+				<table id="year_table" class="table table-bordered table-dark">
 
-        <div class="col-sm-1"></div>
 
-        <div class="col-sm-10">
-          <table id="year_table" class="table table-bordered table-dark">
-           
-                
-          </table>
+				</table>
 
-          <script type="text/javascript">
+				<script type="text/javascript">
 
-          	
-          </script>
-        </div>
 
-      </div>
-  </div>
+				</script>
+			</div>
+
+		</div>
+	</div>
 </div>
 {% endblock content%}

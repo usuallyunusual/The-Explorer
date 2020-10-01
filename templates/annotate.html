@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% set active_page = "annotate" %}
+{% set title  = "The Explorer - Annotate" %}
 {% block content %}
 <!-- Content -->
 <div class="row">
@@ -42,9 +43,9 @@
 				<div class="col">
 					<center>
 						<button type="submit" id="prev" class="btn btn-dark btn-lg pn"
-							onclick="return fetch(event);">Previous</button>
+							onclick="return fetch('prev');">Previous</button>
 						<button type="submit" id="next" class="btn btn-dark btn-lg pn"
-							onclick="return fetch(event);">Next</button>
+							onclick="return fetch('next');">Next</button>
 					</center>
 				</div>
 			</div>
@@ -56,22 +57,10 @@
 			<div class="row">
 				<div class="col-sm-2"></div>
 				<div class="col">
-					<button type="button" class="btn btn-dark btn-lg gn">Art</button>
+					<button type="button" onclick="annot(this)" class="btn btn-dark btn-lg gn">Art</button>
 				</div>
 				<div class="col">
-					<button type="button" class="btn btn-dark btn-lg gn">Biology</button>
-				</div>
-			</div>
-		</div>
-		<br>
-		<div>
-			<div class="row">
-				<div class="col-sm-2"></div>
-				<div class="col">
-					<button type="button" class="btn btn-dark btn-lg gn">Computer Science</button>
-				</div>
-				<div class="col">
-					<button type="button" class="btn btn-dark btn-lg gn">Education</button>
+					<button type="button" onclick="annot(this)" class="btn btn-dark btn-lg gn">Biology</button>
 				</div>
 			</div>
 		</div>
@@ -80,10 +69,22 @@
 			<div class="row">
 				<div class="col-sm-2"></div>
 				<div class="col">
-					<button type="button" class="btn btn-dark btn-lg gn">Health</button>
+					<button type="button" onclick="annot(this)" class="btn btn-dark btn-lg gn">Computer Science</button>
 				</div>
 				<div class="col">
-					<button type="button" class="btn btn-dark btn-lg gn">Literature</button>
+					<button type="button" onclick="annot(this)" class="btn btn-dark btn-lg gn">Education</button>
+				</div>
+			</div>
+		</div>
+		<br>
+		<div>
+			<div class="row">
+				<div class="col-sm-2"></div>
+				<div class="col">
+					<button type="button" onclick="annot(this)" class="btn btn-dark btn-lg gn">Health</button>
+				</div>
+				<div class="col">
+					<button type="button" onclick="annot(this)" class="btn btn-dark btn-lg gn">Literature</button>
 				</div>
 			</div>
 			</fiv>
@@ -92,10 +93,10 @@
 				<div class="row">
 					<div class="col-sm-2"></div>
 					<div class="col">
-						<button type="button" class="btn btn-dark btn-lg gn">Politics</button>
+						<button type="button" onclick="annot(this)" class="btn btn-dark btn-lg gn">Politics</button>
 					</div>
 					<div class="col">
-						<button type="button" class="btn btn-dark btn-lg gn">Religion</button>
+						<button type="button" onclick="annot(this)" class="btn btn-dark btn-lg gn">Religion</button>
 					</div>
 				</div>
 			</div>
@@ -104,10 +105,10 @@
 				<div class="row">
 					<div class="col-sm-2"></div>
 					<div class="col">
-						<button type="button" class="btn btn-dark btn-lg gn">Sports</button>
+						<button type="button" onclick="annot(this)" class="btn btn-dark btn-lg gn">Sports</button>
 					</div>
 					<div class="col">
-						<button type="button" class="btn btn-dark btn-lg gn">None</button>
+						<button type="button" onclick="annot(this)" class="btn btn-dark btn-lg gn">None</button>
 					</div>
 				</div>
 			</div>

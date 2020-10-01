@@ -3,7 +3,7 @@ function fetch(event) {
     if (num === "" || isNaN(num)) {
         num = 2;
     }
-    else if (event.srcElement.id === "next") {
+    else if (event === "next") {
         num = parseInt(num) + 1;
         if (num > 500) {
             num = 500;
@@ -30,4 +30,16 @@ function fetch(event) {
     return false;
 
 
+}
+function annot(e) {
+    var genre = e.innerHTML;
+    $.ajax({
+        type: 'GET',
+        url: '/annot',
+        data: { 'id': $("#event_key").val(), 'genre': genre },
+        success: function (response) {
+            console.log(response);
+            $("#next").trigger("click");
+        }
+    })
 }

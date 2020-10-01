@@ -1,5 +1,7 @@
 import smtplib
 import random
+import datetime
+
 from flask import Flask, request, url_for, render_template, jsonify, session
 from werkzeug.utils import redirect
 from flaskext.mysql import MySQL
@@ -122,7 +124,6 @@ def signup():
         # Executing the SQL command
         cursor.execute(insert_stmt, data)
         myresult = cursor.fetchall()
-        print(myresult)
         if len(myresult) == 0:
             insert_stmt = "INSERT INTO user(user_email, user_name,user_pass,role_id) VALUES (%s, %s, %s, %s)"
             data = (email, username, password, 1)
@@ -148,7 +149,6 @@ def map():
         "SELECT  event_key,event_title, event_lat,event_long FROM event LIMIT 6"
     )
     keys = list()
-    # print(type(session["useremail"]))
     marker_data = list()
     try:
         # Executing the SQL command
@@ -213,7 +213,7 @@ def search():
 def _get_data():
     recieved_event_id = request.args.get("id")
     insert_stmt = (
-        "SELECT   event_year,event_title,event_text,url FROM event where event_key=%s"
+        "SELECT   event_year,event_title,event_text,url,event_key FROM event where event_key=%s"
     )
     data = recieved_event_id
     final_data = {}
@@ -223,6 +223,7 @@ def _get_data():
         myresult = cursor.fetchall()
         ss = myresult[0]
         final_data = {
+            "event_key": ss[4],
             "event_name": ss[1],
             "year": ss[0],
             "description": ss[2],
@@ -254,7 +255,6 @@ def _get_year_data():
         keys = tuple([temp[str(i)] for i in range(6)])
         select_stmt = "SELECT event_key,event_title ,event_year, event_lat , event_long FROM event where event_key IN %s"
         data = ((keys),)
-        print(keys)
 
     marker_data = []
     try:
@@ -304,7 +304,6 @@ def viewdata():
 @app.route("/fetch_data", methods=["GET"])
 def fetch_data():
     key = request.args.get("id")
-    print(key)
     stmt = "SELECT event_key,event_title,url,event_text FROM event WHERE event_key = %s"
     try:
         cursor.execute(stmt, key)
@@ -349,6 +348,10 @@ def getrows():
     if table == "event":
         if number > 500:
             number = 500
+<<<<<<< HEAD
+            stmt = "SELECT * FROM " + table + " WHERE htext IS NOT NULL AND error IS NOT NULL ORDER BY " + sortBy + " LIMIT " + str(
+                number)
+=======
             stmt = (
                 "SELECT * FROM "
                 + table
@@ -357,6 +360,7 @@ def getrows():
                 + " LIMIT "
                 + str(number)
             )
+>>>>>>> 38f86a2f49345cac955ce7d191815f3bdb837566
         else:
             stmt = (
                 "SELECT * FROM "
@@ -368,20 +372,47 @@ def getrows():
             )
 
     else:
+<<<<<<< HEAD
+        stmt = "SELECT * FROM " + table + " ORDER BY " + sortBy + " LIMIT " + str(number)
+=======
         stmt = (
             "SELECT * FROM " + table + " ORDER BY " + sortBy + " LIMIT " + str(number)
         )
+>>>>>>> 38f86a2f49345cac955ce7d191815f3bdb837566
     try:
-        print(stmt)
         cursor.execute(stmt)
         res = cursor.fetchall()
-        for i in res:
-            print(i)
 
     except Exception as e:
         print(e)
 
     return jsonify(res)
+
+
+@app.route("/send_flag/", methods=["GET"])
+def send_flag():
+    event_key = request.args.get("event_key")
+    radioflag = request.args.get("radioflag") + " " + request.args.get("flagDesc")
+
+    request.args.get("flagDesc")
+    date = datetime.date.today()
+    time = datetime.datetime.now().time()
+    insert_stmt = "INSERT INTO flag_log(event_key,flag_date,flag_time,flag_description, user_id,flag_approved) VALUES (%s,%s,%s,%s,%s,0)"
+
+    userid = "SELECT user_id FROM user  WHERE user_email=\""+str(session["useremail"])+"\""
+    try:
+        cursor.execute(userid)
+        res = cursor.fetchall()
+        data = (event_key,date, time, radioflag, res[0][0])
+
+        cursor.execute(insert_stmt,data)
+        res = cursor.fetchall()
+
+
+    except Exception as e:
+        print(e)
+
+    return "success"
 
 
 if __name__ == "__main__":

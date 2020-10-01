@@ -27,47 +27,76 @@
       top: 0;
     }
     */
-#snackbar {
-  visibility: hidden;
-  min-width: 250px;
-  margin-left: -125px;
-  background-color: #333;
-  color: #fff;
-  text-align: center;
-  border-radius: 2px;
-  padding: 16px;
-  position: fixed;
-  z-index: 1;
-  left: 50%;
-  bottom: 30px;
-  font-size: 17px;
-}
+    #snackbar {
+      visibility: hidden;
+      min-width: 250px;
+      margin-left: -125px;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      border-radius: 2px;
+      padding: 16px;
+      position: fixed;
+      z-index: 1;
+      left: 50%;
+      bottom: 30px;
+      font-size: 17px;
+    }
 
-#snackbar.show {
-  visibility: visible;
-  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-  animation: fadein 0.5s, fadeout 0.5s 2.5s;
-}
+    #snackbar.show {
+      visibility: visible;
+      -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+      animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
 
-@-webkit-keyframes fadein {
-  from {bottom: 0; opacity: 0;} 
-  to {bottom: 30px; opacity: 1;}
-}
+    @-webkit-keyframes fadein {
+      from {
+        bottom: 0;
+        opacity: 0;
+      }
 
-@keyframes fadein {
-  from {bottom: 0; opacity: 0;}
-  to {bottom: 30px; opacity: 1;}
-}
+      to {
+        bottom: 30px;
+        opacity: 1;
+      }
+    }
 
-@-webkit-keyframes fadeout {
-  from {bottom: 30px; opacity: 1;} 
-  to {bottom: 0; opacity: 0;}
-}
+    @keyframes fadein {
+      from {
+        bottom: 0;
+        opacity: 0;
+      }
 
-@keyframes fadeout {
-  from {bottom: 30px; opacity: 1;}
-  to {bottom: 0; opacity: 0;}
-}
+      to {
+        bottom: 30px;
+        opacity: 1;
+      }
+    }
+
+    @-webkit-keyframes fadeout {
+      from {
+        bottom: 30px;
+        opacity: 1;
+      }
+
+      to {
+        bottom: 0;
+        opacity: 0;
+      }
+    }
+
+    @keyframes fadeout {
+      from {
+        bottom: 30px;
+        opacity: 1;
+      }
+
+      to {
+        bottom: 0;
+        opacity: 0;
+      }
+    }
+
     .leaflet-sidebar {
       position: absolute;
       top: 0;
@@ -706,7 +735,8 @@
         <li><a href="#logout" role="tab"><i class="fas fa-user-lock"></i></a></li>
       </ul>
     </div>
-    <!-- SEARCH STARTS HERE--><div id="snackbar">you succesfully reported an article</div>
+    <!-- SEARCH STARTS HERE-->
+    <div id="snackbar">you succesfully reported an article</div>
 
     <div class="leaflet-sidebar-content">
       <div class="leaflet-sidebar-pane" id="search">
@@ -725,75 +755,74 @@
       </div>
       <script>
 
-<<<<<<< HEAD
-      	function snack() {
-  var x = document.getElementById("snackbar");
-  x.className = "show";
-  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-}
-      	function flagArticle(){
-      		var article_data=window.flagdata;
+        function snack() {
+          var x = document.getElementById("snackbar");
+          x.className = "show";
+          setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+        }
+        function flagArticle() {
+          var article_data = window.flagdata;
 
 
- 				 
-
-      		  rightsidebar.setContent("<input type='radio' id='r1' name='flag' value='Flag1'> f1<br><input type='radio'id='r2' name='flag' value='Flag2'> f3<br><input type='radio' id='r3' name='flag' value='Flag3' checked='checked'> f3 <br>  <textarea  id='flagtext' rows='6'cols='20' placeholder='(optional)write more about whats wrong with the article '></textarea>  <br>     <button  id='fl'>submit</button></div>");
 
 
-  $("#fl").click(function(){
-      		 var radioflag=document.querySelector('input[name="flag"]:checked').value;
-      		                 var txt = $("#flagtext").val(); 
+          rightsidebar.setContent("<input type='radio' id='r1' name='flag' value='Flag1'> f1<br><input type='radio'id='r2' name='flag' value='Flag2'> f3<br><input type='radio' id='r3' name='flag' value='Flag3' checked='checked'> f3 <br>  <textarea  id='flagtext' rows='6'cols='20' placeholder='(optional)write more about whats wrong with the article '></textarea>  <br>     <button  id='fl'>submit</button></div>");
 
-	  $.ajax({
-                  url: "{{ url_for('send_flag') }}",
-                  type: 'GET',
-                  datatype: 'json',
-                  data: { 'event_key': article_data.event_key,'radioflag':radioflag,'flagDesc':txt},
-                  success: function (data) {
-                  	console.log(data);
-                    if (data) {
 
-                    	
-                    	data=window.flagdata;
-                      rightsidebar.setContent("<h1  class='event_name'>" + data.event_name + "</h1><p   class='event_year'>" + data.year + "</p><p class='event_text'>" + data.description + "</p><a target = '_blank' href = '" + data.url + "'>" + data.url + "</a><img onclick="+"\'flagArticle()\'"+"  class='circle' src='{{url_for('static', filename='flag.svg')}}' height='20' width='20'>");
-                      rightsidebar.show();
+          $("#fl").click(function () {
+            var radioflag = document.querySelector('input[name="flag"]:checked').value;
+            var txt = $("#flagtext").val();
 
-                      snack();
-                    }
+            $.ajax({
+              url: "{{ url_for('send_flag') }}",
+              type: 'GET',
+              datatype: 'json',
+              data: { 'event_key': article_data.event_key, 'radioflag': radioflag, 'flagDesc': txt },
+              success: function (data) {
+                console.log(data);
+                if (data) {
+
+
+                  data = window.flagdata;
+                  rightsidebar.setContent("<h1  class='event_name'>" + data.event_name + "</h1><p   class='event_year'>" + data.year + "</p><p class='event_text'>" + data.description + "</p><a target = '_blank' href = '" + data.url + "'>" + data.url + "</a><img onclick=" + "\'flagArticle()\'" + "  class='circle' src='{{url_for('static', filename='flag.svg')}}' height='20' width='20'>");
+                  rightsidebar.show();
+
+                  snack();
+                }
+              }
+            });
+          });
+
+
+          // rightsidebar.show();
+
+        }
+
+
+        function show_article(id) {
+          $.ajax({
+            url: "{{ url_for('_get_data') }}",
+            type: 'GET',
+            datatype: 'json',
+            data: { 'id': id },
+            success: function (data) {
+              if (data) {
+                searchmarker = window.searchMarkerTemp;
+                for (var i = 0; i < searchmarker.length; i++) {
+                  if (id == searchmarker[i][0]) {
+                    console.log(searchmarker[i][0], searchmarker[i][1], searchmarker[i][2]);
+                    map.setView([parseInt(searchmarker[i][1]), parseInt(searchmarker[i][2])], 6);
+
                   }
-                });  });
+                }
 
-
-      		                        // rightsidebar.show();
-
-      	}
-
-
-      function show_article(id){
-      	  $.ajax({
-                  url: "{{ url_for('_get_data') }}",
-                  type: 'GET',
-                  datatype: 'json',
-                  data: { 'id': id},
-                  success: function (data) {
-                    if (data) {
-								searchmarker=window.searchMarkerTemp;
-								for(var i =0;i<searchmarker.length;i++){
-									if (id==searchmarker[i][0]){
-									console.log(searchmarker[i][0],searchmarker[i][1],searchmarker[i][2]);
-									        map.setView([parseInt(searchmarker[i][1]), parseInt(searchmarker[i][2])], 6);
-
-									}
-								}
-                    	
-                    	window.flagdata=data;
-                      rightsidebar.setContent("<h1  class='event_name'>" + data.event_name + "</h1><p   class='event_year'>" + data.year + "</p><p class='event_text'>" + data.description + "</p><a target = '_blank' href = '" + data.url + "'>" + data.url + "</a><img onclick="+"\'flagArticle()\'"+"  class='circle' src='{{url_for('static', filename='flag.svg')}}' height='20' width='20'>");
-                      rightsidebar.show();
-                    }
-                  }
-                });
-      }
-=======
+                window.flagdata = data;
+                rightsidebar.setContent("<h1  class='event_name'>" + data.event_name + "</h1><p   class='event_year'>" + data.year + "</p><p class='event_text'>" + data.description + "</p><a target = '_blank' href = '" + data.url + "'>" + data.url + "</a><img onclick=" + "\'flagArticle()\'" + "  class='circle' src='{{url_for('static', filename='flag.svg')}}' height='20' width='20'>");
+                rightsidebar.show();
+              }
+            }
+          });
+        }
         function show_article(id) {
           $.ajax({
             url: "{{ url_for('_get_data') }}",
@@ -812,7 +841,6 @@
             }
           });
         }
->>>>>>> 38f86a2f49345cac955ce7d191815f3bdb837566
         function markclick(num) {
           /* THIS IS FOR CLICKING ON TITLE AND ACTIVATING RIGHT SIDEBAR 
           OF THE PARTICULAR EVENT. THE FUNCTION IS NOT READY DO NOT DELETE*/
@@ -839,10 +867,7 @@
                   var toins = "";
                   var keys = new Object();
                   for (i = 0; i < 6; i++) {
-<<<<<<< HEAD
-=======
                     console.log(response[i]);
->>>>>>> 38f86a2f49345cac955ce7d191815f3bdb837566
 
                     toins += "<div><p onclick='show_article(" + response[i][0] + ")' id = '" + response[i][0] + "'class='search_title'>" + response[i][1] + "</p><p class='search_desc'>" + response[i][2].slice(0, 100) + "...</p></div>";
                     keys[String(i)] = String(response[i][0]);
@@ -1758,9 +1783,9 @@
             if (data) {
               rightsidebar.setContent("<h1  class='event_name'>" + data.event_name + "</h1><p   class='event_year'>" + data.year + "</p><p class='event_text'>" + data.description + "</p><a target = '_blank' href = '" + data.url + "'>" + data.url + "</a>");
               rightsidebar.show();
-                                            console.log(event);
+              console.log(event);
 
-        event.target.openPopup();
+              event.target.openPopup();
 
             }
           }
@@ -1770,7 +1795,7 @@
       markers[i].bindPopup(mark[i].popline);
       markers[i].on('mouseover', function (event) {
         // event.target.openPopup();
-                                      console.log(event);
+        console.log(event);
 
       });
       markers[i].on('mouseout', function (event) {
@@ -1787,7 +1812,7 @@
       console.log(data);
     };
     function get_year(key, list_option) {
-    	console.log(key);
+      console.log(key);
       var selected_year = new Object();
       selected_year.option = list_option;
       var data;
@@ -1811,19 +1836,19 @@
           if (data) {
             map.removeLayer(window.cities);
 
-                    map.setView([51.505, -0.09], 3);
+            map.setView([51.505, -0.09], 3);
 
             window.rightsidebar.hide();
             if (data === "Fail") {
               handleError(data);
               return;
             }
-            var  searchArray=new Array ( );
+            var searchArray = new Array();
             var mark = data;
             var i = 0;
             markers = [];
             for (i = 0; i < mark.length; i++) {
-            	searchArray[i]=new Array ( mark[i].id,mark[i].lat,mark[i].long);
+              searchArray[i] = new Array(mark[i].id, mark[i].lat, mark[i].long);
 
 
 
@@ -1832,7 +1857,7 @@
                 map.setView([event.latlng.lat, event.latlng.lng], 6);
                 show_article(event.target.id);
                 // rightsidebar.toggle();
-                                // event.target.openPopup();
+                // event.target.openPopup();
 
               });
               markers[i].id = mark[i].id;
@@ -1848,12 +1873,12 @@
             window.cities.addTo(map);
 
           }
-          		window.searchMarkerTemp=searchArray;
-          		console.log(window.searchMarkerTemp);
+          window.searchMarkerTemp = searchArray;
+          console.log(window.searchMarkerTemp);
         },
         error: handleError
       });
-  
+
     }
     function switchmenu(ele) {
       var y = document.getElementsByClassName("bottom-year-active");

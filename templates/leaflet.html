@@ -756,7 +756,7 @@
       </ul>
     </div>
     <!-- SEARCH STARTS HERE-->
-    <div id="snackbar">you succesfully reported an article</div>
+    <div id="snackbar">Explorer! You flagged an article</div>
 
     <div class="leaflet-sidebar-content">
       <div class="leaflet-sidebar-pane" id="search">
@@ -800,10 +800,10 @@
                 console.log(data);
                 if (data) {
                   data = window.flagdata;
-                  rightsidebar.setContent("<h1  class='event_name'>" + data.event_name + "</h1><p class='event_year'>" + data.year +
-                    "</p><p class='event_text'>" + data.description + "</p><a target = '_blank' href = '" + data.url + "'>" +
-                    data.url + "</a><img onclick=" + "\'flagArticle()\'" +
-                    "  class='circle' src='{{url_for('static', filename='flag_article.svg')}}' height='20' width='20'>");
+                  rightsidebar.setContent("<h1  class='event_name'><img onclick=" + "\'flagArticle()\'" +
+                  "  class='flag' src='{{url_for('static', filename='flag_article.svg')}}' height='40' width='40'>" + data.event_name + "</h1><p   class='event_year'>" + data.year +
+                  "</p><p class='event_text'>" + data.description + "</p><p> To know more visit-</p><a target = '_blank' href = '" +
+                  data.url + "'>" + data.url + "</a>");
                   rightsidebar.show();
                   snack();
                 }

@@ -9,11 +9,11 @@
 			<div class="row">
 				<div class="col-sm-1"></div>
 				<div class="col">
-					<input type="text" class="form-control" placeholder="Event Title" name="event_title"
+					<input type="text" class="form-control box" placeholder="Event Title" name="event_title"
 						id="event_title" value="" readonly>
 				</div>
 				<div class="col">
-					<input type="text" class="form-control" placeholder="Event Key" name="event_key" id="event_key">
+					<input type="text" class="form-control box" placeholder="Event Key" name="event_key" id="event_key" readonly>
 				</div>
 			</div>
 		</div>
@@ -22,7 +22,7 @@
 			<div class="row">
 				<div class="col-sm-1"></div>
 				<div class="col">
-					<input type="text" class="form-control" placeholder="Event URL" name="event_url" id="event_url"
+					<input type="text" class="form-control box" placeholder="Event URL" name="event_url" id="event_url"
 						readonly>
 				</div>
 			</div>
@@ -32,7 +32,7 @@
 			<div class="row">
 				<div class="col-sm-1"></div>
 				<div class="col">
-					<textarea type="text" class="form-control" placeholder="Event Text" name="event_text"
+					<textarea type="text" class="form-control box" placeholder="Event Text" name="event_text"
 						id="event_text" rows=" 13" style="resize: none;" readonly></textarea>
 				</div>
 			</div>
@@ -42,9 +42,9 @@
 			<div class="row">
 				<div class="col">
 					<center>
-						<button type="submit" id="prev" class="btn btn-dark btn-lg pn"
+						<button type="submit" id="prev" class="btn btn-lg pn"
 							onclick="return fetch('prev');">Previous</button>
-						<button type="submit" id="next" class="btn btn-dark btn-lg pn"
+						<button type="submit" id="next" class="btn btn-lg pn"
 							onclick="return fetch('next');">Next</button>
 					</center>
 				</div>
@@ -57,22 +57,10 @@
 			<div class="row">
 				<div class="col-sm-2"></div>
 				<div class="col">
-					<button type="button" onclick="annot(this)" class="btn btn-dark btn-lg gn">Art</button>
+					<button type="button" onclick="annot(this)" class="btn btn-lg gn">Art</button>
 				</div>
 				<div class="col">
-					<button type="button" onclick="annot(this)" class="btn btn-dark btn-lg gn">Biology</button>
-				</div>
-			</div>
-		</div>
-		<br>
-		<div>
-			<div class="row">
-				<div class="col-sm-2"></div>
-				<div class="col">
-					<button type="button" onclick="annot(this)" class="btn btn-dark btn-lg gn">Computer Science</button>
-				</div>
-				<div class="col">
-					<button type="button" onclick="annot(this)" class="btn btn-dark btn-lg gn">Education</button>
+					<button type="button" onclick="annot(this)" class="btn btn-lg gn">Biology</button>
 				</div>
 			</div>
 		</div>
@@ -81,10 +69,22 @@
 			<div class="row">
 				<div class="col-sm-2"></div>
 				<div class="col">
-					<button type="button" onclick="annot(this)" class="btn btn-dark btn-lg gn">Health</button>
+					<button type="button" onclick="annot(this)" class="btn btn-lg gn">Computer Science</button>
 				</div>
 				<div class="col">
-					<button type="button" onclick="annot(this)" class="btn btn-dark btn-lg gn">Literature</button>
+					<button type="button" onclick="annot(this)" class="btn btn-lg gn">Education</button>
+				</div>
+			</div>
+		</div>
+		<br>
+		<div>
+			<div class="row">
+				<div class="col-sm-2"></div>
+				<div class="col">
+					<button type="button" onclick="annot(this)" class="btn btn-lg gn">Health</button>
+				</div>
+				<div class="col">
+					<button type="button" onclick="annot(this)" class="btn btn-lg gn">Literature</button>
 				</div>
 			</div>
 			</fiv>
@@ -93,10 +93,10 @@
 				<div class="row">
 					<div class="col-sm-2"></div>
 					<div class="col">
-						<button type="button" onclick="annot(this)" class="btn btn-dark btn-lg gn">Politics</button>
+						<button type="button" onclick="annot(this)" class="btn btn-lg gn">Politics</button>
 					</div>
 					<div class="col">
-						<button type="button" onclick="annot(this)" class="btn btn-dark btn-lg gn">Religion</button>
+						<button type="button" onclick="annot(this)" class="btn btn-lg gn">Religion</button>
 					</div>
 				</div>
 			</div>
@@ -105,10 +105,10 @@
 				<div class="row">
 					<div class="col-sm-2"></div>
 					<div class="col">
-						<button type="button" onclick="annot(this)" class="btn btn-dark btn-lg gn">Sports</button>
+						<button type="button" onclick="annot(this)" class="btn btn-lg gn">Sports</button>
 					</div>
 					<div class="col">
-						<button type="button" onclick="annot(this)" class="btn btn-dark btn-lg gn">None</button>
+						<button type="button" onclick="annot(this)" class="btn btn-lg gn">None</button>
 					</div>
 				</div>
 			</div>

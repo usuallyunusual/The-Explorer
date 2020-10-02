@@ -21,15 +21,37 @@
     <script src="{{ url_for('static',filename = 'scripts.js') }}"></script>
     <!-- In file CSS -->
     <style type="text/css">
+    @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600');
+    @import url('https://fonts.googleapis.com/css2?family=Arvo&display=swap');
         body {
             overflow: hidden;
             font-size: 14px;
+            font-family: 'Arvo', serif;
+        }
+        .form-control:disabled,
+        .form-control[readonly] {
+            background-color: white;
+            color: black;
+            border: 1px solid #636261;
+        }
+        .box 
+        {
+            box-shadow: 3px 3px 3px #939393;
+        }
+        .bigbox{
+            background-color: white;
+            color: black;
+            box-shadow: 0px -3px 10px #939393;
+            border: 1px solid #636261;
         }
 
         .gn {
             height: 60px;
             width: 200px;
             margin: 10px;
+            background-color: #000912;
+            color: white;
+            box-shadow: 0px 3px 3px #939393;
         }
 
         .pn {
@@ -37,6 +59,9 @@
             width: 200px;
             margin-top: 1px;
             margin-right: 10px;
+            background-color: #000912;
+            color: white;
+            box-shadow: 0px 3px 3px #939393;
         }
 
         .active {
@@ -44,26 +69,58 @@
         }
 
         .nav-item {
-            margin-left: 30px;
-            font-size: 16px;
+            margin-left: 5px;
+            font-size: 17px;
         }
 
         .rn {
             height: 60px;
             width: 200px;
             margin: 10px;
+            background-color: #000912;
+            color: white;
+            box-shadow: 0px 3px 3px #939393;
+        }
+        .navbar {
+            box-shadow: 0px 5px 3px #939393;
+            background-color: #000912;
+            color: white;
+            height: 75px;
+        }
+
+        .navbar-brand {
+            font-size: 32px;
+            margin-top: 5px;
+            margin-left: 5px;
         }
 
         .logout {
-            margin-left: 900px;
+            margin-left: 700px;
+        }
+        a {
+            color: white;
+        }
+
+        a:hover {
+            color: #dddddd;
+        }
+
+        .active a:hover {
+            text-decoration: underline;
+        }
+
+        #active_link:hover {
+            text-decoration: underline;
+            color: white;
         }
     </style>
     </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">The Explorer</a>
+    <nav class="navbar navbar-expand-lg">
+        <p class="navbar-brand" href="#">The Exp<img src="{{ url_for('static',filename = 'earth.png') }}"
+            height="40" width="40">rer</p>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
             aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

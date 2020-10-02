@@ -9,11 +9,48 @@
 	crossorigin="anonymous"></script>
 
 <style type="text/css">
-	table {
+	.table {
 		overflow-y: scroll;
 		height: 400px;
 		display: block;
+		margin-left: 60px;
 	}
+	.viewdata
+        {
+            height: 50px;
+            width: 140px;
+            margin-top: -12px;
+            /*margin-right: 10px;*/
+            background-color: #000912;
+            color: white;
+            box-shadow: 0px 3px 3px #939393;
+			font-size: 17px;
+        }
+        .viewdata:focus
+        {
+            height: 50px;
+            width: 140px;
+            /*margin-right: 10px;*/
+            background-color: #000912;
+            color: white;
+            box-shadow: 0px 3px 3px #939393;
+        }
+		.viewdata:hover
+		{
+            color: white;
+        }
+		.viewdatabox{
+            background-color: white;
+            color: black;
+            border: 1px solid #636261;
+            box-shadow: 3px 3px 3px #939393;
+        }
+        .viewdatabox:focus{
+            background-color: white;
+            color: black;
+            border: 1px solid #636261;
+            box-shadow: 3px 3px 3px #939393;
+        }
 </style>
 <script>
 	function getAttributes(value) {
@@ -115,12 +152,12 @@
 
 		<div style="width: 90%;margin: auto;" class="row">
 
-
+			<div class="col-sm-2"></div>
 			<div class="col-sm-3">
 				<label for="inputState">Table</label>
 
 				<select onmousedown="this.value='';" onchange="getAttributes(this.value);" id="drop_table" name="table"
-					class="form-control">
+					class="form-control viewdatabox">
 					<option selected>event</option>
 					<option>user</option>
 					<option>activity_log</option>
@@ -134,22 +171,22 @@
 				</select>
 			</div>
 
-			<div class="col-sm-3">
+			<div class="col-sm-2">
 				<label for="inputState">Sort by</label>
 
-				<select id="attributes" class="form-control">
+				<select id="attributes" class="form-control viewdatabox">
 
 				</select>
 			</div>
-			<div class="col-sm-3">
+			<div class="col-sm-2">
 				<label for="inputState">Number of records</label>
 
-				<input type="number" value="5" class="form-control" id="numberOfRec" aria-describedby="emailHelp"
+				<input type="number" value="5" class="form-control viewdatabox" id="numberOfRec" aria-describedby="emailHelp"
 					placeholder="number of records">
 			</div>
 
 			<div style="margin-top: 29px" class="col-sm-3">
-				<button type="button" onclick="process()" class="btn btn-primary">Submit</button>
+				<button type="button" onclick="process()" class="btn viewdata">Submit</button>
 			</div>
 
 		</div>
@@ -158,12 +195,8 @@
 
 		<div class="row">
 
-			<div class="col-sm-1"></div>
-
-			<div class="col-sm-10">
-				<table id="year_table" class="table table-bordered table-dark">
-
-
+			<div class="col-md-11">
+				<table id="year_table" class="table table-bordered viewdatabox">
 				</table>
 
 				<script type="text/javascript">

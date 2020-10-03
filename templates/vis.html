@@ -3,12 +3,22 @@
 {% set title  = "The Explorer - Visualization" %}
 {% block content %}
 <!-- 4 tiles on top -->
+<script type="text/javascript">
+	var data = JSON.parse('{{ data | tojson | safe}}');
+	console.log(data);
+	var records = data.records;
+	var users = data.users;
+	var genres_count = data.genres_count;
+	var genres = data.genres;
+	var titles = data.titles;
+	var ranks = data.ranks;
+</script>
 <div class="container_fluid">
 	<div class="row">
 
 		<div class="col-md-3 text-center">
 			<div class="card bgtile">
-				<div class="card-body">
+				<div id="records" class="card-body">
 					<p>500</p>
 				</div>
 				<div class="card-footer">
@@ -19,7 +29,7 @@
 
 		<div class="col-md-3 text-center">
 			<div class="card bgtile">
-				<div class="card-body">
+				<div id="genres_count" class="card-body">
 					<p>9</p>
 				</div>
 				<div class="card-footer">
@@ -30,7 +40,7 @@
 
 		<div class="col-md-3 text-center">
 			<div class="card bgtile">
-				<div class="card-body">
+				<div id="years" class="card-body">
 					<p>2500</p>
 				</div>
 				<div class="card-footer">
@@ -41,7 +51,7 @@
 
 		<div class="col-md-3 text-center">
 			<div class="card bgtile">
-				<div class="card-body">
+				<div id="users" class="card-body">
 					<p>10</p>
 				</div>
 				<div class="card-footer">

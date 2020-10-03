@@ -7,7 +7,7 @@
 		<div class="col-md-6">
 			<div class="row">
 				<div class=" table table-wrapper-scroll-y my-custom-scrollbar">
-					<table class="table-bordered text-center">
+					<table id="flag_table" class="table-bordered text-center">
 						<thead>
 							<tr>
 								<th scope="col">flag_key</th>
@@ -180,4 +180,67 @@
 		</div>
 	</div>
 </div>
+<script>
+	function getAttributes(value) {
+
+		$.ajax({
+			url: "{{ url_for('getAttributes') }}",
+			type: 'GET',
+			data: { 'table': value },
+			success: function (data) {
+				var mark = data;
+				var i = 0;
+				window.attribute = [];
+
+				for (i = 0; i < mark.length; i++) {
+					window.attribute.push(mark[i]['col']);
+				}
+			}
+		});
+	}
+	function process() {
+		var table = "flag_log";
+		var sortBy = "flag_key";
+		var e = 184494567;
+		$.ajax({
+			url: "{{ url_for('getrows') }}",
+			type: 'GET',
+			data: { 'table': table, 'sortBy': sortBy, 'number': e },
+			success: function (data) {
+				data = data["data"];
+				//console.log(data);
+				var column_name = window.attribute;
+				// var table = "<tr><th>Match No</th><th>VS</th><th>Time</th><th>Location</th></tr>"; 
+				var table = "<tr>";
+				for (var i = 0; i < column_name.length; i++) {
+					table = table + "<th>" + column_name[i] + "</th>";
+
+				}
+				table = table + "</tr>";
+				// subcategory heading
+				for (var i = 0; i < data.length; i++) {
+					inter = data[i];
+					var row = "<tr>"
+					for (var j = 0; j < inter.length; j++) {
+						if (String(inter[j]).includes("<html")) {
+							row = row + "<td></td>";
+						}
+						else {
+							row = row + "<td>" + inter[j] + "</td>";
+						}
+					}
+					row = row + "</tr>"
+
+					table = table + row;
+				}
+				table = table + "</tr>"
+				document.getElementById("flag_table").innerHTML = table;
+			}
+		});
+	}
+	$(document).ready(function () {
+		getAttributes("flag_log");
+		process();
+	});
+</script>
 {% endblock content%}

@@ -20,7 +20,7 @@ app.config["MYSQL_DATABASE_USER"] = "root"
 app.config["MYSQL_DATABASE_PASSWORD"] = ""
 app.config["MYSQL_DATABASE_DB"] = "explorer_db"
 app.config["MYSQL_DATABASE_HOST"] = "localhost"
-app.config["MYSQL_DATABASE_PORT"] = 3306
+app.config["MYSQL_DATABASE_PORT"] = 3307
 mysql.init_app(app)
 
 app.secret_key = "abc"
@@ -353,7 +353,46 @@ def log_activity():
 
 @app.route("/vis")
 def vis():
-    return render_template("vis.html")
+    stmt = """SELECT COUNT(*) FROM  event WHERE html IS NOT NULL AND error IS NULL"""
+    try:
+        cursor.execute(stmt)
+        records = cursor.fetchall()[0][0]
+        stmt = """SELECT COUNT(*) FROM genre"""
+        cursor.execute(stmt)
+        genres_count = cursor.fetchall()[0][0]
+        stmt = """SELECT COUNT(*) FROM user"""
+        cursor.execute(stmt)
+        users = cursor.fetchall()[0][0]
+        stmt = """SELECT event_genre FROM event WHERE event_genre IS NOT NULL"""
+        cursor.execute(stmt)
+        temp = cursor.fetchall()
+        temp = [i[0] for i in temp]
+        genres = list()
+        for i in range(1, 10):
+            genres.append(temp.count(i))
+        stmt = (
+            """SELECT event_title,new_rank FROM event ORDER BY NEW_RANK DESC LIMIT 5"""
+        )
+        cursor.execute(stmt)
+        res = cursor.fetchall()
+        ranks = list()
+        titles = list()
+        for row in res:
+            ranks.append(row[1])
+            titles.append(row[0])
+
+        data = {
+            "records": records,
+            "genres_count": genres_count,
+            "genres": genres,
+            "users": users,
+            "titles": titles,
+            "ranks": ranks,
+        }
+
+    except Exception as e:
+        print(e)
+    return render_template("vis.html", data=data)
 
 
 @app.route("/getAttributes", methods=["GET"])
@@ -379,7 +418,7 @@ def getrows():
     table = request.args.get("table")
     sortBy = request.args.get("sortBy")
     number = int(request.args.get("number"))
-
+    # print(table, sortBy, number)
     if table == "event":
         if number > 500:
             number = 500
@@ -399,10 +438,14 @@ def getrows():
         cursor.execute(stmt)
         print(cursor._last_executed)
         res = cursor.fetchall()
+        data = list()
+        for row in res:
+            data.append([str(i) for i in row])
+        return {"data": data}
     except Exception as e:
         print(e)
-
-    return jsonify(res)
+        return "Fail"
+    # print(data)
 
 
 @app.route("/send_flag/", methods=["GET"])

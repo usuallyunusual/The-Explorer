@@ -15,42 +15,44 @@
 		display: block;
 		margin-left: 60px;
 	}
-	.viewdata
-        {
-            height: 50px;
-            width: 140px;
-            margin-top: -12px;
-            /*margin-right: 10px;*/
-            background-color: #000912;
-            color: white;
-            box-shadow: 0px 3px 3px #939393;
-			font-size: 17px;
-        }
-        .viewdata:focus
-        {
-            height: 50px;
-            width: 140px;
-            /*margin-right: 10px;*/
-            background-color: #000912;
-            color: white;
-            box-shadow: 0px 3px 3px #939393;
-        }
-		.viewdata:hover
-		{
-            color: white;
-        }
-		.viewdatabox{
-            background-color: white;
-            color: black;
-            border: 1px solid #636261;
-            box-shadow: 3px 3px 3px #939393;
-        }
-        .viewdatabox:focus{
-            background-color: white;
-            color: black;
-            border: 1px solid #636261;
-            box-shadow: 3px 3px 3px #939393;
-        }
+
+	.viewdata {
+		height: 50px;
+		width: 140px;
+		margin-top: -12px;
+		/*margin-right: 10px;*/
+		background-color: #000912;
+		color: white;
+		box-shadow: 0px 3px 3px #939393;
+		font-size: 17px;
+	}
+
+	.viewdata:focus {
+		height: 50px;
+		width: 140px;
+		/*margin-right: 10px;*/
+		background-color: #000912;
+		color: white;
+		box-shadow: 0px 3px 3px #939393;
+	}
+
+	.viewdata:hover {
+		color: white;
+	}
+
+	.viewdatabox {
+		background-color: white;
+		color: black;
+		border: 1px solid #636261;
+		box-shadow: 3px 3px 3px #939393;
+	}
+
+	.viewdatabox:focus {
+		background-color: white;
+		color: black;
+		border: 1px solid #636261;
+		box-shadow: 3px 3px 3px #939393;
+	}
 </style>
 <script>
 	function getAttributes(value) {
@@ -95,6 +97,7 @@
 			type: 'GET',
 			data: { 'table': table, 'sortBy': sortBy, 'number': e },
 			success: function (data) {
+				data = data["data"];
 				//console.log(data);
 				var column_name = window.attribute;
 
@@ -181,8 +184,8 @@
 			<div class="col-sm-2">
 				<label for="inputState">Number of records</label>
 
-				<input type="number" value="5" class="form-control viewdatabox" id="numberOfRec" aria-describedby="emailHelp"
-					placeholder="number of records">
+				<input type="number" value="5" class="form-control viewdatabox" id="numberOfRec"
+					aria-describedby="emailHelp" placeholder="number of records">
 			</div>
 
 			<div style="margin-top: 29px" class="col-sm-3">

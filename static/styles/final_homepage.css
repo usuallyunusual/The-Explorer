@@ -23,7 +23,7 @@ body
 {
 	display: block;
 	position: relative;
-	height: 670px;
+	height: 850px;
 	width: 100%;
 }
 .bodyfrost::after
@@ -276,7 +276,7 @@ input::-webkit-inner-spin-button {
 	max-width: 100%;
 	min-height: 425px;
 	margin-top: 160px;
-	margin-left: 340px;
+	margin-left: 440px;
 	background: #f6f5f7;
 	
 

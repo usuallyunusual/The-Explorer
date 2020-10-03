@@ -165,42 +165,48 @@
         .adminb:hover {
             color: #dddddd;
         }
+
         .nav-item {
             margin-left: 5px;
             font-size: 17px;
         }
+
         .logout {
             margin-left: 650px;
         }
-        
+
+        .container_fluid {
+            margin-left: 1.4em;
+            margin-right: 1.4em;
+        }
     </style>
 </head>
 
 <body>
     <!-- navbar -->
     <nav class="navbar navbar-expand-lg">
-            <p class="navbar-brand" href="#">The Exp<img src="{{ url_for('static',filename = 'earth.png') }}"
-                    height="40" width="40">rer</p>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+        <p class="navbar-brand" href="#">The Exp<img src="{{ url_for('static',filename = 'earth.png') }}" height="40"
+                width="40">rer</p>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
             aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="{{ 'nav-item active' if active_page == 'log' else 'nav-item'}}">
-                        <a class="nav-link" href="{{ url_for('log_activity') }}">Log Activity</a>
-                    </li>
-                    <li class="{{ 'nav-item active' if active_page == 'view_data' else 'nav-item'}}">
-                            <a class="nav-link" href="{{ url_for('viewdata') }}">View Data</a>
-                    </li>
-                    <li class="{{ 'nav-item active' if active_page == 'vis' else 'nav-item'}}">
-                        <a class="nav-link" href="{{ url_for('vis') }}">Visualization</a>
-                    </li>
-                    <li class="nav-item logout">
-                        <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
-                    </li>
-                </ul>
-            </div>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="{{ 'nav-item active' if active_page == 'log' else 'nav-item'}}">
+                    <a class="nav-link" href="{{ url_for('log_activity') }}">Log Activity</a>
+                </li>
+                <li class="{{ 'nav-item active' if active_page == 'view_data' else 'nav-item'}}">
+                    <a class="nav-link" href="{{ url_for('viewdata') }}">View Data</a>
+                </li>
+                <li class="{{ 'nav-item active' if active_page == 'vis' else 'nav-item'}}">
+                    <a class="nav-link" href="{{ url_for('vis') }}">Visualization</a>
+                </li>
+                <li class="nav-item logout">
+                    <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                </li>
+            </ul>
+        </div>
     </nav>
     <br>
     {% block content %}

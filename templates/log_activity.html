@@ -108,8 +108,8 @@
 			<br><br>
 			<div class="row">
 				<div class="col-md-12 d-flex justify-content-center">
-					<button type="button" class="btn adminb">Accept</button>
-					<button type="button" class="btn adminb">Reject</button>
+					<button type="button" onclick='accept_rej(1)' class="btn adminb">Accept</button>
+					<button type="button" onclick='accept_rej(0)' class="btn adminb">Reject</button>
 				</div>
 			</div>
 		</div>
@@ -119,14 +119,14 @@
 				<div class="row">
 					<!--<div class="col-sm-1"></div>-->
 					<div class="col-xs-1 col-md-4">
-						<input readonly type="text" class="form-control smallest_text" placeholder="Event Key"
-							name="event_key" value="">
+						<input readonly id="event_key" type="text" class="form-control smallest_text"
+							placeholder="Event Key" name="event_key" value="">
 					</div>
 					<!--<div class="col-sm-1"></div>
 						<div class="col-sm-1"></div>-->
 					<div class="col-xs-1 col-md-8">
-						<input readonly type="text" class="form-control smaller_text" placeholder="Event Title"
-							name="event_title">
+						<input readonly type="text" id="event_title" class="form-control smaller_text"
+							placeholder="Event Title" name="event_title">
 					</div>
 				</div>
 			</form>
@@ -135,14 +135,14 @@
 				<div class="row">
 					<!--<div class="col-sm-1"></div>-->
 					<div class="col-md-4">
-						<input readonly type="text" class="form-control smallest_text" placeholder="Event Year"
-							name="event_year" value="">
+						<input readonly type="text" id="event_year" class="form-control smallest_text"
+							placeholder="Event Year" name="event_year" value="">
 					</div>
 					<!--<div class="col-sm-1"></div>-->
 					<!--<div class="col-sm-1"></div>-->
 					<div class="col-md-8">
-						<input readonly type="text" class="form-control smaller_text" placeholder="Event Genre"
-							name="event_genre">
+						<input readonly type="text" id="event_genre" class="form-control smaller_text"
+							placeholder="Event Genre" name="event_genre">
 					</div>
 				</div>
 			</form>
@@ -151,8 +151,8 @@
 				<div class="row">
 					<!--<div class="col-sm-1"></div>-->
 					<div class="col-md-12">
-						<input readonly type="text" class="form-control long_text" placeholder="Event URL"
-							name="event_url" value="">
+						<input readonly type="text" id="event_url" class="form-control long_text"
+							placeholder="Event URL" name="event_url" value="">
 					</div>
 				</div>
 			</form>
@@ -161,8 +161,8 @@
 				<div class="row">
 					<!--<div class="col-sm-1"></div>-->
 					<div class="col-md-12">
-						<input readonly type="text" class="form-control long_text" placeholder="Event Location"
-							name="event_location" value="">
+						<input readonly type="text" id="event_location" class="form-control long_text"
+							placeholder="Event Location" name="event_location" value="">
 					</div>
 				</div>
 			</form>
@@ -171,8 +171,9 @@
 				<div class="row">
 					<!--<div class="col-sm-1"></div>-->
 					<div class="col-md-12">
-						<textarea readonly type="text" class="form-control long_text" placeholder="Event Text"
-							name="event_text" value="" rows="11" style="resize: none;"></textarea>
+						<textarea readonly type="text" id="event_text" class="form-control long_text"
+							placeholder="Event Text" name="event_text" value="" rows="11"
+							style="resize: none;"></textarea>
 					</div>
 				</div>
 			</form>
@@ -181,6 +182,17 @@
 	</div>
 </div>
 <script>
+	function accept_rej(num) {
+		$.ajax({
+			type: 'GET',
+			url: '/accept_reject',
+			data: { 'id': window.flag_article, 'val': num },
+			success: function (response) {
+				console.log(response);
+				process();
+			}
+		});
+	}
 	function getAttributes(value) {
 
 		$.ajax({
@@ -211,32 +223,57 @@
 				//console.log(data);
 				var column_name = window.attribute;
 				// var table = "<tr><th>Match No</th><th>VS</th><th>Time</th><th>Location</th></tr>"; 
-				var table = "<tr>";
+				var table = "<thead><tr>";
 				for (var i = 0; i < column_name.length; i++) {
-					table = table + "<th>" + column_name[i] + "</th>";
+					table = table + "<th scope = 'col'>" + column_name[i] + "</th>";
 
 				}
-				table = table + "</tr>";
+				table = table + "</tr></thead><tbody>";
 				// subcategory heading
 				for (var i = 0; i < data.length; i++) {
 					inter = data[i];
-					var row = "<tr>"
+					var row = "<tr id = " + inter[0] + ">"
 					for (var j = 0; j < inter.length; j++) {
 						if (String(inter[j]).includes("<html")) {
 							row = row + "<td></td>";
 						}
 						else {
-							row = row + "<td>" + inter[j] + "</td>";
+							if (j === 1) {
+								row = row + "<td onclick = 'get_info(this," + inter[0] + ")'' style = 'cursor:pointer;'>" + inter[j] + "</td>";
+							}
+							else {
+								row = row + "<td>" + inter[j] + "</td>";
+							}
 						}
 					}
 					row = row + "</tr>"
 
 					table = table + row;
 				}
-				table = table + "</tr>"
+				table = table + "</tr></tbody>"
 				document.getElementById("flag_table").innerHTML = table;
 			}
 		});
+	}
+	function get_info(event, num) {
+		console.log(event.innerHTML);
+		var id = event.innerHTML;
+		window.flag_article = $("#" + num + " td")[0].innerHTML;
+		$.ajax({
+			type: 'GET',
+			url: '/fetch_data',
+			data: { 'id': id, "opt": 1 },
+			success: function (response) {
+				$("#event_key").val(response["event_key"]);
+				$("#event_title").val(response["event_title"]);
+				$("#event_year").val(response["event_year"]);
+				$("#event_genre").val(response["event_genre"]);
+				$("#event_url").val(response["url"]);
+				$("#event_location").val(response["event_location"]);
+				$("#event_text").val(response["event_text"]);
+			}
+		});
+
 	}
 	$(document).ready(function () {
 		getAttributes("flag_log");

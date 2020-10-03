@@ -19,7 +19,7 @@ function fetch(event) {
     $.ajax({
         type: 'GET',
         url: '/fetch_data',
-        data: { 'id': num },
+        data: { 'id': num, "opt": 0 },
         success: function (response) {
             $("#event_key").val(response["event_key"]);
             $("#event_title").val(response["event_title"]);
@@ -41,5 +41,5 @@ function annot(e) {
             console.log(response);
             $("#next").trigger("click");
         }
-    })
+    });
 }

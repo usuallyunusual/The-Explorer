@@ -326,24 +326,58 @@ def annot():
         return "Fail"
 
 
+@app.route("/accept_reject")
+def accpet_reject():
+    key = request.args.get("id")
+    val = request.args.get("val")
+    stmt = """UPDATE flag_log SET flag_approved = %s WHERE flag_key = %s"""
+    try:
+        cursor.execute(stmt, (val, key))
+        conn.commit()
+        return "Success"
+    except Exception as e:
+        print(e)
+        conn.rollback()
+        return "Fail"
+
+
 @app.route("/fetch_data", methods=["GET"])
 def fetch_data():
     key = request.args.get("id")
-    stmt = "SELECT event_key,event_title,url,event_text FROM event WHERE event_key = %s"
-    try:
-        cursor.execute(stmt, key)
-        res = cursor.fetchall()
-        response = {
-            "event_key": res[0][0],
-            "event_title": res[0][1],
-            "url": res[0][2],
-            "event_text": res[0][3],
-        }
-
-    except Exception as e:
-        print(e)
-
-    return response
+    opt = int(request.args.get("opt"))
+    if opt == 0:
+        stmt = "SELECT event_key,event_title,url,event_text FROM event WHERE event_key = %s"
+        try:
+            cursor.execute(stmt, key)
+            res = cursor.fetchall()
+            response = {
+                "event_key": res[0][0],
+                "event_title": res[0][1],
+                "url": res[0][2],
+                "event_text": res[0][3],
+            }
+            return response
+        except Exception as e:
+            print(e)
+            return "Fail"
+    else:
+        stmt = "SELECT event_key,event_title,event_year,genre.genre_text,url,event_location,event_text FROM event JOIN genre ON event.event_genre = genre.genre_id WHERE event.event_key = %s"
+        try:
+            cursor.execute(stmt, key)
+            res = cursor.fetchall()
+            response = {
+                "event_key": res[0][0],
+                "event_title": res[0][1],
+                "event_year": res[0][2],
+                "event_genre": res[0][3],
+                "url": res[0][4],
+                "event_location": res[0][5],
+                "event_text": res[0][6],
+            }
+            return response
+        except Exception as e:
+            print(e)
+            return "Fail"
 
 
 @app.route("/log_activity")

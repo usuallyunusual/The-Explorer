@@ -487,6 +487,7 @@
       text-align: left;
       font-family: 'Sarabun', sans-serif;
       text-decoration: underline;
+      cursor: pointer;
     }
 
     .search_desc {
@@ -837,25 +838,6 @@
             }
           });
         }
-        /*
-        function show_article(id) {
-          $.ajax({
-            url: "{{ url_for('_get_data') }}",
-            type: 'GET',
-            datatype: 'json',
-            data: { 'id': id },
-            success: function (data) {
-              if (data) {
-
-
-                rightsidebar.setContent("<h1  class='event_name'>" + data.event_name + "</h1><p   class='event_year'>" + data.year + "</p><p class='event_text'>" + data.description + "</p><a target = '_blank' href = '" + data.url + "'>" + data.url + "</a>");
-                rightsidebar.show();
-                console.log(marker[id]);
-                map.setView([marker[id].latlng.lat, marker[id].latlng.lng], 4);
-              }
-            }
-          });
-        }*/
         function search_event(key) {
           if ($("#tags").val() === "") {
             return;

@@ -334,11 +334,6 @@ def annotate():
     return render_template("annotate.html")
 
 
-@app.route("/runscripts")
-def runscripts():
-    return render_template("run_scripts.html")
-
-
 @app.route("/viewdata")
 def viewdata():
     if session["username"] == "Admin":
@@ -456,6 +451,56 @@ def vis():
         for row in res:
             ranks.append(row[1])
             titles.append(row[0])
+        stmt = """SELECT activity_date FROM activity_log WHERE activity_date >= DATE_ADD(CURDATE(), INTERVAL -3 DAY) AND activity_id = 1"""
+        cursor.execute(stmt)
+        res = cursor.fetchall()
+        res = [i[0] for i in res]
+        dates = list()
+        counts = list()
+        for i in res:
+            if i in dates:
+                continue
+            if len(dates) > 0 and dates[len(dates) - 1] - i > 1:
+                for k in range(0, dates[len(dates) - 1] - i):
+                    dates.append(0)
+                    counts.append(0)
+            dates.append(i)
+            count = 0
+            for j in res:
+                if j == i:
+                    count += 1
+            counts.append(count)
+        counts.reverse()
+        if len(counts) == 1:
+            counts = [0] * 6 + counts
+        print(dates, counts)
+        stmt = """SELECT search_text FROM activity_log WHERE search_text IS NOT NULL"""
+        cursor.execute(stmt)
+        res = cursor.fetchall()
+        raw_words = list()
+        for row in res:
+            for i in row[0].lower().split():
+                raw_words.append(i)
+        words = list()
+        w_count = list()
+        for word in raw_words:
+            if word in words:
+                continue
+            words.append(word)
+            count = 0
+            for j in raw_words:
+                if word == j:
+                    count += 1
+            w_count.append(count)
+        word_df = pd.DataFrame(
+            [i for i in zip(words, w_count)], columns=["Words", "Counts"]
+        )
+        word_df = word_df.sort_values(by=["Counts"], ascending=False)
+        if word_df.shape[0] > 4:
+            word_df = word_df.iloc[0:5]
+        words = word_df["Words"].values.tolist()
+        w_count = word_df["Counts"].values.tolist()
+        print(words, w_count)
 
         data = {
             "records": records,
@@ -464,11 +509,14 @@ def vis():
             "users": users,
             "titles": titles,
             "ranks": ranks,
+            "counts": counts,
+            "words": words,
+            "w_count": w_count,
         }
-
+        return render_template("vis.html", data=data)
     except Exception as e:
         print(e)
-    return render_template("vis.html", data=data)
+        return "fail"
 
 
 @app.route("/getAttributes", methods=["GET"])

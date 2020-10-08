@@ -8,10 +8,10 @@ var myLineChart = new Chart(ctxL,
 		type: 'line',
 		data:
 		{
-			labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+			labels: ["7d", "6d", "5d", "4d", "3d", "2d", "Today"],
 			datasets:
 				[{
-					data: [65, 59, 80, 81, 56, 55, 40, 76, 32, 54],
+					data: counts,
 					backgroundColor: ['rgba(139, 234, 236, .9)',],
 					borderColor: ['#505250',],
 					borderWidth: 2
@@ -92,10 +92,10 @@ var myLineChart = new Chart(ctxL,
 		type: 'horizontalBar',
 		data:
 		{
-			labels: ["Word 1", "Word 2", "Word 3", "Word 4", "Word 5"],
+			labels: words,
 			datasets:
 				[{
-					data: [65, 54, 42, 39, 27],
+					data: w_count,
 					backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#71A06A", "#8E6783"],
 					borderWidth: 0,
 				}]

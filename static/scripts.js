@@ -43,3 +43,12 @@ function annot(e) {
         }
     });
 }
+function logmeout() {
+    console.log("Setting dat and time");
+    var today = new Date().toISOString().slice(0, 10);
+    var now = new Date().toLocaleString('en-GB').slice(12);
+    $("#log_date").val(today);
+    $("#log_time").val(now);
+    return true;
+
+}

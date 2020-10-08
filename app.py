@@ -1,7 +1,6 @@
 import smtplib
 import random
 import datetime
-
 from flask import Flask, request, url_for, render_template, jsonify, session
 from werkzeug.utils import redirect
 from flaskext.mysql import MySQL
@@ -39,6 +38,9 @@ def index():
 def login():
     login_email = request.form["email"]
     login_password = request.form["password"]
+    date = request.form["date"]
+    time = request.form["time"]
+    # print(date, time)
     insert_stmt = "SELECT * FROM user WHERE user_email=%s "
     data = login_email
     try:
@@ -49,30 +51,56 @@ def login():
         if len(myresult) == 1 and bcrypt.checkpw(
             login_password.encode(), myresult[0][3].encode()
         ):
-            print(myresult[0][4])
+            stmt = """SELECT activity_id FROM activity WHERE activity_text = 'Login'"""
+            cursor.execute(stmt)
+            act_id = cursor.fetchall()[0][0]
+            # print(act_id)
+            stmt = """INSERT INTO activity_log (user_id,activity_id,activity_date,activity_time,event_key,activity_rating) values
+            (%s,%s,%s,%s,%s,-1)"""
+            data = (myresult[0][0], act_id, date, time, None)
+            cursor.execute(stmt, data)
+            # print(myresult[0][4])
+            conn.commit()
             if myresult[0][4] == 3:
                 session["username"] = "Backend"
+                session["id"] = myresult[0][0]
+                session["useremail"] = login_email
                 return redirect(url_for("annotate"))
             elif myresult[0][4] == 2:
                 print("Here")
                 session["username"] = "Admin"
+                session["id"] = myresult[0][0]
+                session["useremail"] = login_email
                 return redirect(url_for("log_activity"))
             else:
                 session["useremail"] = login_email
+                session["id"] = myresult[0][0]
                 session["username"] = myresult[0][2]
                 session["genre"] = []
                 return redirect(url_for("map"))
         else:
-            return "fail"
+            return redirect(url_for("index.html"))
 
     except Exception as e:
         print(e)
+        conn.rollback()
+        return redirect(url_for("index.html"))
 
-    return render_template("final_homepage.html", exist="wrong email or password")
 
-
-@app.route("/logout")
+@app.route("/logout", methods=["GET", "POST"])
 def logout():
+    print(request.form)
+    date = request.form["date"]
+    time = request.form["time"]
+    print(date, time)
+    stmt = """SELECT activity_id FROM activity WHERE activity_text = 'Logout'"""
+    cursor.execute(stmt)
+    act_id = cursor.fetchall()[0][0]
+    stmt = """INSERT INTO activity_log (user_id,activity_id,activity_date,activity_time,event_key,activity_rating) values
+    (%s,%s,%s,%s,%s,-1)"""
+    data = (session["id"], act_id, date, time, None)
+    cursor.execute(stmt, data)
+    conn.commit()
     session.clear()
     return redirect(url_for("index"))
 
@@ -182,9 +210,14 @@ def map():
 
 @app.route("/search", methods=["GET"])
 def search():
-    cursor.execute(
-        "SELECT event_key,event_title,event_text,new_rank,htext FROM event WHERE htext IS NOT NULL AND error IS NULL"
-    )
+    date = request.args["date"]
+    time = request.args["time"]
+    try:
+        cursor.execute(
+            "SELECT event_key,event_title,event_text,new_rank,htext FROM event WHERE htext IS NOT NULL AND error IS NULL"
+        )
+    except Exception as e:
+        print(e)
     data = pd.DataFrame(cursor.fetchall())
     heads = list()
     for row in cursor.description:
@@ -196,6 +229,15 @@ def search():
     knn.fit(x, data["event_title"])
     try:
         query = request.args.get("query")
+        cursor.execute(
+            """SELECT activity_id FROM activity WHERE activity_text = 'Search'"""
+        )
+        act_id = cursor.fetchall()[0][0]
+        stmt = """INSERT INTO activity_log (user_id,activity_id,activity_date,activity_time,event_key,activity_rating,search_text) values
+        (%s,%s,%s,%s,%s,-1,%s)"""
+        subs = (session["id"], act_id, date, time, None, query)
+        cursor.execute(stmt, subs)
+        conn.commit()
         feature = data["htext"]
         feature = feature.append(pd.Series([query]), ignore_index=True)
         url = data["event_title"]

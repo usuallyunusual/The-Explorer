@@ -23,6 +23,7 @@
     <!-- MDB core JavaScript -->
     <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+    <script src="{{ url_for('static',filename = 'scripts.js') }}"></script>
 
     <style type="text/css">
         @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600');
@@ -203,7 +204,12 @@
                     <a class="nav-link" href="{{ url_for('vis') }}">Visualization</a>
                 </li>
                 <li class="nav-item logout">
-                    <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                    <a class="nav-link" onclick="$('#log').submit()" href="#">Logout</a>
+                    <form name="log" id="log" style="display:none" action="{{ url_for('logout') }}"
+                        onsubmit="return logmeout()" method="POST">
+                        <input type="hidden" name="date" value="temp" id="log_date" />
+                        <input type="hidden" name="time" value="temp" id="log_time" />
+                    </form>
                 </li>
             </ul>
         </div>

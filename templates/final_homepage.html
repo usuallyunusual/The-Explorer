@@ -38,6 +38,13 @@
 				alert("Password must be at least 6 characters long.");
 				return false;
 			}
+			else {
+				var today = new Date().toISOString().slice(0, 10);
+				var now = new Date().toLocaleString('en-GB').slice(12);
+				$("#today").val(today);
+				$("#now").val(now);
+				return true;
+			}
 		}
 
 		function validateformsignup() {
@@ -48,23 +55,23 @@
 			var retype_password = document.mform.retype_password.value;
 			//console.log(name+password+retype_password+email);
 			var res = true;
-			if (name == null || name == "" || name.length < 6 || password == ""  || retype_password == "") {
+			if (name == null || name == "" || name.length < 6 || password == "" || retype_password == "") {
 				alert("Name or password can't be blank and has to be longer than 6 characters");
 				res = false;
-			}else{
-				if (password.length <6){
-						alert("Password must be at least 6 characters ");
+			} else {
+				if (password.length < 6) {
+					alert("Password must be at least 6 characters ");
 
-				}else{
+				} else {
 					if (password.length < 6 || password.length != retype_password.length) {
-				alert("Password must be at least 6 characters long and matching.");
-				res = false;
-			}
+						alert("Password must be at least 6 characters long and matching.");
+						res = false;
+					}
 
 				}
-				
-		}
-			
+
+			}
+
 			if (res == true) {
 				try {
 					$.ajax({
@@ -134,6 +141,8 @@
 					<h2><b>Sign in</b></h2>
 					<input type="email" placeholder="Email" name="email" />
 					<input type="password" placeholder="Password" name="password" />
+					<input type="hidden" name="date" , value="placeholder" id="today" />
+					<input type="hidden" name="time" , value="placeholder" id="now" />
 					<button type="button" data-toggle="modal" data-target="#fp" class="forgotpassword">Forgot your
 						password?</button>
 					<button>Sign In</button>

@@ -24,8 +24,16 @@ mysql.init_app(app)
 
 app.secret_key = "abc"
 
-conn = mysql.connect()
-cursor = conn.cursor()
+
+def get_connection():
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    return conn, cursor
+
+
+def close_connection(conn, cursor):
+    conn.close()
+    cursor.close()
 
 
 @app.route("/")
@@ -36,6 +44,7 @@ def index():
 
 @app.route("/login", methods=["POST"])
 def login():
+    conn, cursor = get_connection()
     login_email = request.form["email"]
     login_password = request.form["password"]
     date = request.form["date"]
@@ -65,18 +74,21 @@ def login():
                 session["username"] = "Backend"
                 session["id"] = myresult[0][0]
                 session["useremail"] = login_email
+                close_connection(conn, cursor)
                 return redirect(url_for("annotate"))
             elif myresult[0][4] == 2:
                 print("Here")
                 session["username"] = "Admin"
                 session["id"] = myresult[0][0]
                 session["useremail"] = login_email
+                close_connection(conn, cursor)
                 return redirect(url_for("log_activity"))
             else:
                 session["useremail"] = login_email
                 session["id"] = myresult[0][0]
                 session["username"] = myresult[0][2]
                 session["genre"] = []
+                close_connection(conn, cursor)
                 return redirect(url_for("map"))
         else:
             return redirect(url_for("index.html"))
@@ -84,12 +96,13 @@ def login():
     except Exception as e:
         print(e)
         conn.rollback()
+        close_connection(conn, cursor)
         return redirect(url_for("index.html"))
 
 
 @app.route("/logout", methods=["GET", "POST"])
 def logout():
-    print(request.form)
+    conn, cursor = get_connection()
     date = request.form["date"]
     time = request.form["time"]
     print(date, time)
@@ -101,12 +114,14 @@ def logout():
     data = (session["id"], act_id, date, time, None)
     cursor.execute(stmt, data)
     conn.commit()
+    close_connection(conn, cursor)
     session.clear()
     return redirect(url_for("index"))
 
 
 @app.route("/email_validation/", methods=["GET"])
 def email_validation():
+    conn, cursor = get_connection()
     recieved_email = request.args.get("email")
     insert_stmt = "SELECT * FROM user WHERE user_email=%s "
     data = recieved_email
@@ -118,8 +133,11 @@ def email_validation():
         res = True
         if len(myresult) == 1:
             res = False
+        close_connection(conn, cursor)
     except Exception as e:
         print(e)
+        close_connection(conn, cursor)
+        return "Fail"
 
     if res == True:
         number = 0
@@ -144,6 +162,9 @@ def email_validation():
 
 @app.route("/signup", methods=["POST"])
 def signup():
+    conn, cursor = get_connection()
+    date = request.form["date"]
+    time = request.form["time"]
     username = request.form["h_name"]
     email = request.form["h_email"]
     password = request.form["h_pass"]
@@ -159,17 +180,32 @@ def signup():
             insert_stmt = "INSERT INTO user(user_email, user_name,user_pass,role_id) VALUES (%s, %s, %s, %s)"
             data = (email, username, password, 1)
             cursor.execute(insert_stmt, data)
+            stmt = """SELECT user_id FROM user WHERE user_email  = %s"""
+            cursor.execute(stmt, (email,))
+            user_id = cursor.fetchall()[0][0]
+            stmt = """SELECT activity_id FROM activity WHERE activity_text  = 'LOGIN'"""
+            cursor.execute(stmt)
+            act_id = cursor.fetchall()[0][0]
+            stmt = """INSERT INTO activity_log (user_id,activity_id,activity_date,activity_time,event_key,activity_rating) values
+            (%s,%s,%s,%s,%s,-1)"""
+            data = (user_id, act_id, date, time, None)
+            cursor.execute(stmt, data)
             conn.commit()
             session["useremail"] = email
+            session["id"] = user_id
             session["username"] = username
             session["genre"] = []
+            close_connection(conn, cursor)
             return redirect(url_for("map"))
         else:
             print("email exists", myresult)
+            close_connection(conn, cursor)
             return render_template("registerpage.html", exist="user exists")
     except:
         # Rolling back in case of error
         conn.rollback()
+        close_connection(conn, cursor)
+        return "Fail"
 
 
 @app.route("/map")
@@ -179,6 +215,7 @@ def map():
     insert_stmt = (
         "SELECT  event_key,event_title, event_lat,event_long FROM event LIMIT 6"
     )
+    conn, cursor = get_connection()
     keys = list()
     marker_data = list()
     try:
@@ -197,19 +234,21 @@ def map():
         myresult = cursor.fetchall()
         for rec in myresult:
             keys.append(rec[0])
+        close_connection(conn, cursor)
+        session["genre"] = []
+        user = [{"name": session["username"], "email": session["useremail"]}]
+        return render_template(
+            "leaflet.html", marker_data=marker_data, user=user, keys=keys
+        )
     except Exception as e:
         print(e)
-
-    session["genre"] = []
-    user = [{"name": session["username"], "email": session["useremail"]}]
-
-    return render_template(
-        "leaflet.html", marker_data=marker_data, user=user, keys=keys
-    )
+        close_connection(conn, cursor)
+        return "Couldn't fetch data"
 
 
 @app.route("/search", methods=["GET"])
 def search():
+    conn, cursor = get_connection()
     date = request.args["date"]
     time = request.args["time"]
     try:
@@ -247,15 +286,18 @@ def search():
         res = res[0][:]
         queries = data.loc[res, ["event_key", "event_title", "event_text", "new_rank"]]
         queries = queries.sort_values(by=["new_rank"], ascending=False)
+        close_connection(conn, cursor)
         return jsonify({"res": queries.values.tolist()})
     except Exception as e:
         print(e)
-
-    return u"Success"
+        conn.rollback()
+        close_connection(conn, cursor)
+        return "Fail"
 
 
 @app.route("/_get_data/", methods=["GET"])
 def _get_data():
+    conn, cursor = get_connection()
     recieved_event_id = request.args.get("id")
     insert_stmt = "SELECT   event_year,event_title,event_text,url,event_key FROM event where event_key=%s"
     data = recieved_event_id
@@ -272,14 +314,17 @@ def _get_data():
             "description": ss[2],
             "url": ss[3],
         }
+        close_connection(conn, cursor)
+        return final_data
     except Exception as e:
         print(e)
-
-    return final_data
+        close_connection(conn, cursor)
+        return "Fail"
 
 
 @app.route("/_get_year_data/", methods=["GET"])
 def _get_year_data():
+    conn, cursor = get_connection()
     recieved_year = json.loads(request.args.get("main"))
     opt = recieved_year["option"]
     genre_list = session["genre"]
@@ -310,8 +355,10 @@ def _get_year_data():
         for i in myresult:
             marker = {"id": i[0], "lat": i[3], "long": i[4], "popline": i[1]}
             marker_data.append(marker)
+        close_connection(conn, cursor)
     except Exception as e:
         print(e)
+        close_connection(conn, cursor)
 
     return jsonify(marker_data)
 
@@ -346,6 +393,7 @@ def viewdata():
 
 @app.route("/annot")
 def annot():
+    conn, cursor = get_connection()
     id = request.args.get("id")
     genre = request.args.get("genre")
     stmt = "SELECT genre_id FROM genre WHERE genre_text = %s"
@@ -356,30 +404,36 @@ def annot():
         cursor.execute(stmt, (res, id))
         print(cursor._last_executed)
         conn.commit()
+        close_connection(conn, cursor)
         return "Success"
     except Exception as e:
         print(e)
         conn.rollback()
+        close_connection(conn, cursor)
         return "Fail"
 
 
 @app.route("/accept_reject")
 def accpet_reject():
+    conn, cursor = get_connection()
     key = request.args.get("id")
     val = request.args.get("val")
     stmt = """UPDATE flag_log SET flag_approved = %s WHERE flag_key = %s"""
     try:
         cursor.execute(stmt, (val, key))
         conn.commit()
+        close_connection(conn, cursor)
         return "Success"
     except Exception as e:
         print(e)
         conn.rollback()
+        close_connection(conn, cursor)
         return "Fail"
 
 
 @app.route("/fetch_data", methods=["GET"])
 def fetch_data():
+    conn, cursor = get_connection()
     key = request.args.get("id")
     opt = int(request.args.get("opt"))
     if opt == 0:
@@ -393,9 +447,11 @@ def fetch_data():
                 "url": res[0][2],
                 "event_text": res[0][3],
             }
+            close_connection(conn, cursor)
             return response
         except Exception as e:
             print(e)
+            close_connection(conn, cursor)
             return "Fail"
     else:
         stmt = "SELECT event_key,event_title,event_year,genre.genre_text,url,event_location,event_text FROM event JOIN genre ON event.event_genre = genre.genre_id WHERE event.event_key = %s"
@@ -411,9 +467,11 @@ def fetch_data():
                 "event_location": res[0][5],
                 "event_text": res[0][6],
             }
+            close_connection(conn, cursor)
             return response
         except Exception as e:
             print(e)
+            close_connection(conn, cursor)
             return "Fail"
 
 
@@ -424,6 +482,7 @@ def log_activity():
 
 @app.route("/vis")
 def vis():
+    conn, cursor = get_connection()
     stmt = """SELECT COUNT(*) FROM  event WHERE html IS NOT NULL AND error IS NULL"""
     try:
         cursor.execute(stmt)
@@ -451,7 +510,7 @@ def vis():
         for row in res:
             ranks.append(row[1])
             titles.append(row[0])
-        stmt = """SELECT activity_date FROM activity_log WHERE activity_date >= DATE_ADD(CURDATE(), INTERVAL -3 DAY) AND activity_id = 1"""
+        stmt = """SELECT activity_date FROM activity_log WHERE activity_date >= DATE_ADD(CURDATE(), INTERVAL -3 DAY) AND activity_id = 1 ORDER BY activity_date DESC"""
         cursor.execute(stmt)
         res = cursor.fetchall()
         res = [i[0] for i in res]
@@ -460,8 +519,8 @@ def vis():
         for i in res:
             if i in dates:
                 continue
-            if len(dates) > 0 and dates[len(dates) - 1] - i > 1:
-                for k in range(0, dates[len(dates) - 1] - i):
+            if len(dates) > 0 and (dates[len(dates) - 1] - i).days > 1:
+                for k in range(0, dates[len(dates) - 1].days - i):
                     dates.append(0)
                     counts.append(0)
             dates.append(i)
@@ -471,8 +530,8 @@ def vis():
                     count += 1
             counts.append(count)
         counts.reverse()
-        if len(counts) == 1:
-            counts = [0] * 6 + counts
+        if len(counts) < 7:
+            counts = [0] * (7 - len(counts)) + counts
         print(dates, counts)
         stmt = """SELECT search_text FROM activity_log WHERE search_text IS NOT NULL"""
         cursor.execute(stmt)
@@ -513,14 +572,17 @@ def vis():
             "words": words,
             "w_count": w_count,
         }
+        close_connection(conn, cursor)
         return render_template("vis.html", data=data)
     except Exception as e:
         print(e)
+        close_connection(conn, cursor)
         return "fail"
 
 
 @app.route("/getAttributes", methods=["GET"])
 def getAttributes():
+    conn, cursor = get_connection()
     key = request.args.get("table")
     columns = list()
     stmt = "SHOW COLUMNS FROM " + key
@@ -531,14 +593,17 @@ def getAttributes():
             temp = dict()
             temp["col"] = i[0]
             columns.append(temp)
+        close_connection(conn, cursor)
     except Exception as e:
         print(e)
+        close_connection(conn, cursor)
 
     return jsonify(columns)
 
 
 @app.route("/getrows", methods=["GET"])
 def getrows():
+    conn, cursor = get_connection()
     table = request.args.get("table")
     sortBy = request.args.get("sortBy")
     number = int(request.args.get("number"))
@@ -565,15 +630,18 @@ def getrows():
         data = list()
         for row in res:
             data.append([str(i) for i in row])
+        close_connection(conn, cursor)
         return {"data": data}
     except Exception as e:
         print(e)
+        close_connection(conn, cursor)
         return "Fail"
     # print(data)
 
 
 @app.route("/send_flag/", methods=["GET"])
 def send_flag():
+    conn, cursor = get_connection()
     event_key = request.args.get("event_key")
     radioflag = request.args.get("radioflag") + " " + request.args.get("flagDesc")
     date = request.args.get("date")
@@ -591,11 +659,12 @@ def send_flag():
         cursor.execute(insert_stmt, data)
         res = cursor.fetchall()
         conn.commit()
-
+        close_connection(conn, cursor)
+        return "success"
     except Exception as e:
         print(e)
-
-    return "success"
+        close_connection(conn, cursor)
+        return "Fail"
 
 
 if __name__ == "__main__":

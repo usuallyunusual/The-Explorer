@@ -88,6 +88,10 @@
 									$("#h_name").val(name);
 									$("#h_pass").val(password);
 									$("#h_email").val(email);
+									var today = new Date().toISOString().slice(0, 10);
+									var now = new Date().toLocaleString('en-GB').slice(12);
+									$("#today_s").val(today);
+									$("#now_s").val(now);
 
 								}
 								$(document).ready(function () {
@@ -133,6 +137,8 @@
 					<input type="hidden" name="h_name" , value="placeholder" id="h_name" />
 					<input type="hidden" name="h_email" , value="placeholder" id="h_email" />
 					<input type="hidden" name="h_pass" , value="placeholder" id="h_pass" />
+					<input type="hidden" name="date" , value="placeholder" id="today_s" />
+					<input type="hidden" name="time" , value="placeholder" id="now_s" />
 				</form>
 			</div>
 			<div class="form-container sign-in-container">

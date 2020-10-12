@@ -27,6 +27,12 @@
 	<link href='https://fonts.googleapis.com/css?family=Marmelad' rel='stylesheet'>
 	<link rel="stylesheet" href="{{url_for('static', filename='styles/final_homepage.css')}}">
 	<script>
+
+		function myFunction() {
+  var x = document.getElementById("snackbar");
+  x.className = "show";
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+}
 		function validateformLogin() {
 			var email = document.myform.email.value;
 			var password = document.myform.password.value;
@@ -112,6 +118,8 @@
 </head>
 
 <body>
+	<div id="snackbar">password reset sucecssful</div>
+
 	<header>
 		<p class="logo">
 			The Expl<img class="circle" src="{{url_for('static', filename='earth.png')}}" height="40" width="40">rer
@@ -199,7 +207,98 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+		$(document).ready(function(){
+  $("#sendOtp").click(function(){
+  	var mail=$("#forgotmail").val();
+  				$('#fp').modal('hide');
 
+
+			$.ajax({
+						url: "{{ url_for('forgotmail') }}",
+						type: 'GET',
+						data: { 'mail': mail },
+						success: function (data) {
+								console.log(data);
+
+								if(data=="fail"){
+									alert("Please enter registred email id");
+								}else{
+
+								$('#resetpassword').modal('show');
+								 window.otp = data;
+								 window.resetmail=mail;
+								}
+								
+
+
+
+							
+							
+						}
+					});
+
+  });
+
+  $("#confirmpass").click(function(){
+
+  	var otpdigit=$("#otp1").val();
+  	otpdigit=otpdigit+$("#otp2").val();
+  	otpdigit=otpdigit+$("#otp3").val();
+  	otpdigit=otpdigit+$("#otp4").val();
+
+  	var rpass=$("#rpass").val();
+  	var rpasscon=$("#rpasscon").val();
+
+  	if (otpdigit==window.otp){
+  		if (rpasscon.length>5 || rpasscon.length>5){
+			if (rpass==rpasscon) {
+
+
+						$.ajax({
+						url: "{{ url_for('resetpass') }}",
+						type: 'GET',
+						data: { 'newpassword': rpass,'resetmail':window.resetmail },
+						success: function (data) {
+								console.log(data);
+								if(data =='pass'){
+									$('#resetpassword').modal('hide');
+
+									alert("password reset sucecssful");
+
+								}
+
+								
+
+
+
+							
+							
+						}
+					});
+
+
+  		}else{
+  		  $("#passmatch").fadeIn();
+
+  		}
+  	}else{
+   $("#passdigit").fadeIn();
+
+  	}
+
+
+  	}else{
+  		  $("#otpmatch").fadeIn();
+
+  	}
+
+
+
+    });
+
+});
+	</script>
 	<div class="modal fade" id="fp" tabindex="-1" role="dialog" aria-labelledby="fpTitle" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
@@ -211,12 +310,13 @@
 				</div>
 				<div class="modal-body">
 					<form class="modal-form-col">
-						<input class="fp-input" type="email" placeholder="E-mail" />
+						<input  id="forgotmail" class="fp-input" type="email" placeholder="E-mail" />
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="modal-button" data-dismiss="modal" data-toggle="modal"
-						data-target="#resetpassword">Send OTP</button>
+				<!-- 	<button type="button" id="sendOtp" class="modal-button" data-dismiss="modal" data-toggle="modal"
+						data-target="#resetpassword">Send OTP</button> -->
+							<button type="button" id="sendOtp" class="modal-button" >Send OTP</button>
 					<!-- <button type="button" class="modal-button">Save changes</button> -->
 				</div>
 			</div>
@@ -233,22 +333,26 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
+
+				<div id="otpmatch" style="display: none;color: #000;margin-left: 40%">wrong otp</div>
 				<div class="modal-body">
 					<form class="modal-form-row">
-						<input class="modal-input" type="number" placeholder="" />&nbsp;
-						<input class="modal-input" type="number" placeholder="" />&nbsp;
-						<input class="modal-input" type="number" placeholder="" />&nbsp;
-						<input class="modal-input" type="number" placeholder="" />&nbsp;
+						<input class="modal-input" id="otp1" type="number" placeholder="" />&nbsp;
+						<input class="modal-input" id="otp2"  type="number" placeholder="" />&nbsp;
+						<input class="modal-input" id="otp3"  type="number" placeholder="" />&nbsp;
+						<input class="modal-input" id="otp4"  type="number" placeholder="" />&nbsp;
 						<br><br>
 					</form>
 					<form class="modal-form-col">
-						<input class="fp-input" type="password" placeholder="New Password" />
-						<input class="fp-input" type="password" placeholder="Retype New Password" />
+						<input class="fp-input"  id="rpass" type="password" placeholder="New Password" />
+						<input class="fp-input" id="rpasscon" type="password" placeholder="Retype New Password" />
+								<div id="passmatch" style="display: none;color: #000;margin-left: 40%">password does not match</div>
+								<div id="passdigit" style="display: none;color: #000;margin-left: 40%">password has to be atlest 6 characters </div>
+
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="modal-button" data-dismiss="modal" data-toggle="modal"
-						data-target="#resetpassword">Reset Password</button>
+					<button type="button" id="confirmpass" class="modal-button" >Reset Password</button>
 					<!-- <button type="button" class="modal-button">Save changes</button> -->
 				</div>
 			</div>

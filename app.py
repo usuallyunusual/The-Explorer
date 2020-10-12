@@ -719,20 +719,21 @@ def resetpass():
     password = bcrypt.hashpw(newpassword.encode(), salt)
 
     update_stmt = "UPDATE user SET user_pass = %s WHERE user_email = %s"
-    data = (password.decode(), mail)
+    data = (password, mail)
     print(update_stmt)
     try:
         # Executing the SQL command
         cursor.execute(update_stmt, data)
         result = cursor.fetchall()
 
-
+        conn.commit()
+        close_connection(conn, cursor)
     except Exception as e:
         print(e)
         conn.rollback()
         close_connection(conn, cursor)
 
-    print(mail, password.decode())
+    print(mail, password)
 
     return "pass"
 

@@ -5,8 +5,8 @@ function fetch(event) {
     }
     else if (event === "next") {
         num = parseInt(num) + 1;
-        if (num > 500) {
-            num = 500;
+        if (num > 503) {
+            num = 503;
         }
     }
     else {

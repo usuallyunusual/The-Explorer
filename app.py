@@ -19,7 +19,7 @@ app.config["MYSQL_DATABASE_USER"] = "root"
 app.config["MYSQL_DATABASE_PASSWORD"] = ""
 app.config["MYSQL_DATABASE_DB"] = "explorer_db"
 app.config["MYSQL_DATABASE_HOST"] = "localhost"
-app.config["MYSQL_DATABASE_PORT"] = 3306
+app.config["MYSQL_DATABASE_PORT"] = 3307
 mysql.init_app(app)
 
 app.secret_key = "abc"
@@ -58,7 +58,7 @@ def login():
         myresult = cursor.fetchall()
         # print(myresult[0][1], myresult[0][2])
         if len(myresult) == 1 and bcrypt.checkpw(
-                login_password.encode(), myresult[0][3].encode()
+            login_password.encode(), myresult[0][3].encode()
         ):
             stmt = """SELECT activity_id FROM activity WHERE activity_text = 'Login'"""
             cursor.execute(stmt)
@@ -146,11 +146,11 @@ def email_validation():
         s.login("the.explorer.verify@gmail.com", "8884233310")
         number = random.randint(1000, 9999)
         message = (
-                """Subject: OTP Verification, The Explorer\n\n Thank you for signing up with TheExplorer. We'd love to have you onboard!
+            """Subject: OTP Verification, The Explorer\n\n Thank you for signing up with TheExplorer. We'd love to have you onboard!
         To proceed and finish your registration please enter the given OTP in the website. Do not share this OTP with anyone else.
         \nOTP: """
-                + str(number)
-                + """\n\nRegards \nTeamExplorer"""
+            + str(number)
+            + """\n\nRegards \nTeamExplorer"""
         )
         s.sendmail("the.explorer.verify@gmail.com", recieved_email, message)
         s.quit()
@@ -437,8 +437,15 @@ def fetch_data():
     key = request.args.get("id")
     opt = int(request.args.get("opt"))
     if opt == 0:
-        stmt = "SELECT event_key,event_title,url,event_text FROM event WHERE event_key = %s"
+        key = int(key)
         try:
+            cursor.execute(
+                "SELECT COUNT(*) FROM event WHERE html IS NOT NULL AND error IS NULL"
+            )
+            max_lim = int(cursor.fetchall()[0][0])
+            if key > max_lim:
+                key = max_lim
+            stmt = "SELECT event_key,event_title,url,event_text FROM event WHERE event_key = %s"
             cursor.execute(stmt, key)
             res = cursor.fetchall()
             response = {
@@ -612,16 +619,16 @@ def getrows():
         if number > 500:
             number = 500
         stmt = (
-                "SELECT * FROM "
-                + table
-                + " WHERE htext IS NOT NULL AND error IS NULL ORDER BY "
-                + sortBy
-                + " LIMIT "
-                + str(number)
+            "SELECT * FROM "
+            + table
+            + " WHERE htext IS NOT NULL AND error IS NULL ORDER BY "
+            + sortBy
+            + " LIMIT "
+            + str(number)
         )
     else:
         stmt = (
-                "SELECT * FROM " + table + " ORDER BY " + sortBy + " LIMIT " + str(number)
+            "SELECT * FROM " + table + " ORDER BY " + sortBy + " LIMIT " + str(number)
         )
     try:
         cursor.execute(stmt)
@@ -649,7 +656,7 @@ def send_flag():
     insert_stmt = "INSERT INTO flag_log(event_key,flag_date,flag_time,flag_description, user_id,flag_approved) VALUES (%s,%s,%s,%s,%s,0)"
 
     userid = (
-            'SELECT user_id FROM user  WHERE user_email="' + str(session["useremail"]) + '"'
+        'SELECT user_id FROM user  WHERE user_email="' + str(session["useremail"]) + '"'
     )
     try:
         cursor.execute(userid)
@@ -690,18 +697,17 @@ def forgotmail():
             s.login("the.explorer.verify@gmail.com", "8884233310")
             number = random.randint(1000, 9999)
             message = (
-                    """Subject: OTP Verification, The Explorer\n\n 
+                """Subject: OTP Verification, The Explorer\n\n 
             To proceed and finish your password reset please enter the given OTP in the website. Do not share this OTP with anyone else.
             \nOTP: """
-                    + str(number)
-                    + """\n\nRegards \nTeamExplorer"""
+                + str(number)
+                + """\n\nRegards \nTeamExplorer"""
             )
             s.sendmail("the.explorer.verify@gmail.com", mail, message)
             s.quit()
             return str(number)
         else:
             return "fail"
-
 
     except Exception as e:
         print(e)

@@ -1,6 +1,5 @@
 .vscode 
-ETL/Extract_Info/explorer_db.xml
-ETL/explorer_db.sql
+ETL/extract_from_db/explorer_db.xml
 ETL/__pycache__/
 __pycache__/
 .idea/

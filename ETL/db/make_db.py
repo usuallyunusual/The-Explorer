@@ -1,11 +1,10 @@
-
-
 import mysql
 from mysql.connector import Error
 import re
 
+
 def exec_sql_file(cursor, sql_com):
-    #print("\n[INFO] Executing SQL script file: '%s'" % (sql_com))
+    # print("\n[INFO] Executing SQL script file: '%s'" % (sql_com))
     statement = ""
 
     for line in sql_com.splitlines():
@@ -15,7 +14,7 @@ def exec_sql_file(cursor, sql_com):
             statement = statement + line
         else:  # when you get a line ending in ';' then exec statement and reset for next statement
             statement = statement + line
-            #print "\n\n[DEBUG] Executing SQL statement:\n%s" % (statement)
+            # print "\n\n[DEBUG] Executing SQL statement:\n%s" % (statement)
             try:
                 cursor.execute(statement)
             except Error as e:
@@ -23,11 +22,12 @@ def exec_sql_file(cursor, sql_com):
 
             statement = ""
 
+
 def db():
     try:
-        conn = mysql.connector.connect(host='127.0.0.1',port = 3307,user='root',database = "explorer_db",password = '')
+        conn = mysql.connector.connect(host='127.0.0.1', port=3307, user='root', database="explorer_db", password='')
         if conn.is_connected():
-            print("Connection successful: ",conn.get_server_info())
+            print("Connection successful: ", conn.get_server_info())
         cur = conn.cursor()
         sql_com = '''
             SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -166,16 +166,16 @@ def db():
             /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
             /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
             '''
-        exec_sql_file(cur,sql_com)
+        exec_sql_file(cur, sql_com)
         conn.commit()
         cur.close()
         conn.close()
-        conn = mysql.connector.connect(host='127.0.0.1',port = 3307,database = "explorer_db",user='root',password = '')
+        conn = mysql.connector.connect(host='127.0.0.1', port=3307, database="explorer_db", user='root', password='')
         if conn.is_connected():
-            print("Connection successful: ",conn.get_server_info())
+            print("Connection successful: ", conn.get_server_info())
         conn.close()
     except Error as e:
-        print("\nError connecting to MySQL\n",e)
+        print("\nError connecting to MySQL\n", e)
+
 
 db()
-

@@ -44,10 +44,11 @@ try:
 
         if (len(web) > 1):
             cur.execute('INSERT IGNORE INTO webs (url) VALUES ( %s )', (web,))
-            cur.execute \
-                    (
-                    'INSERT IGNORE INTO event (event_text,event_year,event_genre,event_lat,event_long,event_location,url, html,error,old_rank,new_rank,htext) VALUES ( NULL,NULL,NULL,NULL,NULL,NULL,%s, NULL,NULL,NULL, 1.0,NULL )',
-                    (starturl,))
+            cur.execute(
+                'INSERT IGNORE INTO event (event_text,event_year,event_genre,event_lat,event_long,event_location,'
+                'url, html,error,old_rank,new_rank,htext) VALUES ( NULL,NULL,NULL,NULL,NULL,NULL,%s, NULL,NULL,'
+                'NULL, 1.0,NULL )',
+                (starturl,))
             conn.commit()
 
     # Get the current webs
@@ -146,7 +147,7 @@ try:
             # conn.commit()
 
             try:
-                if cur.lastrowi d! =0:
+                if cur.lastrowid != 0:
                     toid = cur.lastrowid
                 else:
                     cur.execute('SELECT event_key FROM event WHERE url=%s LIMIT 1', (href,))
@@ -160,9 +161,9 @@ try:
             cur.execute('INSERT IGNORE INTO links (from_id, to_id) VALUES ( %s, %s )', (fromid, toid))
         print(count)
         counts.append(count)
-        if man y % 10 == 0:
+        if many % 10 == 0:
             toc = time.perf_counter()
-            perf = ((to c -tic)) / sum(counts)
+            perf = ((toc - tic)) / sum(counts)
             print(many, "remaining. Time per link :", perf)
             counts = list()
             conn.commit()

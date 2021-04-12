@@ -1,7 +1,7 @@
 .vscode 
-Scripts/Extract Info/explorer_db.xml
-Scripts/explorer_db.sql
-Scripts/__pycache__/
+ETL/Extract_Info/explorer_db.xml
+ETL/explorer_db.sql
+ETL/__pycache__/
 __pycache__/
 .idea/
 venv/

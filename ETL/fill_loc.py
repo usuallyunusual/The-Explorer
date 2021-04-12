@@ -51,7 +51,7 @@ def tag_loc():
     long = list()
     pop = list()
     code = list()
-    fh = open("../Lookup/cities15000.txt","r",encoding = "utf-8")
+    fh = open("Lookup/cities15000.txt", "r", encoding ="utf-8")
     count = 0
     for line in fh:
         t = line.split("\t")
@@ -71,7 +71,7 @@ def tag_loc():
     cities["len"].min()
     cities = cities.drop((cities.loc[cities["len"]==0].index.tolist()))
     cities = cities.drop((cities.loc[cities["len"]==2].index.tolist()))
-    Countries = pd.read_csv("../Lookup/allCountries.csv")
+    Countries = pd.read_csv("Lookup/allCountries.csv")
     Countries.head()
     #pre_words = ["at","of","in","the","University","College"]
     #post_words = ["campaign"]

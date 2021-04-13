@@ -8,15 +8,38 @@ import mysql
 from bs4 import BeautifulSoup
 from mysql.connector import Error
 
-import fill_genre
-import fill_loc
-# Custom imports.
-import fill_text
-import fill_year
-import sprank
+from ETL.db import database_util
 
-# from MySQLdb import _mysql
-# import pymysql
+
+class Spider:
+    def __init__(self):
+        pass
+
+    def get_databaseUtil(self):
+        return database_util()
+
+    def process(self):
+        # Write code to coordinate internally
+        self.get_databaseUtil()
+        self.get_url_from_db()
+        self.get_url_data()
+        # write data to db
+        self.extract_anchor_tags()
+        # Write the extracted anchor tags to db
+
+    def get_url_from_db(self):
+
+    # write code to fetch single url from db that hasn't been processed yet
+
+    def get_url_data(self):
+        # Write function to make a http call to the url and return html page
+        pass
+
+    def extract_anchor_tags(self):
+
+
+# Write code to extract anchor tags from an HTML document
+
 
 # Ignore SSL certificate errors
 ctx = ssl.create_default_context()

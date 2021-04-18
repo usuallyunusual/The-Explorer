@@ -1,6 +1,6 @@
 .vscode 
-ETL/extract_from_db/explorer_db.xml
-ETL/__pycache__/
+etl/extract_from_db/explorer_db.xml
+etl/__pycache__/
 __pycache__/
 .idea/
 venv/

@@ -8,7 +8,7 @@ import mysql
 from bs4 import BeautifulSoup
 from mysql.connector import Error
 
-from ETL.db import database_util
+from etl.db import database_util
 
 
 class Spider:

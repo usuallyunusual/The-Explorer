@@ -1,10 +1,10 @@
 from logging import getLogger, FileHandler, Formatter
 
-from psycopg2 import connect
+from psycopg2 import connect, Error
 from yaml import safe_load, YAMLError
 
 
-class databaseUtil:
+class DatabaseUtil:
     """
     Utility class for common database functions.
     """
@@ -25,9 +25,10 @@ class databaseUtil:
         :type db_name:str
         :return: psycop2g connection object
         """
-        return connect("dbname={} user={} pass={}".format(db_name, configs["db_user"], configs["db_pass"]))
-
-    # Define getting connection here
+        try:
+            return connect("dbname={} user={} pass={}".format(db_name, configs["db_user"], configs["db_pass"]))
+        except Error as exc:
+            self.LOGGER.exception("Exception occurred")
 
     def get_cursor(self, db_name):
         """

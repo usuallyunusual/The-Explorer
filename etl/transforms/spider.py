@@ -8,7 +8,7 @@ import mysql
 from bs4 import BeautifulSoup
 from mysql.connector import Error
 
-from etl.db import database_util
+from etl.db import DatabaseUtil
 
 
 class Spider:
@@ -16,7 +16,7 @@ class Spider:
         pass
 
     def get_databaseUtil(self):
-        return database_util()
+        return DatabaseUtil()
 
     def process(self):
         # Write code to coordinate internally

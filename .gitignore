@@ -1,6 +1,16 @@
-.vscode 
+# IDE files
+.vscode
+.idea/
+
+# Large files excluded
 etl/extract_from_db/explorer_db.xml
+
+# Python cache files
 etl/__pycache__/
 __pycache__/
-.idea/
+
+# Virtual env
 venv/
+
+# Sensitive Config files
+etl/db/config.yaml

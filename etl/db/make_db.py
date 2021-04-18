@@ -1,5 +1,4 @@
-import mysql
-from mysql.connector import Error
+import psycopg2
 import re
 
 

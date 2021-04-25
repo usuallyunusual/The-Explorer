@@ -20,28 +20,17 @@ class DatabaseUtil:
         handler.setFormatter(formatter)
         self.config_filename = config_filename
 
-    def get_connection(self, configs):
+    def get_connection(self):
         """
         Returns a psycopg2 connection object
-        :param configs: Dict of username, password and database name
         :return: psycop2g connection object
         """
+        configs = self.get_db_config()
         try:
             return connect(
-                "dbname={} user={} pass={}".format(configs["db_name"], configs["db_user"], configs["db_pass"]))
+                "dbname={} user={} password={}".format(configs["db_name"], configs["db_user"], configs["db_pass"]))
         except Error as exc:
             self.LOGGER.exception("Exception occurred")
-
-    def get_cursor(self):
-        """
-        Returns the cursor to perform operation on db
-        :param config_filename: Name of the config file
-        :type config_filename: str
-        :return: psycopg2 cursor object
-        """
-        configs = self.get_db_config()
-        connection = self.get_connection(configs)
-        return connection.cursor()
 
     def get_db_config(self):
         """
@@ -52,7 +41,8 @@ class DatabaseUtil:
         """
         print(os.path.dirname(os.path.realpath(__file__)) + self.config_filename)
         try:
-            configs = safe_load(open(os.path.dirname(os.path.realpath(__file__)) + "\\" + self.config_filename, 'r'))
+            with open(os.path.dirname(os.path.realpath(__file__)) + "\\" + self.config_filename, 'r') as config_file:
+                configs = safe_load(config_file)
             return configs
         except YAMLError as exc:
             self.LOGGER.exception("Exception occurred: " + repr(exc))

@@ -14,10 +14,10 @@ venv/
 
 # Sensitive Config files
 etl/db/config.yaml
-etl/db/test_config.yaml
 
 # Log files
 tests/etl/db/explorer.log
+explorer.log
 
 # Coverage files and reports
 .coverage

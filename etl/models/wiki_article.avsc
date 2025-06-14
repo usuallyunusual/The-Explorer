@@ -1,0 +1,15 @@
+{
+  "type": "record",
+  "namespace": "explorer.models",
+  "name": "wiki_article",
+  "fields": [
+    {
+      "name": "text",
+      "type": ["string", "null"]
+    },
+    {
+      "name": "title",
+      "type": ["string","null"]
+    }
+  ]
+}
